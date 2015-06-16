@@ -1,0 +1,85 @@
+<form ng-if="isLoggedIn()" class="dt-create-discussion">
+  <div class="dt-mesages" ng-controller="AlertCtrl">
+    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+  </div>
+  <h1>New Opinion</h1>
+  <div class="row">
+    <div class="col-xs-8">
+      <div class="form-group">
+        <label for="label">Label</label>
+        <input type="text" class="form-control" id="label" placeholder="Label" ng-model="discussion.label">
+      </div>
+      <div class="form-group">
+        <text-angular ta-toolbar="[['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'undo', 'redo', 'clear'], ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'], ['html', 'insertImage', 'insertLink', 'insertVideo']]" ng-model="discussion.description"></text-angular>
+      </div>
+      <div class="form-group pull-right">
+        <button type="button" class="btn btn-default btn-lg" ng-click="doCancel()">Cancel</button>
+        <button type="submit" class="btn btn-success btn-lg" ng-click="doSubmit()">Publish</button>
+      </div>
+    </div>
+    <div class="col-xs-4">
+      <tabset>
+        <tab active="true">
+          <tab-heading>
+            Tags
+          </tab-heading>
+          <h4>Add tags</h4>
+          <div class="form-group">
+            <tags-input ng-model="discussion.tags">
+              <auto-complete source="getTagAutocomplete()"></auto-complete>
+            </tags-input>
+          </div>
+          <div class="dt-tag-cloud" ng-if="tagFrequencies">
+            <a href="" ng-repeat="frequency in tagFrequencies" ng-click="addToTags(frequency, $event)">
+              <span ng-style="{fontSize: calculateFontSize(frequency)}">{{frequency.label}}</span>
+            </a>
+          </div>
+        </tab>
+        <tab active="false" disable="!isEpisode()">
+          <tab-heading>
+            Bits and Pieces
+          </tab-heading>
+          <h4>Add Bits and Pieces</h4>
+          <ul class="list-group">
+            <li class="list-group-item" ng-repeat="circle in learningEpisodeVerion.learnEpCircles">
+              <h5 class="list-group-item-heading">
+                <span class="glyphicon glyphicon-record"></span>
+                <span>{{circle.label}}</span>
+              </h5>
+              <p class="list-group-item-text">
+                <ul class="list-group dt-contained-list">
+                  <li class="list-group-item" ng-repeat="entity in learningEpisodeVerion.learnEpEntities" ng-if="isInsideCircle(entity, circle)">
+                    <input type="checkbox" checklist-model="discussion.entities" checklist-value="entity.entity.id" class="pull-right">
+                    <span class="{{getIconClass(entity)}}"></span>
+                    <span>{{entity.entity.label || entity.entity.id}}</span>
+                  </li>
+                </ul>
+              </p>
+            </li>
+            <li class="list-group-item">
+              <h5 class="list-group-item-heading">
+                <span class="glyphicon glyphicon-unchecked"></span>
+                <span>Do not belong to any circle</span>
+              </h5>
+              <p class="list-group-item-text">
+                <ul class="list-group dt-contained-list">
+                  <li class="list-group-item" ng-repeat="entity in learningEpisodeVerion.learnEpEntities" ng-if="isOrphaned(entity)">
+                    <input type="checkbox" checklist-model="discussion.entities" checklist-value="entity.entity.id" class="pull-right">
+                    <span class="{{getIconClass(entity)}}"></span>
+                    <span>{{entity.entity.label}}</span>
+                  </li>
+                </ul>
+              </p>
+            </li>
+          </ul>
+        </tab>
+        <tab active="false" disable="true">
+          <tab-heading>
+            Living Documents
+          </tab-heading>
+          Living Documents
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</form>
