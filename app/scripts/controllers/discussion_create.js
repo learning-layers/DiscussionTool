@@ -128,7 +128,8 @@ angular.module('discussionsApp')
       // TODO Add protection from double submission
       $scope.$broadcast('dtClearAlerts', {});
 
-      if ( !( $scope.discussion.label && $scope.discussion.description ) ) {
+      //if ( !( $scope.discussion.label && $scope.discussion.description ) ) {
+      if ( !( $scope.discussion.description ) ) {
         $scope.$broadcast('dtAddAlert', {
           type: 'danger',
           msg: 'At least one of the required fields is empty!'
