@@ -31,7 +31,7 @@
           </div>
           <div class="dt-tag-cloud" ng-if="tagFrequencies">
             <a href="" ng-repeat="frequency in tagFrequencies" ng-click="addToTags(frequency, $event)">
-              <span ng-style="{fontSize: calculateFontSize(frequency)}">{{frequency.label}}</span>
+              <span class="badge" ng-style="{fontSize: calculateFontSize(frequency)}">{{frequency.label}}</span>
             </a>
           </div>
         </tab>

@@ -192,5 +192,13 @@ img.dt-navbar-logo {
   }
 }
 
+.dt-tag-cloud {
+  .badge {
+    padding: 4px 8px;
+    background-color: $dt-orange_dk;
+    margin: 2px;
+  }
+}
+
 /* andular-tabs fix */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
