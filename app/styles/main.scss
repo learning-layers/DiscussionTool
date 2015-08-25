@@ -1,0 +1,205 @@
+$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+// bower:scss
+@import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+// endbower
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+body {
+  padding: 0;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Custom page header */
+.header {
+  border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 10px;
+
+  /* Make the masthead heading the same height as the navigation */
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 40px;
+    padding-bottom: 19px;
+  }
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+
+  .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+  }
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+
+  p + h4 {
+    margin-top: 28px;
+  }
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  .container {
+    max-width: 730px;
+  }
+
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
+}
+
+// DiscussionTool styles
+$dt-orange_dk: 	#d79634;
+$dt-orange:		  #f6a551;
+$dt-orange_lt:	#fbd3a9;
+$dt-orange_xlt:	#fef3e9;
+$dt-green_dk:		#2b4d23;
+$dt-green:			#5ba74a;
+$dt-green_lt:		#bedeb6;
+$dt-green_xlt:	#e9f4e7;
+$dt-blue_dk:		#225569;
+$dt-blue:			  #48a2c5;
+$dt-blue_lt:		#c9e3ee;
+$dt-grey_dk:		#222;
+$dt-grey:			  #555;
+$dt-grey_lt:		#999;
+$dt-grey_xlt:		#eee;
+$dt-white:			#fff;
+
+.media.dt-discussion-item {
+  .media-left {
+    text-align: center;
+  }
+
+  .badge {
+    padding: 6px 10px;
+    margin-right: 5px;
+    background-color: $dt-orange_dk;
+  }
+
+  .glyphicon-user {
+    font-size: 64px;
+  }
+
+  .dt-like-dislike {
+    text-align: center;
+
+    .dt-like, .dt-dislike {
+      display: inline-block;
+
+      span {
+        display: block;
+      }
+
+      a {
+        margin-left: 10px;
+        margin-right: 10px;
+        display: inline-block;
+      }
+
+      a:hover {
+        text-decoration: none;
+        color: $gray-lighter;
+      }
+    }
+
+    .dt-like {
+      a {
+        color: $brand-success;
+      }
+    }
+
+    .dt-dislike {
+      a {
+        color: $brand-danger;
+      }
+    }
+
+    .glyphicon {
+      font-size: 24px;
+    }
+  }
+
+  .list-group {
+    .list-group-item {
+      a {
+        color: $dt-orange_dk;
+      }
+      .fa {
+        color: $dt-orange_dk;
+        margin-right: 7px;
+      }
+    }
+  }
+}
+
+ul.dt-contained-list {
+  margin-bottom: 0;
+}
+
+img.dt-navbar-logo {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+}
+
+.dt-create-discussion {
+  .list-group {
+    .glyphicon, .fa {
+      margin-right: 5px;
+    }
+  }
+}
+
+.dt-tag-cloud {
+  .badge {
+    padding: 4px 8px;
+    background-color: $dt-orange_dk;
+    margin: 2px;
+  }
+}
+
+/* andular-tabs fix */
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
