@@ -13,7 +13,7 @@ angular.module('discussionToolApp')
     // user: http://sss.eu/28664473108570073
 
     var discsUrl = config.sssRestUrl + 'discs/discs/';
-    var resourceInstance = $resource(discsUrl + 'filtered', {}, {
+    var resourceInstance = $resource(discsUrl, {}, {
       query: {
         method: 'GET',
         isArray: true,

@@ -17,7 +17,11 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'textAngular',
+    'ui.bootstrap',
+    'ngTagsInput',
+    'checklist-model'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -30,6 +34,11 @@ angular
         templateUrl: 'views/auth.html',
         controller: 'AuthCtrl',
         controllerAs: 'auth'
+      })
+      .when('/discussions/discussion/create', {
+        templateUrl: 'views/discussion_create.html',
+        controller: 'DiscussionCreateCtrl',
+        controllerAs: 'discussionCreate'
       })
       .otherwise({
         redirectTo: '/discussions'
