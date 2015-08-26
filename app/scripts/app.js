@@ -21,7 +21,8 @@ angular
     'textAngular',
     'ui.bootstrap',
     'ngTagsInput',
-    'checklist-model'
+    'checklist-model',
+    'angular-underscore'
   ])
   .config(function ($routeProvider) {
     $routeProvider

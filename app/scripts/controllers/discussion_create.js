@@ -30,7 +30,7 @@ angular.module('discussionToolApp')
       entities: []
     };
     $scope.standaloneEntities = [];
-    $scope.tagCloud = [];
+    $scope.tagFrequencies = {};
     $scope.tagAutocomplete = $q.defer();
 
     $scope.isBeingSubmitted = function () {
@@ -57,8 +57,25 @@ angular.module('discussionToolApp')
       return false;
     };
 
+    $scope.addToTags = function(element, event) {
+      if ( !$scope._($scope.discussion.tags).find(function(tag) { return tag.text === element.label; }) ) {
+        $scope.discussion.tags.push({
+          text: element.label
+        });
+      }
+      // TODO Use directive instead
+      angular.element(event.currentTarget).blur();
+    };
+
     $scope.getTagAutocomplete = function() {
       return $scope.tagAutocomplete.promise;
+    };
+
+    $scope.calculateFontSize = function(element) {
+      var fontMin = 15,
+          fontMax = 20,
+          frequ = element.frequ;
+      return (frequ === $scope.minFrequency) ? fontMin : (frequ / $scope.maxFrequency) * (fontMax - fontMin) + fontMin;
     };
 
     $scope.doCancel = function () {
@@ -117,10 +134,11 @@ angular.module('discussionToolApp')
         }
 
         $scope.episodeVersion = versions[0];
-        angular.forEach($scope.episodeVersion.learnEpEntities, function(entity) {
+        var tmpTagAutoComplete = [];
+        angular.forEach($scope.episodeVersion.learnEpEntities, function (entity) {
           var contained = false;
 
-          angular.forEach($scope.episodeVersion.learnEpCircles, function(circle) {
+          angular.forEach($scope.episodeVersion.learnEpCircles, function (circle) {
             if ( isInsideCircle(entity.x, entity.y, circle) ) {
               contained = true;
             }
@@ -129,7 +147,37 @@ angular.module('discussionToolApp')
           if ( !contained ) {
             $scope.standaloneEntities.push(entity.id);
           }
+
+          // Add unique tags to be pushed into autocomplete later
+          if ( entity.entity && entity.entity.tags.length > 0 ) {
+            angular.forEach(entity.entity.tags, function (tag) {
+              if ( tmpTagAutoComplete.indexOf(tag.label) === -1 ) {
+                tmpTagAutoComplete.push(tag.label);
+              }
+              if ( $scope.tagFrequencies[tag.label] ) {
+                $scope.tagFrequencies[tag.label].frequ += 1;
+              } else {
+                $scope.tagFrequencies[tag.label] = {
+                  label: tag.label,
+                  freqy: 1
+                };
+              }
+            });
+          }
         });
+        // Set autocomplete
+        if ( tmpTagAutoComplete.length > 0 ) {
+          $scope.tagAutocomplete.resolve(tmpTagAutoComplete);
+
+          $scope.maxFrequency = $scope._($scope.tagFrequencies).max(function(frequency) {
+            return frequency.frequ;
+          }).frequ;
+          $scope.minFrequency = $scope._($scope.tagFrequencies).min(function(frequency) {
+            return frequency.frequ;
+          }).frequ;
+        } else {
+          $scope.tagAutocomplete.reject([]);
+        }
       });
     });
   });
