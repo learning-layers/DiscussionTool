@@ -8,39 +8,40 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('AuthCtrl', function ($scope, $location, $http, config) {
+  .controller('AuthCtrl', function ($scope, $location, config, authService) {
+    $scope.authMessageType = 'info';
     $scope.authMessage = 'Autentication in progress, please wait!';
 
-    if ( $scope.isLoggedIn() ) {
+    function setAuthMessage (type, message) {
+      $scope.authMessageType = type;
+      $scope.authMessage = message;
+    }
+
+    if ( !$scope.isLoggedIn() ) {
       if ( config.oidcAuthorizationUrl && config.oidcClientId ) {
         var queryObject = $location.search();
 
         if (  !queryObject.access_token ) {
-          $scope.authMessage = 'Redrecting to OpenID Connect Service Provider!';
-          var url = config.oidcAuthorizationUrl +
-              '?response_type=' + encodeURIComponent('id_token token') +
-              '&client_id=' + encodeURIComponent(config.oidcClientId) +
-              '&scope=' + encodeURIComponent('openid email profile') +
-              '&redirect_uri=' + encodeURIComponent($location.absUrl()+'?'); // XXX Please note the querystring beginning at the end
-
-            window.location.href = url;
+          setAuthMessage('info', 'Redrecting to OpenID Connect Service Provider!');
+          window.location.href = authService.buildOIDCRedirectUrl($location.absUrl());
         } else {
-          // TOOD Check with SSS if authentication is ok
-          $scope.authMessage = 'Handling OpenID Connect authentication response!';
-          $http.defaults.headers.common.Authorization = queryObject.token_type + ' ' + queryObject.access_token;
-          $http.get(config.sssRestUrl + 'auth/auth/').then(function(response) {
-            // XXX Need to set the cookie with user and key
-            console.log('success', response);
-          }, function(response) {
-            $scope.authMessage = 'ERROR: ' + response.status + ' : ' + response.statusText;
-            console.log('error', response);
+          setAuthMessage('info', 'Handling OpenID Connect authentication response!');
+          authService.oidcAuth(queryObject.token_type + ' ' + queryObject.access_token, function (response) {
+            setAuthMessage('success', 'Authentication successful, redirecting!');
+            authService.setAuthCookie({
+              authKey: response.key,
+              userUri: response.user,
+            });
+            $location.path('/');
+          }, function () {
+            setAuthMessage('danger', 'Authentication with SSS failed.');
           });
         }
       } else {
-        $scope.authMessage = 'Authentication configuration missing!';
+        setAuthMessage('danger', 'Authentication configuration missing!');
       }
     } else {
-      $scope.authMessage = 'You already are authenticated, redirecting!';
+      setAuthMessage('warning', 'You already are authenticated, redirecting!');
       $location.path('/');
     }
   });

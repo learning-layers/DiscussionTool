@@ -8,10 +8,8 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('NavbarCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('NavbarCtrl', function ($scope, authService) {
+    $scope.logOut = function () {
+      authService.removeAuthCookie();
+    };
   });

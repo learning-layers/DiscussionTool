@@ -9,10 +9,8 @@
  */
 angular.module('discussionToolApp')
   .factory('discussionsService', function ($resource, $http, config) {
+    // XXX This should be taken from some place else
     // user: http://sss.eu/28664473108570073
-    // token: 0ea4d8a998afbeada27caf9405eed6a5
-    // XXX This should be set once by some AUTH service
-    $http.defaults.headers.common.Authorization = 'Bearer ' + '0ea4d8a998afbeada27caf9405eed6a5';
 
     var discsUrl = config.sssRestUrl + 'discs/discs/';
     var resourceInstance = $resource(discsUrl + 'filtered', {}, {

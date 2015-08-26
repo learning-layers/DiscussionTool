@@ -1,4 +1,4 @@
-<div ng-id="isLoggedIn()">
+<div ng-if="isLoggedIn()">
   <h1>Discussions for  <span>{{targetUri}}</span></h1>
 
   <div class="panel panel-default"  ng-repeat="discussion in discussions">

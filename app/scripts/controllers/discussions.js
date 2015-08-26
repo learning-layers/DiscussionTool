@@ -11,9 +11,11 @@ angular.module('discussionToolApp')
   .controller('DiscussionsCtrl', function ($scope, discussionsService) {
     var targetUri = 'http://sss.eu/2872864790100841';
 
-    discussionsService.queryByTarget({
-      target: encodeURIComponent(targetUri)
-    }, function(discussions) {
-      $scope.discussions = discussions;
-    });
+    if ( $scope.isLoggedIn() ) {
+      discussionsService.queryByTarget({
+        target: encodeURIComponent(targetUri)
+      }, function(discussions) {
+        $scope.discussions = discussions;
+      });
+    }
   });

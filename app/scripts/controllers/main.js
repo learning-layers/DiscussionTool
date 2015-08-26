@@ -8,14 +8,8 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('MainCtrl', function ($scope) {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-    $scope.isLoggedIn = function() {
-      // XXX This should change
-      return true;
+  .controller('MainCtrl', function ($scope, authService) {
+    $scope.isLoggedIn = function () {
+      return authService.isLoggedIn();
     };
   });

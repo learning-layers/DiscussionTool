@@ -20,7 +20,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="header" ng-include src="'views/navbar.html'" ng-controller="NavbarCtrl">
+    <div class="header" ng-include src="'views/navbar.html'" ng-controller="NavbarCtrl" ng-if="isLoggedIn()">
     </div>
 
     <div class="container">
@@ -68,6 +68,7 @@
         <script src="scripts/controllers/discussions.js"></script>
         <script src="scripts/services/discussions.js"></script>
         <script src="scripts/controllers/auth.js"></script>
+        <script src="scripts/services/auth.js"></script>
         <!-- endbuild -->
 </body>
 </html>
