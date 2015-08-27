@@ -9,7 +9,7 @@
  */
 angular.module('discussionToolApp')
   .factory('authService', function ($cookies, $resource, $http, config) {
-    var authCookieName = 'DiscussionToolAuth';
+    var authCookieName = config.authCookieName;
     var authInstance = $resource(config.sssRestUrl + 'auth/auth/', {}, {
       oidcQuery: {
         method: 'GET',

@@ -33,7 +33,6 @@ module.exports = function(config) {
       'bower_components/angular-route/angular-route.js',
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/angular-touch/angular-touch.js',
-      'bower_components/angular-underscore/angular-underscore.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js',
       'bower_components/checklist-model/checklist-model.js',
       'bower_components/ng-tags-input/ng-tags-input.min.js',
@@ -47,6 +46,7 @@ module.exports = function(config) {
       'bower_components/textAngular/dist/textAngular-sanitize.js',
       'bower_components/textAngular/dist/textAngularSetup.js',
       'bower_components/underscore/underscore.js',
+      'bower_components/angular-underscore/angular-underscore.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",

@@ -1,18 +1,22 @@
 'use strict';
 
-describe('Service: tags', function () {
+describe('Service: tagsService', function () {
 
   // load the service's module
   beforeEach(module('discussionToolApp'));
 
   // instantiate service
-  var tags;
-  beforeEach(inject(function (_tags_) {
-    tags = _tags_;
+  var tagsService;
+  beforeEach(inject(function (_tagsService_) {
+    tagsService = _tagsService_;
   }));
 
   it('should do something', function () {
-    expect(!!tags).toBe(true);
+    expect(!!tagsService).toBe(true);
+  });
+
+  it('should expose add to entity resource', function () {
+    expect(!!tagsService).toBe(true);
   });
 
 });

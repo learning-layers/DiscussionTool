@@ -15,10 +15,27 @@ describe('Service: config', function () {
     expect(!!config).toBe(true);
   });
 
-  it('should have configurations', function() {
-    expect(!!config.sssRestUrl).toBe(true);
-    expect(!!config.ldRestUrl).toBe(true);
-    expect(!!config.bnpUrl).toBe(true);
+  it('should have authentication cookie name', function () {
+    expect(!!config.authCookieName).toBe(true);
   });
 
+  it('should have oidc authorization url', function () {
+    expect(!!config.oidcAuthorizationUrl).toBe(true);
+  });
+
+  it('should have oidc client id', function () {
+    expect(!!config.oidcClientId).toBe(true);
+  });
+
+  it('should have sss rest url', function () {
+    expect(!!config.sssRestUrl).toBe(true);
+  });
+
+  it('should have living documents rest url', function () {
+    expect(!!config.ldRestUrl).toBe(true);
+  });
+
+  it('should have bits and pieces url', function () {
+    expect(!!config.bnpUrl).toBe(true);
+  });
 });

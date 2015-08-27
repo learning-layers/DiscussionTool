@@ -1,18 +1,20 @@
 'use strict';
 
-describe('Service: auth', function () {
+describe('Service: authService', function () {
 
   // load the service's module
   beforeEach(module('discussionToolApp'));
 
   // instantiate service
-  var auth;
-  beforeEach(inject(function (_auth_) {
-    auth = _auth_;
+  var authService;
+  beforeEach(inject(function (_authService_) {
+    authService = _authService_;
   }));
 
   it('should do something', function () {
-    expect(!!auth).toBe(true);
+    expect(!!authService).toBe(true);
   });
+
+  // XXX This one is missing the basic tests for the exposure of the API
 
 });

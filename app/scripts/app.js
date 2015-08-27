@@ -24,7 +24,7 @@ angular
     'checklist-model',
     'angular-underscore'
   ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $httpProvider) {
     $routeProvider
       .when('/discussions', {
         templateUrl: 'views/discussions.html',
@@ -44,4 +44,6 @@ angular
       .otherwise({
         redirectTo: '/discussions'
       });
+
+      $httpProvider.interceptors.push('oidcHttpInterceptor');
   });

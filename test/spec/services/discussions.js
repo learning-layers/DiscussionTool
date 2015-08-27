@@ -1,18 +1,26 @@
 'use strict';
 
-describe('Service: discussions', function () {
+describe('Service: discussionsService', function () {
 
   // load the service's module
   beforeEach(module('discussionToolApp'));
 
   // instantiate service
-  var discussions;
-  beforeEach(inject(function (_discussions_) {
-    discussions = _discussions_;
+  var discussionsService;
+  beforeEach(inject(function (_discussionsService_) {
+    discussionsService = _discussionsService_;
   }));
 
   it('should do something', function () {
-    expect(!!discussions).toBe(true);
+    expect(!!discussionsService).toBe(true);
+  });
+
+  it('should expose query by target resource', function () {
+    expect(!!discussionsService.queryByTarget).toBe(true);
+  });
+
+  it('should expose save resource', function () {
+    expect(!!discussionsService.save).toBe(true);
   });
 
 });
