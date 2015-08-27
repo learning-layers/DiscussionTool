@@ -8,8 +8,11 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('NavbarCtrl', function ($scope, authService) {
+  .controller('NavbarCtrl', function ($rootScope, $scope, authService) {
     $scope.logOut = function () {
       authService.removeAuthCookie();
+    };
+    $scope.getTargetEntityUri = function () {
+        return encodeURIComponent(encodeURIComponent($rootScope.targetEntityUri));
     };
   });

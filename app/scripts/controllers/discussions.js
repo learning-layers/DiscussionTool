@@ -8,12 +8,13 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('DiscussionsCtrl', function ($scope, $location, discussionsService, entitiesService) {
-    // XXX This should be loaded form some place
-    var targetUri = 'http://sss.eu/2872864790100841';
+  .controller('DiscussionsCtrl', function ($rootScope, $scope, $location, $routeParams, discussionsService, entitiesService) {
+    var targetUri = decodeURIComponent($routeParams.target);
+
+    $rootScope.targetEntityUri = targetUri;
 
     $scope.startNewDiscussion = function () {
-      $location.path('discussions/discussion/create');
+      $location.path('discussions/' + encodeURIComponent(targetUri) + '/discussion/create');
     };
 
     // Loading and setting logical block

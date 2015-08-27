@@ -13,10 +13,8 @@ angular.module('discussionToolApp')
     var tagsInstance = $resource(tagsUrl, {}, {
       addToEntity: {
         method: 'POST',
-        transformResponse: [angular.fromJson, function(data) {
-          return {
-            tag: data.tag
-          };
+        transformResponse: [angular.fromJson, function(data, headersGetter, status) {
+          return ( status === 500 ) ? data : { tag: data.tag };
         }]
       }
     });

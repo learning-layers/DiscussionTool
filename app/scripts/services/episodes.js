@@ -15,8 +15,8 @@ angular.module('discussionToolApp')
         url: episodesUrl + ':episode/versions',
         method: 'GET',
         isArray: true,
-        transformResponse: [angular.fromJson, function(data) {
-          return data.learnEpVersions;
+        transformResponse: [angular.fromJson, function(data, headersGetter, status) {
+          return ( status === 500 ) ? data : data.learnEpVersions;
         }]
       }
     });

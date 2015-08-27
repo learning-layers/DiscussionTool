@@ -8,7 +8,12 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('AuthCtrl', function ($scope, $location, config, authService) {
+  .controller('AuthCtrl', function ($rootScope, $scope, $location, config, $routeParams, authService) {
+    // Decode twice because it gets encoded once more by the OIDC
+    var targetUri = decodeURIComponent(decodeURIComponent($routeParams.target));
+
+    $rootScope.targetEntityUri = targetUri;
+
     $scope.authMessageType = 'info';
     $scope.authMessage = 'Autentication in progress, please wait!';
 
@@ -32,7 +37,9 @@ angular.module('discussionToolApp')
               authKey: response.key,
               userUri: response.user,
             });
-            $location.path('/');
+            // Clear the search part
+            $location.search({});
+            $location.path('/discussions/' + encodeURIComponent(targetUri) + '/list');
           }, function () {
             setAuthMessage('danger', 'Authentication with SSS failed.');
           });
@@ -42,6 +49,6 @@ angular.module('discussionToolApp')
       }
     } else {
       setAuthMessage('warning', 'You already are authenticated, redirecting!');
-      $location.path('/');
+      $location.path('/discussions/' + encodeURIComponent(targetUri) + '/list');
     }
   });

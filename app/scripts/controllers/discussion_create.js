@@ -8,9 +8,11 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('DiscussionCreateCtrl', function ($scope, $location, $q, entitiesService, episodesService, discussionsService, tagsService) {
-    // XXX This should be loaded form some place
-    var targetUri = 'http://sss.eu/2872864790100841';
+  .controller('DiscussionCreateCtrl', function ($rootScope, $scope, $location, $q, $routeParams, entitiesService, episodesService, discussionsService, tagsService) {
+    var targetUri = decodeURIComponent($routeParams.target);
+
+    $rootScope.targetEntityUri = targetUri;
+
     var isBeingSubmitted = false;
 
     function isInsideCircle (x, y, circle) {
@@ -79,7 +81,7 @@ angular.module('discussionToolApp')
     };
 
     $scope.doCancel = function () {
-      $location.path('/');
+      $location.path('/discussions/' + encodeURIComponent(targetUri) + '/list');
     };
 
     $scope.doSubmit = function() {
@@ -106,7 +108,7 @@ angular.module('discussionToolApp')
         // Navigate away when all promises resolve
         $q.all(promises).then(function() {
           isBeingSubmitted = false;
-          $location.path('/');
+          $location.path('/discussions/' + encodeURIComponent(targetUri) + '/list');
         });
       }, function() {
         isBeingSubmitted = false;

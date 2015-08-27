@@ -15,8 +15,8 @@ angular.module('discussionToolApp')
         url: entitiesUrl + 'filtered/:entitites',
         method: 'POST',
         isArray: true,
-        transformResponse: [angular.fromJson, function(data) {
-          return data.entities;
+        transformResponse: [angular.fromJson, function(data, headersGetter, status) {
+          return ( status === 500 ) ? data : data.entities;
         }]
       }
     });

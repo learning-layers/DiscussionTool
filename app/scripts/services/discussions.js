@@ -9,32 +9,28 @@
  */
 angular.module('discussionToolApp')
   .factory('discussionsService', function ($resource, $http, config) {
-    // XXX This should be taken from some place else
-    // user: http://sss.eu/28664473108570073
 
     var discsUrl = config.sssRestUrl + 'discs/discs/';
     var resourceInstance = $resource(discsUrl, {}, {
       query: {
         method: 'GET',
         isArray: true,
-        transformResponse: [angular.fromJson, function(data) {
-          return data.discs;
+        transformResponse: [angular.fromJson, function(data, headersGetter, status) {
+          return ( status === 500 ) ? data : data.discs;
         }]
       },
       queryByTarget: {
         url: discsUrl + 'targets/:target',
         method: 'GET',
         isArray: true,
-        transformResponse: [angular.fromJson, function(data) {
-          return data.discs;
+        transformResponse: [angular.fromJson, function(data, headersGetter, status) {
+          return ( status === 500 ) ? data : data.discs;
         }]
       },
       save: {
         method: 'POST',
-        transformResponse: [angular.fromJson, function(data) {
-          return {
-            disc: data.disc
-          };
+        transformResponse: [angular.fromJson, function(data, headersGetter, status) {
+          return ( status === 500 ) ? data : { disc: data.disc };
         }]
       }
     });

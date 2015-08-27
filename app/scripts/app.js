@@ -26,23 +26,23 @@ angular
   ])
   .config(function ($routeProvider, $httpProvider) {
     $routeProvider
-      .when('/discussions', {
+      .when('/discussions/:target/list', {
         templateUrl: 'views/discussions.html',
         controller: 'DiscussionsCtrl',
         controllerAs: 'discussions'
       })
-      .when('/auth', {
+      .when('/auth/:target', {
         templateUrl: 'views/auth.html',
         controller: 'AuthCtrl',
         controllerAs: 'auth'
       })
-      .when('/discussions/discussion/create', {
+      .when('/discussions/:target/discussion/create', {
         templateUrl: 'views/discussion_create.html',
         controller: 'DiscussionCreateCtrl',
         controllerAs: 'discussionCreate'
       })
       .otherwise({
-        redirectTo: '/discussions'
+        redirectTo: '/'
       });
 
       $httpProvider.interceptors.push('oidcHttpInterceptor');
