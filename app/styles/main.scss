@@ -166,8 +166,11 @@ $dt-white:			#fff;
 
   .list-group {
     .list-group-item {
-      a {
+      .btn-link {
         color: $dt-orange_dk;
+      }
+      .btn-link:focus {
+        outline: none;
       }
       .fa {
         color: $dt-orange_dk;
@@ -196,6 +199,10 @@ img.dt-navbar-logo {
 }
 
 .dt-tag-cloud {
+  .btn {
+    margin: 0;
+    padding: 0;
+  }
   .badge {
     padding: 4px 8px;
     background-color: $dt-orange_dk;

@@ -27,9 +27,9 @@
             </tags-input>
           </div>
           <div class="dt-tag-cloud" ng-if="tagFrequencies">
-            <a href="" ng-repeat="frequency in tagFrequencies" ng-click="addToTags(frequency, $event)">
+            <button class="btn btn-link" type="button" ng-repeat="frequency in tagFrequencies" ng-click="addToTags(frequency, $event)">
               <span class="badge" ng-style="{fontSize: calculateFontSize(frequency)}">{{frequency.label}}</span>
-            </a>
+            </button>
           </div>
         </tab>
         <tab active="false" disable="!isEpisode()">
