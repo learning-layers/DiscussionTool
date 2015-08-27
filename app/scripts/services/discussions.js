@@ -19,9 +19,9 @@ angular.module('discussionToolApp')
           return ( status === 500 ) ? data : data.discs;
         }]
       },
-      queryByTarget: {
-        url: discsUrl + 'targets/:target',
-        method: 'GET',
+      queryFilteredByTarget: {
+        url: discsUrl + 'filtered/targets/:target',
+        method: 'POST',
         isArray: true,
         transformResponse: [angular.fromJson, function(data, headersGetter, status) {
           return ( status === 500 ) ? data : data.discs;
@@ -37,7 +37,7 @@ angular.module('discussionToolApp')
 
     // Public API here
     return {
-      queryByTarget: resourceInstance.queryByTarget,
+      queryFilteredByTarget: resourceInstance.queryFilteredByTarget,
       save: resourceInstance.save
     };
   });

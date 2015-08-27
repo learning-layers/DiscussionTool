@@ -28,8 +28,13 @@ angular.module('discussionToolApp')
        }
       });
 
-      discussionsService.queryByTarget({
+      discussionsService.queryFilteredByTarget({
         target: encodeURIComponent(targetUri)
+      },
+      {
+        setLikes: true,
+        setTags: true,
+        setAttachedEntities: true
       }, function (discussions) {
         $scope.discussions = discussions;
       });
