@@ -15,8 +15,12 @@ describe('Service: discussionsService', function () {
     expect(!!discussionsService).toBe(true);
   });
 
+  it('should expose query discussion resource', function () {
+    expect(!!discussionsService.queryFilteredDiscussion).toBe(true);
+  });
+
   it('should expose query by target resource', function () {
-    expect(!!discussionsService.queryByTarget).toBe(true);
+    expect(!!discussionsService.queryFilteredByTarget).toBe(true);
   });
 
   it('should expose save resource', function () {

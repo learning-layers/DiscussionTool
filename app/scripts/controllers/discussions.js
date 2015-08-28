@@ -15,9 +15,15 @@ angular.module('discussionToolApp')
       '&key=' + encodeURIComponent(authService.getAuthKey());
     }
 
+    var downloadLookupTable = {};
+
     var targetUri = decodeURIComponent($routeParams.target);
 
     $rootScope.targetEntityUri = targetUri;
+
+    $scope.getDiscussionUrl = function (discussion) {
+      return '#/discussions/' + encodeURIComponent(encodeURIComponent(targetUri)) + '/discussion/' + encodeURIComponent(encodeURIComponent(discussion.id));
+    };
 
     $scope.attachedEntityClicked = function (entity, event) {
       angular.element(event.currentTarget).blur();
@@ -25,8 +31,8 @@ angular.module('discussionToolApp')
       if ( entity.type === 'placeholder') {
         return;
       } else if ( entity.type === 'evernoteResource' || entity.type === 'evernoteNote' ) {
-        if ( entity.file ) {
-          window.open(constructFileDownloadUri(entity.file.id));
+        if ( downloadLookupTable[entity.id] ) {
+          window.open(constructFileDownloadUri(downloadLookupTable[entity.id].file.id));
         }
         return;
       } else if ( entity.type === 'file' ) {
@@ -43,7 +49,7 @@ angular.module('discussionToolApp')
     // Loading and setting logical block
     if ( $scope.isLoggedIn() ) {
       entitiesService.queryFiltered({
-        entitites: encodeURIComponent(targetUri)
+        entities: encodeURIComponent(targetUri)
       },
       {}, function (entities) {
        if ( entities.length > 0 ) {
@@ -61,6 +67,33 @@ angular.module('discussionToolApp')
         setEntries: true
       }, function (discussions) {
         $scope.discussions = discussions;
+
+        // Load up contained entitites
+        var tmpAttachedUris = [];
+        angular.forEach(discussions, function (discussion) {
+          if ( discussion.attachedEntities ) {
+            angular.forEach(discussion.attachedEntities, function (entity) {
+              if ( entity.type === 'evernoteNote' || entity.type === 'evernoteResource' ) {
+                if ( tmpAttachedUris.indexOf(entity.id) === -1 ) {
+                  tmpAttachedUris.push(entity.id);
+                }
+              }
+            });
+          }
+        });
+
+        if ( tmpAttachedUris.length > 0 ) {
+          entitiesService.queryFiltered({
+            entities: $scope._(tmpAttachedUris).map(function (uri) { return encodeURIComponent(uri); }).join(',')
+          },
+          {
+
+          }, function (entities) {
+            angular.forEach(entities, function (entity) {
+              downloadLookupTable[entity.id] = entity;
+            });
+          });
+        }
       });
     }
 

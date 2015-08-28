@@ -12,11 +12,12 @@ angular.module('discussionToolApp')
 
     var discsUrl = config.sssRestUrl + 'discs/discs/';
     var resourceInstance = $resource(discsUrl, {}, {
-      query: {
-        method: 'GET',
-        isArray: true,
+      queryFilteredDiscussion: {
+        url: discsUrl + 'filtered/:disc',
+        method: 'POST',
+        isArray: false,
         transformResponse: [angular.fromJson, function(data, headersGetter, status) {
-          return ( status === 500 ) ? data : data.discs;
+          return ( status === 500 ) ? data : data.disc;
         }]
       },
       queryFilteredByTarget: {
@@ -37,6 +38,7 @@ angular.module('discussionToolApp')
 
     // Public API here
     return {
+      queryFilteredDiscussion: resourceInstance.queryFilteredDiscussion,
       queryFilteredByTarget: resourceInstance.queryFilteredByTarget,
       save: resourceInstance.save
     };

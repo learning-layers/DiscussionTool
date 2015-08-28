@@ -18,9 +18,7 @@ angular.module('discussionToolApp')
     // Public API here
     return {
       responseError: function (rejection) {
-        console.log('ResE', rejection);
         if ( rejection.status === 500 && oidcErrorStatusTexts.indexOf(rejection.data.id) !== -1 ) {
-          console.log($cookies, config, $location);
           // Remove auth cookie and restart authentication
           $cookies.remove(config.authCookieName);
           $location.path('auth/' + encodeURIComponent($rootScope.targetEntityUri));

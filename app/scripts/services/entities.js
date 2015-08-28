@@ -12,7 +12,7 @@ angular.module('discussionToolApp')
     var entitiesUrl = config.sssRestUrl + 'entities/entities/';
     var entitiesInstance = $resource(entitiesUrl, {}, {
       queryFiltered: {
-        url: entitiesUrl + 'filtered/:entitites',
+        url: entitiesUrl + 'filtered/:entities',
         method: 'POST',
         isArray: true,
         transformResponse: [angular.fromJson, function(data, headersGetter, status) {

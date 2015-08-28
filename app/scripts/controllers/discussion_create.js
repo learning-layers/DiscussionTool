@@ -117,7 +117,7 @@ angular.module('discussionToolApp')
 
     // Loading and initializing
     entitiesService.queryFiltered({
-      entitites: encodeURIComponent(targetUri)
+      entities: encodeURIComponent(targetUri)
     },
     {}, function (entities) {
       if ( entities.length > 0 ) {
