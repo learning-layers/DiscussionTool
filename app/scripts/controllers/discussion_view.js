@@ -22,7 +22,7 @@ angular.module('discussionToolApp')
       setLikes: true,
       setEntries: true,
       setTags: true,
-      setAttachedFiles: true
+      setAttachedEntities: true
     }, function (discussion) {
       $scope.discussion = discussion;
     });

@@ -18,7 +18,7 @@
               <ul class="list-group" ng-if="discussion.attachedEntities">
                 <li class="list-group-item" ng-repeat="entity in discussion.attachedEntities">
                   <i class="{{getIconClass(entity)}}"></i>
-                  <button type="button" class="btn btn-link" ng-click="attachedEntityClicked(entity, $event)">{{entity.label || entity.id}}</button>
+                  <button type="button" class="btn btn-link" ng-click="attachedEntityClicked(entity, $event)" ng-disabled="{{entity.type === 'placeholder'}}">{{entity.label || entity.id}}</button>
                 </li>
               </ul>
             </div>
