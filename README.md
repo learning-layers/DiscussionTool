@@ -13,7 +13,7 @@ Running `grunt test` will run the unit tests with karma.
 
 ## Usage
 
-Please navigate to the <APP_BASE_URL>/#/auth/<ENTITY_URI>
+Please navigate to the APP_BASE_URL/#/auth/ENTITY_URI
 **Please note that ENTITY_URI should be double encoded, this means it is
 required to apply encodeURIComponent() two times.**
 This is required so that Angular would allow a URL/URI as a parameter.
