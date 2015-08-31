@@ -8,11 +8,39 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('DiscussionViewCtrl', function ($rootScope, $scope, $routeParams, discussionsService) {
+  .controller('DiscussionViewCtrl', function ($rootScope, $scope, $routeParams, $modal, discussionsService, livingDocumentsService) {
     var targetUri = decodeURIComponent($routeParams.target);
     $rootScope.targetEntityUri = targetUri;
 
     var discussionUri = decodeURIComponent($routeParams.discussion);
+
+    $scope.hasLivingDocument = function () {
+      return !!$scope.getLivingDocument();
+    };
+
+    $scope.getLivingDocument = function () {
+      if ( !$scope.discussion ) {
+        return null;
+      }
+      return $scope._($scope.discussion.targets).find(function (target) { return target.type === 'livingDoc'; });
+    };
+
+    $scope.openLivingDocumentsModal = function () {
+      var modalInstance = $modal.open({
+        templateUrl: 'views/living_documents_modal.html',
+        controller: 'LivingDocumentsModalCtrl',
+        size: 'lg',
+        resolve: {
+          documents: function () {
+            return livingDocumentsService.query();
+          }
+        }
+      });
+
+      modalInstance.result.then(function (document) {
+        $scope.discussion.targets.push(document);
+      });
+    };
 
     // Loading and initializing
     discussionsService.queryFilteredDiscussion({
@@ -25,5 +53,9 @@ angular.module('discussionToolApp')
       setAttachedEntities: true
     }, function (discussion) {
       $scope.discussion = discussion;
+
+      /*livingDocumentsService.query({}, function (documents) {
+        console.log(documents);
+      });*/
     });
   });

@@ -67,6 +67,9 @@ angular.module('discussionToolApp')
         setEntries: true
       }, function (discussions) {
         $scope.discussions = discussions;
+        $scope.discussions.$promise.finally(function () {
+          $scope.discussionsLoaded = true;
+        });
 
         // Load up contained entitites
         var tmpAttachedUris = [];
