@@ -27,4 +27,8 @@ describe('Service: discussionsService', function () {
     expect(!!discussionsService.save).toBe(true);
   });
 
+  it('should expose add targets resource', function () {
+    expect(!!discussionsService.addTargets).toBe(true);
+  });
+
 });

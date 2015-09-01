@@ -1,18 +1,22 @@
 'use strict';
 
-describe('Service: livingDocuments', function () {
+describe('Service: livingDocumentsService', function () {
 
   // load the service's module
   beforeEach(module('discussionToolApp'));
 
   // instantiate service
-  var livingDocuments;
-  beforeEach(inject(function (_livingDocuments_) {
-    livingDocuments = _livingDocuments_;
+  var livingDocumentsService;
+  beforeEach(inject(function (_livingDocumentsService_) {
+    livingDocumentsService = _livingDocumentsService_;
   }));
 
   it('should do something', function () {
-    expect(!!livingDocuments).toBe(true);
+    expect(!!livingDocumentsService).toBe(true);
+  });
+
+  it('should expose query resource', function () {
+    expect(!!livingDocumentsService.query).toBe(true);
   });
 
 });

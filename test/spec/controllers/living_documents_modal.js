@@ -16,8 +16,4 @@ describe('Controller: LivingDocumentsModalCtrl', function () {
       // place here mocked dependencies
     });
   }));
-
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(LivingDocumentsModalCtrl.awesomeThings.length).toBe(3);
-  });
 });
