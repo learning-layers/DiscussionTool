@@ -13,7 +13,7 @@
           <div class="col-xs-11" ng-bind-html="discussion.description"></div>
           <div class="col-xs-1">
             <button class="btn btn-default pull-right" title="Connect to LivingDocument" ng-hide="hasLivingDocument()" ng-click="openLivingDocumentsModal()"><i class="fa fa-link"></i></button>
-            <btton class="btn btn-default pull-right" title="Open LivingDocuments Document">
+            <btton class="btn btn-default pull-right" title="Open LivingDocuments Document" ng-show="hasLivingDocument()">
               <a href="{{getLivingDocument().id}}" target="_blank">
                 <i class="fa fa-external-link"></i>
               </a>
@@ -27,19 +27,111 @@
               </li>
             </ul>
           </div>
-          <div class="col-xs-10"><span class="badge" ng-if="discussion.tags" ng-repeat="tag in discussion.tags">{{tag.label}}</span></div>
-          <div class="col-xs-2 class dt-like-dislike">
-            <div class="dt-like">
-              <a href="" ng-click="addLike(discussion, $event)"><span class="glyphicon glyphicon-thumbs-up"></span></a>
-              <span>0</span>
+          <div class="col-xs-12"><span class="badge" ng-if="discussion.tags" ng-repeat="tag in discussion.tags">{{tag.label}}</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" ng-repeat="entry in discussion.entries">
+  <div class="panel panel-default col-xs-offset-2 col-xs-10">
+    <div class="panel-body">
+      <div class="media dt-discussion-entry">
+        <div class="media-left">
+          <span class="glyphicon glyphicon-user"></span>
+          <div>{{entry.author.label}}</div>
+        </div>
+        <div class="media-body">
+          <div class="row">
+            <div class="col-xs-12" ng-bind-html="entry.content"></div>
+            <div class="col-xs-12">
+              <ul class="list-group" ng-if="entry.attachedEntities">
+                <li class="list-group-item" ng-repeat="entity in entry.attachedEntities">
+                  <i class="{{getIconClass(entity)}}"></i>
+                  <button type="button" class="btn btn-link" ng-click="attachedEntityClicked(entity, $event)">{{entity.label || entity.id}}</button>
+                </li>
+              </ul>
             </div>
-            <div class="dt-dislike">
-              <a href="" ng-click="addDislike(discussion, $event)"><span class="glyphicon glyphicon-thumbs-down"></span></a>
-              <span>0</span>
-            </div>
+            <div class="col-xs-12"><span class="badge" ng-if="discussion.tags" ng-repeat="tag in entry.tags">{{tag.label}}</span></div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+    <form class="dt-create-answer">
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="form-group">
+            <text-angular ta-toolbar="[['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'undo', 'redo', 'clear'], ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'], ['html', 'insertImage', 'insertLink', 'insertVideo']]" ng-model="answer.description"></text-angular>
+          </div>
+          <div class="form-group pull-right">
+            <button type="submit" class="btn btn-success btn-lg" ng-click="doSubmit()" ng-disabled="isBeingSubmitted()">Create</button>
+          </div>
+        </div>
+        <div class="col-xs-4">
+          <tabset>
+            <tab active="true">
+              <tab-heading>
+                Tags
+              </tab-heading>
+              <h4>Add tags</h4>
+              <div class="form-group">
+                <tags-input ng-model="answer.tags">
+                  <auto-complete source="getTagAutocomplete()"></auto-complete>
+                </tags-input>
+              </div>
+              <div class="dt-tag-cloud" ng-if="tagFrequencies">
+                <button class="btn btn-link" type="button" ng-repeat="frequency in tagFrequencies" ng-click="addToTags(frequency, $event)">
+                  <span class="badge" ng-style="{fontSize: calculateFontSize(frequency)}">{{frequency.label}}</span>
+                </button>
+              </div>
+            </tab>
+            <tab active="false" disable="!isEpisode()">
+              <tab-heading>
+                Bits and Pieces
+              </tab-heading>
+              <h4>Add Bits and Pieces</h4>
+              <ul class="list-group">
+                <li class="list-group-item" ng-repeat="circle in episodeVersion.learnEpCircles">
+                  <h5 class="list-group-item-heading">
+                    <span class="glyphicon glyphicon-record"></span>
+                    <span>{{circle.label}}</span>
+                  </h5>
+                  <p class="list-group-item-text">
+                    <ul class="list-group dt-contained-list">
+                      <li class="list-group-item" ng-repeat="entity in episodeVersion.learnEpEntities" ng-if="isInsideCircle(entity, circle)">
+                        <input type="checkbox" checklist-model="answer.entities" checklist-value="entity.entity.id" class="pull-right">
+                        <span class="{{getIconClass(entity)}}"></span>
+                        <span>{{entity.entity.label || entity.entity.id}}</span>
+                      </li>
+                    </ul>
+                  </p>
+                </li>
+                <li class="list-group-item">
+                  <h5 class="list-group-item-heading">
+                    <span class="glyphicon glyphicon-unchecked"></span>
+                    <span>Do not belong to any circle</span>
+                  </h5>
+                  <p class="list-group-item-text">
+                    <ul class="list-group dt-contained-list">
+                      <li class="list-group-item" ng-repeat="entity in episodeVersion.learnEpEntities" ng-if="isOrphaned(entity)">
+                        <input type="checkbox" checklist-model="answer.entities" checklist-value="entity.entity.id" class="pull-right">
+                        <span class="{{getIconClass(entity)}}"></span>
+                        <span>{{entity.entity.label}}</span>
+                      </li>
+                    </ul>
+                  </p>
+                </li>
+              </ul>
+            </tab>
+          </tabset>
+        </div>
+      </div>
+    </form>
   </div>
 </div>

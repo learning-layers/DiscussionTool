@@ -161,7 +161,7 @@ angular.module('discussionToolApp')
               } else {
                 $scope.tagFrequencies[tag.label] = {
                   label: tag.label,
-                  freqy: 1
+                  frequ: 1
                 };
               }
             });
