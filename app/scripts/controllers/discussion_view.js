@@ -38,7 +38,14 @@ angular.module('discussionToolApp')
       });
 
       modalInstance.result.then(function (document) {
-        $scope.discussion.targets.push(document);
+        // XXX Need to also handle errors
+        // Probably display a message of something failing
+        discussionsService.addTargets({
+          discussion: encodeURIComponent($scope.discussion.id),
+          targets: encodeURIComponent(document.id)
+        }, {}, function () {
+          $scope.discussion.targets.push(document);
+        });
       });
     };
 
