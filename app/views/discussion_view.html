@@ -20,12 +20,7 @@
               </button>
           </div>
           <div class="col-xs-12">
-            <ul class="list-group" ng-if="discussion.attachedEntities">
-              <li class="list-group-item" ng-repeat="entity in discussion.attachedEntities">
-                <i class="{{getIconClass(entity)}}"></i>
-                <button type="button" class="btn btn-link" ng-click="attachedEntityClicked(entity, $event)">{{entity.label || entity.id}}</button>
-              </li>
-            </ul>
+            <attached-entities entities="discussion.attachedEntities"></attached-entities>
           </div>
           <div class="col-xs-12"><span class="badge" ng-if="discussion.tags" ng-repeat="tag in discussion.tags">{{tag.label}}</span></div>
         </div>
@@ -46,12 +41,7 @@
           <div class="row">
             <div class="col-xs-12" ng-bind-html="entry.content"></div>
             <div class="col-xs-12">
-              <ul class="list-group" ng-if="entry.attachedEntities">
-                <li class="list-group-item" ng-repeat="entity in entry.attachedEntities">
-                  <i class="{{getIconClass(entity)}}"></i>
-                  <button type="button" class="btn btn-link" ng-click="attachedEntityClicked(entity, $event)">{{entity.label || entity.id}}</button>
-                </li>
-              </ul>
+              <attached-entities entities="entry.attachedEntities"></attached-entities>
             </div>
             <div class="col-xs-12"><span class="badge" ng-if="discussion.tags" ng-repeat="tag in entry.tags">{{tag.label}}</span></div>
           </div>

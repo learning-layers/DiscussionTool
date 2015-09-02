@@ -8,7 +8,7 @@
  * Factory in the discussionToolApp.
  */
 angular.module('discussionToolApp')
-  .factory('entitiesService', function ($resource, $q, config) {
+  .factory('entitiesService', function ($resource, $q, config, authService) {
     var downloadLookupTable = {};
     var entitiesUrl = config.sssRestUrl + 'entities/entities/';
     var entitiesInstance = $resource(entitiesUrl, {}, {
@@ -48,6 +48,11 @@ angular.module('discussionToolApp')
         });
 
         return deferred.promise;
+      },
+      constructFileDownloadUri: function (uri) {
+        return config.sssRestUrl + 'files/files/download' +
+        '?file=' + encodeURIComponent(uri) +
+        '&key=' + encodeURIComponent(authService.getAuthKey());
       }
     };
   });
