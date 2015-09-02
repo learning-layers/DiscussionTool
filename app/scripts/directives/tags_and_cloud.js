@@ -20,13 +20,11 @@ angular.module('discussionToolApp')
       },
       link: function postLink(scope) {
         scope.addToTags = function(element, event) {
-          console.log(scope);
           if ( !scope.$parent._(scope.tags).find(function(tag) { return tag.text === element.label; }) ) {
             scope.tags.push({
               text: element.label
             });
           }
-          console.log(scope.tags);
           angular.element(event.currentTarget).blur();
         };
 
