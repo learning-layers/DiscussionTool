@@ -115,6 +115,11 @@ $dt-white:			#fff;
     text-align: center;
   }
 
+  .dt-date-time {
+    color: $dt-grey-lt;
+    font-size: 90%;
+  }
+
   .badge {
     padding: 6px 10px;
     margin-right: 5px;
