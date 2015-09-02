@@ -8,7 +8,8 @@
  * Factory in the discussionToolApp.
  */
 angular.module('discussionToolApp')
-  .factory('entitiesService', function ($resource, config) {
+  .factory('entitiesService', function ($resource, $q, config) {
+    var downloadLookupTable = {};
     var entitiesUrl = config.sssRestUrl + 'entities/entities/';
     var entitiesInstance = $resource(entitiesUrl, {}, {
       queryFiltered: {
@@ -23,6 +24,30 @@ angular.module('discussionToolApp')
 
     // Public API here
     return {
-      queryFiltered: entitiesInstance.queryFiltered
+      queryFiltered: entitiesInstance.queryFiltered,
+      fehchFromDownloadLookupTable: function (entityId) {
+        if ( downloadLookupTable[entityId] ) {
+          return downloadLookupTable[entityId];
+        }
+
+        return null;
+      },
+      queryAndAddToDownloadLookupTable: function (entityId) {
+        var service = this;
+        var deferred = $q.defer();
+
+        service.queryFiltered({
+          entities: encodeURIComponent(entityId)
+        }, {}, function(entities) {
+          if ( entities && entities.length > 0 ) {
+            downloadLookupTable[entityId] = entities[0].file;
+            deferred.resolve(service.fehchFromDownloadLookupTable(entityId));
+          }
+        }, function () {
+          deferred.reject(null);
+        });
+
+        return deferred.promise;
+      }
     };
   });

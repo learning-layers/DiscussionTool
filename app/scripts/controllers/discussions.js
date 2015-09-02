@@ -15,8 +15,6 @@ angular.module('discussionToolApp')
       '&key=' + encodeURIComponent(authService.getAuthKey());
     }
 
-    var downloadLookupTable = {};
-
     var targetUri = decodeURIComponent($routeParams.target);
 
     $rootScope.targetEntityUri = targetUri;
@@ -31,8 +29,17 @@ angular.module('discussionToolApp')
       if ( entity.type === 'placeholder') {
         return;
       } else if ( entity.type === 'evernoteResource' || entity.type === 'evernoteNote' ) {
-        if ( downloadLookupTable[entity.id] ) {
-          window.open(constructFileDownloadUri(downloadLookupTable[entity.id].file.id));
+        var fileEntity = entitiesService.fehchFromDownloadLookupTable(entity.id);
+        if ( fileEntity ) {
+          window.open(constructFileDownloadUri(fileEntity.id));
+        } else {
+          var openedWindow = window.open();
+          entitiesService.queryAndAddToDownloadLookupTable(entity.id)
+            .then(function (fileEntity) {
+              openedWindow.location.replace(constructFileDownloadUri(fileEntity.id));
+            }, function() {
+              openedWindow.close();
+            });
         }
         return;
       } else if ( entity.type === 'file' ) {
@@ -70,33 +77,6 @@ angular.module('discussionToolApp')
         $scope.discussions.$promise.finally(function () {
           $scope.discussionsLoaded = true;
         });
-
-        // Load up contained entitites
-        var tmpAttachedUris = [];
-        angular.forEach(discussions, function (discussion) {
-          if ( discussion.attachedEntities ) {
-            angular.forEach(discussion.attachedEntities, function (entity) {
-              if ( entity.type === 'evernoteNote' || entity.type === 'evernoteResource' ) {
-                if ( tmpAttachedUris.indexOf(entity.id) === -1 ) {
-                  tmpAttachedUris.push(entity.id);
-                }
-              }
-            });
-          }
-        });
-
-        if ( tmpAttachedUris.length > 0 ) {
-          entitiesService.queryFiltered({
-            entities: $scope._(tmpAttachedUris).map(function (uri) { return encodeURIComponent(uri); }).join(',')
-          },
-          {
-
-          }, function (entities) {
-            angular.forEach(entities, function (entity) {
-              downloadLookupTable[entity.id] = entity;
-            });
-          });
-        }
       });
     }
 
