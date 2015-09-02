@@ -1,0 +1,10 @@
+<div class="form-group">
+  <tags-input ng-model="tags">
+    <auto-complete source="autocomplete"></auto-complete>
+  </tags-input>
+</div>
+<div class="dt-tag-cloud" ng-if="frequencies">
+  <button class="btn btn-link" type="button" ng-repeat="frequency in frequencies" ng-click="addToTags(frequency, $event)">
+    <span class="badge" ng-style="{fontSize: calculateFontSize(frequency)}">{{frequency.label}}</span>
+  </button>
+</div>

@@ -80,54 +80,14 @@
                 Tags
               </tab-heading>
               <h4>Add tags</h4>
-              <div class="form-group">
-                <tags-input ng-model="answer.tags">
-                  <auto-complete source="getTagAutocomplete()"></auto-complete>
-                </tags-input>
-              </div>
-              <div class="dt-tag-cloud" ng-if="tagFrequencies">
-                <button class="btn btn-link" type="button" ng-repeat="frequency in tagFrequencies" ng-click="addToTags(frequency, $event)">
-                  <span class="badge" ng-style="{fontSize: calculateFontSize(frequency)}">{{frequency.label}}</span>
-                </button>
-              </div>
+              <tags-and-cloud frequencies="tagFrequencies" autocomplete="tagAutocomplete.promise" tags="answer.tags" min-frequency="minFrequency" max-frequency="maxFrequency"></tags-and-cloud>
             </tab>
             <tab active="false" disable="!isEpisode()">
               <tab-heading>
                 Bits and Pieces
               </tab-heading>
               <h4>Add Bits and Pieces</h4>
-              <ul class="list-group">
-                <li class="list-group-item" ng-repeat="circle in episodeVersion.learnEpCircles">
-                  <h5 class="list-group-item-heading">
-                    <span class="glyphicon glyphicon-record"></span>
-                    <span>{{circle.label}}</span>
-                  </h5>
-                  <p class="list-group-item-text">
-                    <ul class="list-group dt-contained-list">
-                      <li class="list-group-item" ng-repeat="entity in episodeVersion.learnEpEntities" ng-if="isInsideCircle(entity, circle)">
-                        <input type="checkbox" checklist-model="answer.entities" checklist-value="entity.entity.id" class="pull-right">
-                        <span class="{{getIconClass(entity)}}"></span>
-                        <span>{{entity.entity.label || entity.entity.id}}</span>
-                      </li>
-                    </ul>
-                  </p>
-                </li>
-                <li class="list-group-item">
-                  <h5 class="list-group-item-heading">
-                    <span class="glyphicon glyphicon-unchecked"></span>
-                    <span>Do not belong to any circle</span>
-                  </h5>
-                  <p class="list-group-item-text">
-                    <ul class="list-group dt-contained-list">
-                      <li class="list-group-item" ng-repeat="entity in episodeVersion.learnEpEntities" ng-if="isOrphaned(entity)">
-                        <input type="checkbox" checklist-model="answer.entities" checklist-value="entity.entity.id" class="pull-right">
-                        <span class="{{getIconClass(entity)}}"></span>
-                        <span>{{entity.entity.label}}</span>
-                      </li>
-                    </ul>
-                  </p>
-                </li>
-              </ul>
+              <bits-and-pieces version="episodeVersion" orphaned="standaloneEntities" model="answer.entities"></bits-and-pieces>
             </tab>
           </tabset>
         </div>

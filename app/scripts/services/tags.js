@@ -9,6 +9,8 @@
  */
 angular.module('discussionToolApp')
   .factory('tagsService', function ($resource, config) {
+    var fontMin = 15;
+    var fontMax = 20;
     var tagsUrl = config.sssRestUrl + 'tags/tags/';
     var tagsInstance = $resource(tagsUrl, {}, {
       addToEntity: {
@@ -21,6 +23,9 @@ angular.module('discussionToolApp')
 
     // Public API here
     return {
-      addToEntity: tagsInstance.addToEntity
+      addToEntity: tagsInstance.addToEntity,
+      calculateFontSize: function (frequ, minFrequency, maxFrequency) {
+        return (frequ === minFrequency) ? fontMin : (frequ / maxFrequency) * (fontMax - fontMin) + fontMin;
+      }
     };
   });

@@ -8,7 +8,7 @@
  * Factory in the discussionToolApp.
  */
 angular.module('discussionToolApp')
-  .factory('discussionsService', function ($resource, $http, config) {
+  .factory('discussionsService', function ($resource, $http, $rootScope, config) {
 
     var discsUrl = config.sssRestUrl + 'discs/discs/';
     var resourceInstance = $resource(discsUrl, {}, {
@@ -55,6 +55,12 @@ angular.module('discussionToolApp')
       queryFilteredByTarget: resourceInstance.queryFilteredByTarget,
       save: resourceInstance.save,
       saveEntry: resourceInstance.saveEntry,
-      addTargets: resourceInstance.addTargets
+      addTargets: resourceInstance.addTargets,
+      getLivingDocument: function (discussion) {
+        if ( !discussion ) {
+          return null;
+        }
+        return $rootScope._(discussion.targets).find(function (target) { return target.type === 'livingDoc'; });
+      }
     };
   });
