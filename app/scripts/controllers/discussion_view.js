@@ -8,7 +8,7 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('DiscussionViewCtrl', function ($rootScope, $scope, $routeParams, $modal, $q, discussionsService, livingDocumentsService, entitiesService, episodesService, tagsService) {
+  .controller('DiscussionViewCtrl', function ($rootScope, $scope, $routeParams, $q, discussionsService, livingDocumentsService, entitiesService, episodesService, tagsService) {
     var targetUri = decodeURIComponent($routeParams.target);
     $rootScope.targetEntityUri = targetUri;
 
@@ -26,38 +26,6 @@ angular.module('discussionToolApp')
     $scope.standaloneEntities = [];
     $scope.tagFrequencies = {};
     $scope.tagAutocomplete = $q.defer();
-
-    $scope.hasLivingDocument = function () {
-      return !!$scope.getLivingDocument();
-    };
-
-    $scope.getLivingDocument = function () {
-      return discussionsService.getLivingDocument($scope.discussion);
-    };
-
-    $scope.openLivingDocumentsModal = function () {
-      var modalInstance = $modal.open({
-        templateUrl: 'views/living_documents_modal.html',
-        controller: 'LivingDocumentsModalCtrl',
-        size: 'lg',
-        resolve: {
-          documents: function () {
-            return livingDocumentsService.query();
-          }
-        }
-      });
-
-      modalInstance.result.then(function (document) {
-        // XXX Need to also handle errors
-        // Probably display a message of something failing
-        discussionsService.addTargets({
-          discussion: encodeURIComponent($scope.discussion.id),
-          targets: encodeURIComponent(document.id)
-        }, {}, function () {
-          $scope.discussion.targets.push(document);
-        });
-      });
-    };
 
     $scope.isBeingSubmitted = function () {
       return isBeingSubmitted;

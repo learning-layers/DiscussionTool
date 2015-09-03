@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: bitsAndPieces', function () {
+describe('Directive: livingDocuments', function () {
 
   // load the directive's module
   beforeEach(module('discussionToolApp'));
@@ -13,8 +13,8 @@ describe('Directive: bitsAndPieces', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<bits-and-pieces></bits-and-pieces>');
+    element = angular.element('<living-documents></living-documents>');
     element = $compile(element)(scope);
-    //expect(element.text()).toBe('this is the bitsAndPieces directive');
+    //expect(element.text()).toBe('this is the livingDocuments directive');
   }));
 });

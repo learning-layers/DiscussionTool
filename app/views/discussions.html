@@ -12,10 +12,15 @@
           <span class="glyphicon glyphicon-user"></span>
         </div>
         <div class="media-body">
-          <h4 class="media-heading">
-            <a ng-href="{{getDiscussionUrl(discussion)}}">{{discussion.label}}</a>
-          </h4>
           <div class="row">
+            <div class="col-xs-11">
+              <h4 class="media-heading">
+                <a ng-href="{{getDiscussionUrl(discussion)}}">{{discussion.label}}</a>
+              </h4>
+            </div>
+            <div class="col-xs-1">
+              <living-documents discussion="discussion"></living-documents>
+            </div>
             <div class="col-xs-12 dt-date-time">
               By {{discussion.author.label}} on {{discussion.creationTime | date : "MM/dd/yyyy 'at' h:mm a"}}
             </div>
@@ -24,15 +29,8 @@
               <attached-entities entities="discussion.attachedEntities"></attached-entities>
             </div>
             <div class="col-xs-10"><span class="badge" ng-if="discussion.tags" ng-repeat="tag in discussion.tags">{{tag.label}}</span></div>
-            <div class="col-xs-2 class dt-like-dislike">
-              <div class="dt-like">
-                <a href="" ng-click="addLike(discussion, $event)"><span class="glyphicon glyphicon-thumbs-up"></span></a>
-                <span>0</span>
-              </div>
-              <div class="dt-dislike">
-                <a href="" ng-click="addDislike(discussion, $event)"><span class="glyphicon glyphicon-thumbs-down"></span></a>
-                <span>0</span>
-              </div>
+            <div class="col-xs-2">
+              <likes model="discussion"></likes>
             </div>
           </div>
         </div>
