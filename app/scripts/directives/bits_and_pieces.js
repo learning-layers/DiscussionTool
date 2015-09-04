@@ -7,7 +7,7 @@
  * # bitsAndPieces
  */
 angular.module('discussionToolApp')
-  .directive('bitsAndPieces', function (episodesService) {
+  .directive('bitsAndPieces', function (episodesService, entitiesService) {
 
     return {
       restrict: 'E',
@@ -28,6 +28,14 @@ angular.module('discussionToolApp')
           }
 
           return false;
+        };
+
+        scope.isPlacehoder = function (entity) {
+          return entitiesService.isPlaceholder(entity);
+        };
+
+        scope.attachedEntityClicked = function (entity, event) {
+          entitiesService.attachedEntityClicked(entity, event);
         };
       }
     };

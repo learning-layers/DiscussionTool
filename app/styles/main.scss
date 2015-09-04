@@ -226,5 +226,19 @@ img.dt-navbar-logo {
   }
 }
 
+.dt-contained-list {
+
+  .btn-link {
+    color: initial;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+
+    span {
+      white-space: normal;;
+    }
+  }
+}
+
 /* andular-tabs fix */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
