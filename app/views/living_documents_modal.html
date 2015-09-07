@@ -8,21 +8,21 @@
 
   <form name="create_document_form" novalidate ng-submit="createNewLivingDocument()">
     <div class="form-group">
-      <label for="label">Label</label>
-      <input type="text" class="form-control" id="label" name="label" placeholder="Label" ng-model="livingDocument.label" required>
-      <div class="error-container" ng-show="create_document_form.label.$dirty && create_document_form.label.$invalid && create_document_form.$submitted">
+      <label for="documentLabel">Label</label>
+      <input type="text" class="form-control" id="documentLabel" name="documentLabel" placeholder="Label" ng-model="livingDocument.label" required>
+      <div class="error-container" ng-show="create_document_form.documentLabel.$dirty && create_document_form.documentLabel.$invalid && create_document_form.$submitted">
         <small class="error text-danger"
-               ng-show="create_document_form.label.$error.required">
+               ng-show="create_document_form.documentLabel.$error.required">
                Label is required
         </small>
       </div>
     </div>
     <div class="form-group">
-      <text-angular ta-toolbar="[['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'undo', 'redo', 'clear'], ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'], ['html', 'insertImage', 'insertLink', 'insertVideo']]" ng-model="livingDocument.description" name="description" required></text-angular>
+      <text-angular ta-toolbar="[['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'undo', 'redo', 'clear'], ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'], ['html', 'insertImage', 'insertLink', 'insertVideo']]" ng-model="livingDocument.description" name="documentDescription" required></text-angular>
       <div class="error-container"
-           ng-show="create_document_form.description.$dirty && create_document_form.description.$invalid && create_document_form.$submitted">
+           ng-show="create_document_form.documentDescription.$dirty && create_document_form.documentDescription.$invalid && create_document_form.$submitted">
         <small class="error text-danger"
-               ng-show="create_document_form.description.$error.required">
+               ng-show="create_document_form.documentDescription.$error.required">
                Description is required
         </small>
       </div>

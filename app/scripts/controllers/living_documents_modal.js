@@ -29,7 +29,7 @@ angular.module('discussionToolApp')
     $scope.createNewLivingDocument = function() {
       if ( !$scope.create_document_form.$valid ) {
         $scope.create_document_form.label.$dirty = true;
-        $scope.create_document_form.description.$dirty = true;
+        $scope.create_document_form.documentDescription.$dirty = true;
         return;
       }
 
