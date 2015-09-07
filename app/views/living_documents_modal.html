@@ -6,6 +6,35 @@
     <i class="fa fa-spinner fa-spin" style="font-size:500%;"></i>
   </div>
 
+  <form name="create_document_form" novalidate ng-submit="createNewLivingDocument()">
+    <div class="form-group">
+      <label for="label">Label</label>
+      <input type="text" class="form-control" id="label" name="label" placeholder="Label" ng-model="livingDocument.label" required>
+      <div class="error-container" ng-show="create_document_form.label.$dirty && create_document_form.label.$invalid && create_document_form.$submitted">
+        <small class="error text-danger"
+               ng-show="create_document_form.label.$error.required">
+               Label is required
+        </small>
+      </div>
+    </div>
+    <div class="form-group">
+      <text-angular ta-toolbar="[['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'undo', 'redo', 'clear'], ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'], ['html', 'insertImage', 'insertLink', 'insertVideo']]" ng-model="livingDocument.description" name="description" required></text-angular>
+      <div class="error-container"
+           ng-show="create_document_form.description.$dirty && create_document_form.description.$invalid && create_document_form.$submitted">
+        <small class="error text-danger"
+               ng-show="create_document_form.description.$error.required">
+               Description is required
+        </small>
+      </div>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-success btn-lg center-block" ng-disabled="isBeingSubmitted">
+        <i class="fa fa-spinner fa-spin" ng-if="isBeingSubmitted"></i>
+        Create New Document
+      </button>
+    </div>
+  </form>
+
   <ul class="list-group" ng-if="documents">
     <li class="list-group-item" ng-repeat="document in documents">
       <h4 class="list-group-item-heading">
@@ -14,7 +43,7 @@
           {{document.label}}
         </label>
       </h4>
-      <p class="list-group-item-text">{{document.description}}</p>
+      <p class="list-group-item-text" ng-bind-html="document.description"></p>
     </li>
   </ul>
 </div>

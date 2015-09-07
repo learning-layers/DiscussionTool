@@ -31,6 +31,9 @@ angular.module('discussionToolApp')
             resolve: {
               documents: function () {
                 return livingDocumentsService.query();
+              },
+              discussion: function() {
+                return scope.discussion;
               }
             }
           });
