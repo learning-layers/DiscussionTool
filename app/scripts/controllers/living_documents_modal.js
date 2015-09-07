@@ -32,8 +32,12 @@ angular.module('discussionToolApp')
     $scope.isBeingSubmitted = false;
     $scope.createFormShown = false;
 
-    $scope.showCreateForm = function () {
-      $scope.createFormShown = true;
+    $scope.showHideCreateForm = function () {
+      if ( $scope.createFormShown ) {
+        $scope.createFormShown = false;
+      } else {
+        $scope.createFormShown = true;
+      }
     };
 
     $scope.connectToDocument = function () {

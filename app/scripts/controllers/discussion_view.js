@@ -97,6 +97,7 @@ angular.module('discussionToolApp')
       setAttachedEntities: true
     }, function (discussion) {
       $scope.discussion = discussion;
+      $scope.discussionLoaded = true;
     });
 
     entitiesService.queryFiltered({

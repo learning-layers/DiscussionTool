@@ -1,3 +1,5 @@
+<ajax-loader loading-complete="discussionLoaded"></ajax-loader>
+
 <div class="panel panel-default">
   <div class="panel-body">
     <div class="media dt-discussion-item">
@@ -81,7 +83,10 @@
             </div>
           </div>
           <div class="form-group pull-right">
-            <button type="submit" class="btn btn-success btn-lg" ng-disabled="isBeingSubmitted()">Create</button>
+            <button type="submit" class="btn btn-success btn-lg" ng-disabled="isBeingSubmitted()">
+              <i class="fa fa-spinner fa-spin" ng-if="isBeingSubmitted()"></i>
+              Create
+            </button>
           </div>
         </div>
         <div class="col-xs-4">

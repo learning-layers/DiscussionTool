@@ -240,5 +240,12 @@ img.dt-navbar-logo {
   }
 }
 
+.dt-ajax-loader {
+  text-align: center;
+  i {
+    font-size: 500%;
+  }
+}
+
 /* andular-tabs fix */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }

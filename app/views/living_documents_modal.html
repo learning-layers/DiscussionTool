@@ -1,10 +1,8 @@
 <div class="modal-header">
-  <h3 class="modal-title"><a href="" ng-click="showCreateForm()">Create new Living Document</a> or select from the list below</h3>
+  <h3 class="modal-title"><a href="" ng-click="showHideCreateForm()">Create new Living Document</a> or select from the list below</h3>
 </div>
 <div class="modal-body">
-  <div ng-hide="documentsLoaded" style="text-align:center;">
-    <i class="fa fa-spinner fa-spin" style="font-size:500%;"></i>
-  </div>
+  <ajax-loader loading-complete="documentsLoaded"></ajax-loader>
 
   <form name="create_document_form" novalidate ng-submit="createNewLivingDocument()" ng-show="createFormShown">
     <div class="form-group">
