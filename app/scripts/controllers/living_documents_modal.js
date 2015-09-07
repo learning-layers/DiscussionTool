@@ -30,6 +30,11 @@ angular.module('discussionToolApp')
       description: ''
     };
     $scope.isBeingSubmitted = false;
+    $scope.createFormShown = false;
+
+    $scope.showCreateForm = function () {
+      $scope.createFormShown = true;
+    };
 
     $scope.connectToDocument = function () {
       if ( $scope.selectedDocument ) {

@@ -1,12 +1,12 @@
 <div class="modal-header">
-  <h3 class="modal-title">Select Living Document to connect</h3>
+  <h3 class="modal-title"><a href="" ng-click="showCreateForm()">Create new Living Document</a> or select from the list below</h3>
 </div>
 <div class="modal-body">
   <div ng-hide="documentsLoaded" style="text-align:center;">
     <i class="fa fa-spinner fa-spin" style="font-size:500%;"></i>
   </div>
 
-  <form name="create_document_form" novalidate ng-submit="createNewLivingDocument()">
+  <form name="create_document_form" novalidate ng-submit="createNewLivingDocument()" ng-show="createFormShown">
     <div class="form-group">
       <label for="documentLabel">Label</label>
       <input type="text" class="form-control" id="documentLabel" name="documentLabel" placeholder="Label" ng-model="livingDocument.label" required>

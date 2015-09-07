@@ -11,6 +11,7 @@ angular.module('discussionToolApp')
   .controller('NavbarCtrl', function ($rootScope, $scope, config, authService) {
     $scope.logOut = function () {
       authService.removeAuthCookie();
+      window.close();
     };
 
     $scope.getTargetEntityUri = function () {
