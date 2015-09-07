@@ -63,6 +63,9 @@ angular.module('discussionToolApp')
         // Navigate away when all promises resolve
         $q.all(promises).then(function() {
           isBeingSubmitted = false;
+          $scope.create_answer_form.description.$dirty = false;
+          $scope.create_answer_form.$submitted = false;
+
           $scope.answer.description = '';
           $scope.answer.tags = [];
           $scope.answer.entities = [];
