@@ -35,17 +35,24 @@
     </div>
   </form>
 
-  <ul class="list-group" ng-if="documents">
-    <li class="list-group-item" ng-repeat="document in documents">
-      <h4 class="list-group-item-heading">
-        <label>
-          <input type="radio" ng-model="$parent.$parent.selectedDocument" ng-value="document">
-          {{document.label}}
-        </label>
-      </h4>
-      <p class="list-group-item-text" ng-bind-html="document.description"></p>
-    </li>
-  </ul>
+  <div class="panel panel-default"  ng-repeat="document in documents">
+    <div class="panel-body">
+      <div class="media">
+        <div class="media-left">
+          <img src="images/ld.png" alt="livingdocument" ng-style="{ opacity: document.discs.length > 0 ? 0.5 : 1.0 }">
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">
+            <label>
+              <input type="radio" ng-model="$parent.$parent.selectedDocument" ng-value="document" ng-disabled="document.discs.length > 0">
+              {{document.label}}
+            </label>
+          </h4>
+          <p ng-bind-html="document.description"></p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-lg btn-success center-block" ng-disabled="!selectedDocument" ng-click="connectToDocument()">Connect to Discussion</button>

@@ -8,11 +8,22 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('LivingDocumentsModalCtrl', function ($scope, $modalInstance, documents, discussion, livingDocumentsService) {
+  .controller('LivingDocumentsModalCtrl', function ($scope, $modalInstance, documents, discussion, livingDocumentsService, entitiesService) {
     documents.$promise.then(function () {
-      $scope.documentsLoaded = true;
+      if ( documents.length === 0 ) {
+        $scope.documentsLoaded = true;
+        return;
+      }
+
+      entitiesService.queryFiltered({
+        entities: $scope._(documents).map(function (entity) { return encodeURIComponent(entity.id); }).join(',')
+      }, {
+        setDiscs: true
+      }, function (entities) {
+        $scope.documents = entities;
+        $scope.documentsLoaded = true;
+      });
     });
-    $scope.documents = documents;
 
     $scope.livingDocument = {
       label: '',
@@ -28,7 +39,7 @@ angular.module('discussionToolApp')
 
     $scope.createNewLivingDocument = function() {
       if ( !$scope.create_document_form.$valid ) {
-        $scope.create_document_form.label.$dirty = true;
+        $scope.create_document_form.documentLabel.$dirty = true;
         $scope.create_document_form.documentDescription.$dirty = true;
         return;
       }
