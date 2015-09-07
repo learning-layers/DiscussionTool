@@ -41,11 +41,19 @@ angular.module('discussionToolApp')
           modalInstance.result.then(function (document) {
             // XXX Need to also handle errors
             // Probably display a message of something failing
-            discussionsService.addTargets({
-              discussion: encodeURIComponent(scope.discussion.id),
-              targets: encodeURIComponent(document.id)
-            }, {}, function () {
-              scope.discussion.targets.push(document);
+            discussionsService.queryFilteredByTarget({
+              target: encodeURIComponent(document.id)
+            }, {}, function(discussions) {
+              if ( discussions.length === 0 ) {
+                discussionsService.addTargets({
+                  discussion: encodeURIComponent(scope.discussion.id),
+                  targets: encodeURIComponent(document.id)
+                }, {}, function () {
+                  scope.discussion.targets.push(document);
+                });
+              } else {
+                // TODO Need to show message about discussion already having LD
+              }
             });
           });
         };
