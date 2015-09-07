@@ -22,7 +22,6 @@ angular.module('discussionToolApp')
 
     $scope.connectToDocument = function () {
       if ( $scope.selectedDocument ) {
-        // XXX Need to really make a connection
         $modalInstance.close($scope.selectedDocument);
       }
     };

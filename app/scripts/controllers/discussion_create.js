@@ -39,6 +39,12 @@ angular.module('discussionToolApp')
     };
 
     $scope.doSubmit = function() {
+      if ( !$scope.create_discussion_form.$valid ) {
+        $scope.create_discussion_form.label.$dirty = true;
+        $scope.create_discussion_form.description.$dirty = true;
+        return;
+      }
+
       isBeingSubmitted = true;
 
       discussionsService.save({

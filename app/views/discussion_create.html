@@ -1,17 +1,30 @@
-<form ng-if="isLoggedIn()" class="dt-create-discussion">
+<form ng-show="isLoggedIn()" name="create_discussion_form" novalidate ng-submit="doSubmit()" class="dt-create-discussion">
   <h1>New Discussion</h1>
   <div class="row">
     <div class="col-xs-8">
       <div class="form-group">
         <label for="label">Label</label>
-        <input type="text" class="form-control" id="label" placeholder="Label" ng-model="discussion.label" required>
+        <input type="text" class="form-control" id="label" name="label" placeholder="Label" ng-model="discussion.label" required>
+        <div class="error-container" ng-show="create_discussion_form.label.$dirty && create_discussion_form.label.$invalid && create_discussion_form.$submitted">
+          <small class="error text-danger"
+                 ng-show="create_discussion_form.label.$error.required">
+                 Label is required
+          </small>
+        </div>
       </div>
       <div class="form-group">
-        <text-angular ta-toolbar="[['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'undo', 'redo', 'clear'], ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'], ['html', 'insertImage', 'insertLink', 'insertVideo']]" ng-model="discussion.description"></text-angular>
+        <text-angular ta-toolbar="[['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'undo', 'redo', 'clear'], ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'], ['html', 'insertImage', 'insertLink', 'insertVideo']]" name="description" ng-model="discussion.description" required></text-angular>
+        <div class="error-container"
+             ng-show="create_discussion_form.description.$dirty && create_discussion_form.description.$invalid && create_discussion_form.$submitted">
+          <small class="error text-danger"
+                 ng-show="create_discussion_form.description.$error.required">
+                 Description is required
+          </small>
+        </div>
       </div>
       <div class="form-group pull-right">
         <button type="button" class="btn btn-default btn-lg" ng-click="doCancel()" ng-disabled="isBeingSubmitted()">Cancel</button>
-        <button type="submit" class="btn btn-success btn-lg" ng-click="doSubmit()" ng-disabled="isBeingSubmitted()">Publish</button>
+        <button type="submit" class="btn btn-success btn-lg" ng-disabled="isBeingSubmitted()">Publish</button>
       </div>
     </div>
     <div class="col-xs-4">
