@@ -7,7 +7,7 @@
  * # livingDocuments
  */
 angular.module('discussionToolApp')
-  .directive('livingDocuments', function ($modal, discussionsService, livingDocumentsService) {
+  .directive('livingDocuments', function ($rootScope, $modal, discussionsService, livingDocumentsService) {
     return {
       templateUrl: 'views/templates/living_documents.html',
       restrict: 'E',
@@ -51,6 +51,8 @@ angular.module('discussionToolApp')
                 }, {}, function () {
                   scope.discussion.targets.push(document);
                 });
+              } else if ( $rootScope._(discussions[0].targets).find(function (target) { return target.id === document.id; }) ) {
+                scope.discussion.targets.push(document);
               } else {
                 // TODO Need to show message about discussion already having LD
               }
