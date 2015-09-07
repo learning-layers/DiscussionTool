@@ -5,6 +5,15 @@
     <i class="fa fa-spinner fa-spin" style="font-size:500%;"></i>
   </div>
 
+  <div ng-show="discussionsLoaded && discussions.length < 1">
+    <alert type="info">
+      There are no discussions yet, you can go ahead and
+      <a href=""  class="alert-link" ng-click="startNewDiscussion()">
+        Start New Discussion
+      </a>.
+    </alert>
+  </div>
+
   <div class="panel panel-default"  ng-repeat="discussion in discussions | orderBy: '-creationTime'">
     <div class="panel-body">
       <div class="media dt-discussion-item">
