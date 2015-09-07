@@ -171,14 +171,10 @@ $dt-white:			#fff;
 
   .list-group {
     .list-group-item {
-      .btn-link {
-        color: $dt-orange_dk;
-      }
       .btn-link:focus {
         outline: none;
       }
       .fa {
-        color: $dt-orange_dk;
         margin-right: 7px;
       }
     }
@@ -229,7 +225,6 @@ img.dt-navbar-logo {
 .dt-contained-list {
 
   .btn-link {
-    color: initial;
     margin: 0;
     padding: 0;
     text-align: left;
@@ -244,6 +239,17 @@ img.dt-navbar-logo {
   text-align: center;
   i {
     font-size: 500%;
+  }
+}
+
+.navbar {
+  .dt-btn-bnp {
+    color: #fff;
+    background-color: $dt-orange;
+    border-color: $dt-orange-dk;
+  }
+  .dt-btn-bnp:hover {
+    background-color: $dt-orange-dk;
   }
 }
 
