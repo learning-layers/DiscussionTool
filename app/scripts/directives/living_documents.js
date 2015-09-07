@@ -15,6 +15,8 @@ angular.module('discussionToolApp')
         discussion: '=discussion'
       },
       link: function postLink(scope) {
+        scope.popoverTemplateUrl = 'views/templates/popover.html';
+        
         scope.hasLivingDocument = function () {
           return !!scope.getLivingDocument();
         };

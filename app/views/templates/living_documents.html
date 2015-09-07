@@ -2,7 +2,14 @@
   <button class="btn btn-default btn-lg pull-right" title="Connect to LivingDocument" ng-hide="hasLivingDocument()" ng-click="openLivingDocumentsModal()">
     <i class="fa fa-link"></i>
   </button>
-  <btton class="btn btn-default btn-lg pull-right" title="Open LivingDocuments Document" ng-show="hasLivingDocument()">
+  <btton class="btn btn-default btn-lg pull-right"
+         title="Open LivingDocuments Document"
+         ng-show="hasLivingDocument()"
+         popover-template="popoverTemplateUrl",
+         popover-title="{{getLivingDocument().label}}"
+         popover-trigger="mouseenter"
+         popover-placement="left"
+         popover-append-to-body="true">
     <a href="{{getLivingDocument().id}}" target="_blank">
       <img src="images/ld.png" alt="LivingDocuments Logo" class="dt-ld-logo">
     </a>
