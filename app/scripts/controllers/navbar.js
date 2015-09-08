@@ -8,7 +8,7 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('NavbarCtrl', function ($rootScope, $scope, config, authService) {
+  .controller('NavbarCtrl', function ($rootScope, $scope, $location, config, authService) {
     $scope.logOut = function () {
       authService.removeAuthCookie();
       window.close();
@@ -20,5 +20,9 @@ angular.module('discussionToolApp')
 
     $scope.navigateToBnp = function () {
       window.open(config.bnpUrl);
+    };
+
+    $scope.startNewDiscussion = function () {
+      $location.path('discussions/' + encodeURIComponent($rootScope.targetEntityUri) + '/discussion/create');
     };
   });

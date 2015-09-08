@@ -1,5 +1,5 @@
 <div ng-if="isLoggedIn()">
-  <h1>Discussions for  <span>{{targetEntity.label}}</span></h1>
+  <h1>List of discussions for episode: <span>{{targetEntity.label}}</span></h1>
 
   <ajax-loader loading-complete="discussionsLoaded"></ajax-loader>
 
@@ -43,10 +43,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="row dt-start-new-discussion">
-    <button class="btn btn-success btn-lg pull-right" ng-click="startNewDiscussion()" ng-show="targetEntity">Start New Discussion</button>
   </div>
 </div>
 
