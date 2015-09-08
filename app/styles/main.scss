@@ -254,5 +254,18 @@ img.dt-navbar-logo {
   }
 }
 
+.dt-living-document {
+  input[type="radio"] {
+    display: none;
+  }
+  label {
+    margin-left: 27px;
+  }
+  i.fa {
+    font-size: 150%;
+    color: $dt-blue;
+  }
+}
+
 /* andular-tabs fix */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
