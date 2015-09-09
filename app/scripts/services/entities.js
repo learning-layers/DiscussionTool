@@ -57,12 +57,15 @@ angular.module('discussionToolApp')
       isPlaceholder: function (entity) {
         return entity.type === 'placeholder';
       },
+      isNotebook: function (entity) {
+        return entity.type === 'evernoteNotebook';
+      },
       attachedEntityClicked: function (entity, event) {
         var that = this;
 
         angular.element(event.currentTarget).blur();
 
-        if ( entity.type === 'placeholder') {
+        if ( entity.type === 'placeholder' || entity.type === 'evernoteNotebook' ) {
           return;
         } else if ( entity.type === 'evernoteResource' || entity.type === 'evernoteNote' ) {
           var fileEntity = that.fehchFromDownloadLookupTable(entity.id);

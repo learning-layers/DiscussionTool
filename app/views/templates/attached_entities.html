@@ -1,6 +1,6 @@
 <ul class="list-group" ng-if="entities">
   <li class="list-group-item" ng-repeat="entity in entities">
     <i class="fa fa-file-o"></i>
-    <button type="button" class="btn btn-link" ng-click="attachedEntityClicked(entity, $event)" ng-disabled="isPlacehoder(entity)">{{entity.label || entity.id}}</button>
+    <button type="button" class="btn btn-link" ng-click="attachedEntityClicked(entity, $event)" ng-disabled="isEntityClickDisabled(entity)">{{entity.label || entity.id}}</button>
   </li>
 </ul>
