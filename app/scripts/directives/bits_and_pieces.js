@@ -30,12 +30,16 @@ angular.module('discussionToolApp')
           return false;
         };
 
-        scope.isPlacehoder = function (entity) {
-          return entitiesService.isPlaceholder(entity);
+        scope.isEntityClickDisabled = function (entity) {
+          return ( entitiesService.isPlaceholder(entity) || entitiesService.isNotebook(entity) );
         };
 
         scope.attachedEntityClicked = function (entity, event) {
           entitiesService.attachedEntityClicked(entity, event);
+        };
+
+        scope.getIcon = function (entity) {
+          return entitiesService.getIconLocation(entity);
         };
       }
     };

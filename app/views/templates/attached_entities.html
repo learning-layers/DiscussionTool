@@ -1,6 +1,6 @@
 <ul class="list-group" ng-if="entities">
   <li class="list-group-item" ng-repeat="entity in entities">
-    <i class="fa fa-file-o"></i>
+    <img ng-src="{{getIcon(entity)}}" alt="icon" class="dt-entity-icon">
     <button type="button" class="btn btn-link" ng-click="attachedEntityClicked(entity, $event)" ng-disabled="isEntityClickDisabled(entity)">{{entity.label || entity.id}}</button>
   </li>
 </ul>

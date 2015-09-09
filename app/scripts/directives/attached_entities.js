@@ -22,6 +22,10 @@ angular.module('discussionToolApp')
         scope.attachedEntityClicked = function (entity, event) {
           entitiesService.attachedEntityClicked(entity, event);
         };
+
+        scope.getIcon = function (entity) {
+          return entitiesService.getIconLocation(entity);
+        };
       }
     };
   });

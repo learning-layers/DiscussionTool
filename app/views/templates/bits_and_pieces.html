@@ -8,12 +8,12 @@
       <ul class="list-group dt-contained-list">
         <li class="list-group-item" ng-repeat="entity in version.learnEpEntities" ng-if="isInsideCircle(entity, circle)">
           <div class="row">
-            <div class="col-xs-1">
-              <i class="fa fa-file-o"></i>
+            <div class="col-xs-2">
+              <img ng-src="{{$parent.getIcon(entity.entity)}}" alt="icon" class="dt-entity-icon">
             </div>
             <div class="clearfix visible-xs-block"></div>
-            <div class="col-xs-9">
-              <button type="button" class="btn btn-link" ng-click="attachedEntityClicked(entity.entity, $event)" ng-disabled="isPlacehoder(entity.entity)">
+            <div class="col-xs-8">
+              <button type="button" class="btn btn-link" ng-click="attachedEntityClicked(entity.entity, $event)" ng-disabled="isEntityClickDisabled(entity.entity)">
                 <span>
                   {{entity.entity.label || entity.entity.id}}
                 </span>
@@ -36,12 +36,12 @@
       <ul class="list-group dt-contained-list">
         <li class="list-group-item" ng-repeat="entity in version.learnEpEntities" ng-if="isOrphaned(entity)">
           <div class="row">
-            <div class="col-xs-1">
-              <i class="fa fa-file-o"></i>
+            <div class="col-xs-2">
+              <img ng-src="{{$parent.getIcon(entity.entity)}}" alt="icon" class="dt-entity-icon">
             </div>
             <div class="clearfix visible-xs-block"></div>
-            <div class="col-xs-9">
-              <button type="button" class="btn btn-link" ng-click="attachedEntityClicked(entity.entity, $event)" ng-disabled="isPlacehoder(entity.entity)">
+            <div class="col-xs-8">
+              <button type="button" class="btn btn-link" ng-click="attachedEntityClicked(entity.entity, $event)" ng-disabled="isEntityClickDisabled(entity.entity)">
                 <span>
                   {{entity.entity.label || entity.entity.id}}
                 </span>
