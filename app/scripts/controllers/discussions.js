@@ -10,8 +10,7 @@
 angular.module('discussionToolApp')
   .controller('DiscussionsCtrl', function ($rootScope, $scope, $location, $routeParams, discussionsService, entitiesService) {
     var targetUri = decodeURIComponent($routeParams.target);
-
-    $rootScope.targetEntityUri = targetUri;
+    $scope.setTargetEntityUri(targetUri);
 
     $scope.getDiscussionUrl = function (discussion) {
       return '#/discussions/' + encodeURIComponent(encodeURIComponent(targetUri)) + '/discussion/' + encodeURIComponent(encodeURIComponent(discussion.id));

@@ -10,8 +10,7 @@
 angular.module('discussionToolApp')
   .controller('DiscussionCreateCtrl', function ($rootScope, $scope, $location, $q, $routeParams, entitiesService, episodesService, discussionsService, tagsService) {
     var targetUri = decodeURIComponent($routeParams.target);
-
-    $rootScope.targetEntityUri = targetUri;
+    $scope.setTargetEntityUri(targetUri);
 
     var isBeingSubmitted = false;
 

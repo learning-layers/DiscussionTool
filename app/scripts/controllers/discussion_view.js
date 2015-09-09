@@ -10,7 +10,7 @@
 angular.module('discussionToolApp')
   .controller('DiscussionViewCtrl', function ($rootScope, $scope, $routeParams, $q, discussionsService, livingDocumentsService, entitiesService, episodesService, tagsService) {
     var targetUri = decodeURIComponent($routeParams.target);
-    $rootScope.targetEntityUri = targetUri;
+    $scope.setTargetEntityUri(targetUri);
 
     var discussionUri = decodeURIComponent($routeParams.discussion);
 

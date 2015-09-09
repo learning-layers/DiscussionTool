@@ -8,7 +8,7 @@
  * Factory in the discussionToolApp.
  */
 angular.module('discussionToolApp')
-  .factory('entitiesService', function ($resource, $q, config, authService) {
+  .factory('entitiesService', function ($resource, $q, $rootScope, config, authService) {
     var downloadLookupTable = {};
     var entitiesUrl = config.sssRestUrl + 'entities/entities/';
     var entitiesInstance = $resource(entitiesUrl, {}, {
@@ -23,7 +23,9 @@ angular.module('discussionToolApp')
     });
 
     function getIconTypeFromFile (fileEntity) {
-      var mimeType = fileEntity.mimeType;
+      //var mimeType = fileEntity.mimeType;
+      // XXX This is due to issues with mimeType
+      var mimeType = null;
       var name = fileEntity.type;
 
       if ( mimeType ) {
@@ -114,6 +116,28 @@ angular.module('discussionToolApp')
 
         return deferred.promise;
       },
+      fillLookupTable: function (version) {
+        var uris = [];
+        angular.forEach(version.learnEpEntities, function (entity) {
+          if ( entity.entity.type === 'evernoteResource' && uris.indexOf(entity.entity.id) === -1 ) {
+            uris.push(entity.entity.id);
+          }
+        });
+
+        if ( uris.length === 0 ) {
+          return;
+        }
+
+        this.queryFiltered({
+          entities: $rootScope._(uris).map(function (uri) { return encodeURIComponent(uri); }).join(',')
+        }, {}, function (entities) {
+          angular.forEach(entities, function (entity) {
+            if ( !downloadLookupTable[entity.id] ) {
+              downloadLookupTable[entity.id] = entity.file;
+            }
+          });
+        });
+      },
       constructFileDownloadUri: function (uri) {
         return config.sssRestUrl + 'files/files/download' +
         '?file=' + encodeURIComponent(uri) +
@@ -182,6 +206,8 @@ angular.module('discussionToolApp')
           case 'evernoteResource':
             if ( entity.file ) {
               iconName = getIconTypeFromFile(entity.file);
+            } else if ( downloadLookupTable[entity.id] ) {
+              iconName = getIconTypeFromFile(downloadLookupTable[entity.id]);
             } else {
               iconName = entity.type;
             }
