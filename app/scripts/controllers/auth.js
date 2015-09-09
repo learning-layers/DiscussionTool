@@ -12,8 +12,6 @@ angular.module('discussionToolApp')
     // Decode twice because it gets encoded once more by the OIDC
     var targetUri = decodeURIComponent(decodeURIComponent($routeParams.target));
 
-    $rootScope.targetEntityUri = targetUri;
-
     $scope.authMessageType = 'info';
     $scope.authMessage = 'Autentication in progress, please wait!';
 
