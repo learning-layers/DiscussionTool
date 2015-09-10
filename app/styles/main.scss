@@ -272,5 +272,16 @@ img.dt-navbar-logo {
   height: 40px;
 }
 
+.dt-bnp-circle {
+  i.fa {
+    font-size: 36px;
+  }
+  span {
+    margin-top: 10px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
 /* andular-tabs fix */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }

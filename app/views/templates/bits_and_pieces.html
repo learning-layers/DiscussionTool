@@ -1,8 +1,14 @@
 <ul class="list-group">
   <li class="list-group-item" ng-repeat="circle in version.learnEpCircles">
     <h5 class="list-group-item-heading">
-      <span class="glyphicon glyphicon-record"></span>
-      <span>{{circle.label}}</span>
+      <div class="row dt-bnp-circle">
+        <div class="col-xs-2">
+          <i class="fa fa-circle-o"></i>
+        </div>
+        <div class="col-xs-10">
+          <span>{{circle.label}}{{circle.label}} {{circle.label}}</span>
+        </div>
+      </div>
     </h5>
     <p class="list-group-item-text">
       <ul class="list-group dt-contained-list">
@@ -29,8 +35,14 @@
   </li>
   <li class="list-group-item">
     <h5 class="list-group-item-heading">
-      <span class="glyphicon glyphicon-unchecked"></span>
-      <span>Do not belong to any circle</span>
+      <div class="row dt-bnp-circle">
+        <div class="col-xs-2">
+          <i class="fa fa-times-circle-o"></i>
+        </div>
+        <div class="col-xs-10">
+          <span>Do not belong to any circle</span>
+        </div>
+      </div>
     </h5>
     <p class="list-group-item-text">
       <ul class="list-group dt-contained-list">
