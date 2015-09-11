@@ -55,15 +55,15 @@ angular.module('discussionToolApp')
 
       $scope.isBeingSubmitted = true;
 
-      livingDocumentsService.save({},
+      livingDocumentsService.createDocument({
+        discussionId: discussion.id
+      },
       {
-        uri: 'http://living-docs.eu/document/' + (new Date()).getTime(),
-        label: $scope.livingDocument.label,
-        description: $scope.livingDocument.description,
-        discussion: discussion.id
+        title: $scope.livingDocument.label,
+        description: $scope.livingDocument.description
       }, function (data) {
         livingDocumentsService.get({
-          livingDoc: encodeURIComponent(data.livingDoc)
+          livingDoc: encodeURIComponent(livingDocumentsService.constructUriFromId(data.id))
         }, function(livingDoc) {
           $modalInstance.close(livingDoc);
         });

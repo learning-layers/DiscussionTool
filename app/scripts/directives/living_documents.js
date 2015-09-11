@@ -7,7 +7,7 @@
  * # livingDocuments
  */
 angular.module('discussionToolApp')
-  .directive('livingDocuments', function ($rootScope, $modal, discussionsService, livingDocumentsService) {
+  .directive('livingDocuments', function ($rootScope, $modal, config, discussionsService, livingDocumentsService) {
     return {
       templateUrl: 'views/templates/living_documents.html',
       restrict: 'E',
@@ -16,13 +16,28 @@ angular.module('discussionToolApp')
       },
       link: function postLink(scope) {
         scope.popoverTemplateUrl = 'views/templates/popover.html';
-        
+
         scope.hasLivingDocument = function () {
           return !!scope.getLivingDocument();
         };
 
         scope.getLivingDocument = function () {
           return discussionsService.getLivingDocument(scope.discussion);
+        };
+
+        scope.openDocument = function () {
+          var ld = this.getLivingDocument();
+          if ( ld ) {
+            var openedWindow = window.open();
+
+            livingDocumentsService.authenticate({
+              forceUpdate: true
+            }, function () {
+              openedWindow.location.replace(livingDocumentsService.constructClientUrlFromUri(ld.id));
+            }, function() {
+              openedWindow.close();
+            });
+          }
         };
 
         scope.openLivingDocumentsModal = function () {

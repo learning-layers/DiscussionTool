@@ -33,11 +33,37 @@ angular.module('discussionToolApp')
         }]
       }
     });
+    var ldOidcUrl = config.ldRestUrl + 'api/users/oidc/';
+    var ldResourceInstance = $resource(ldOidcUrl, {
+      issuer: config.oidcAuthorizationUrl.replace('/authorize', '')
+    }, {
+      authenticate: {
+        url: ldOidcUrl + 'authenticate',
+        method: 'GET',
+        transformResponse: [angular.fromJson, function(data, headersGetter, status) {
+          return ( status === 500 || status === 401 || status === 403 || status === 404 ) ? data : data;
+        }]
+      },
+      createDocument: {
+        url: ldOidcUrl + 'document',
+        method: 'POST',
+        transformResponse: [angular.fromJson, function(data, headersGetter, status) {
+          return ( status === 500 || status === 401 || status === 403 || status === 404 ) ? data : data;
+        }]
+      }
+    });
 
     // Public API here
     return {
       query: resourceInstance.query,
-      save: resourceInstance.save,
-      get: resourceInstance.get
+      get: resourceInstance.get,
+      authenticate: ldResourceInstance.authenticate,
+      createDocument: ldResourceInstance.createDocument,
+      constructClientUrlFromUri: function (uri) {
+        return config.ldClientUrl + '#/document/' + uri.split('document/')[1];
+      },
+      constructUriFromId: function (id) {
+        return config.ldRestUrl + 'document/' + id;
+      }
     };
   });
