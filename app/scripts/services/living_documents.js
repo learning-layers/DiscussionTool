@@ -40,6 +40,7 @@ angular.module('discussionToolApp')
       authenticate: {
         url: ldOidcUrl + 'authenticate',
         method: 'GET',
+        withCredentials: true,
         transformResponse: [angular.fromJson, function(data, headersGetter, status) {
           return ( status === 500 || status === 401 || status === 403 || status === 404 ) ? data : data;
         }]
