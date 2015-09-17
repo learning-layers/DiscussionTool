@@ -67,7 +67,7 @@ angular.module('discussionToolApp')
       setAuthCookie: setAuthCookie,
       removeAuthCookie: removeAuthCookie,
       getAuthKey: getAuthKey,
-      getEntityId: getUserUri,
+      getUserUri: getUserUri,
       isLoggedIn: function () {
         if ( hasAuthCookie() ) {
           if ( getAuthKey() && getUserUri() ) {
