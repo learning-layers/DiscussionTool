@@ -18,7 +18,16 @@ angular.module('discussionToolApp')
     // Public API here
     return {
       responseError: function (rejection) {
+        console.log('Rejection', rejection);
         if ( rejection.status === 500 && oidcErrorStatusTexts.indexOf(rejection.data.id) !== -1 ) {
+          // Deal with case of authentication call itself failing, show message
+          if ( rejection.config.url === config.sssRestUrl + 'auth/auth' || rejection.config.url === config.sssRestUrl + 'auth/auth/' ) {
+            // Still remove the authetication cookie
+            $cookies.remove(config.authCookieName);
+
+            return $q.reject(rejection);
+          }
+
           // Remove auth cookie and restart authentication
           $cookies.remove(config.authCookieName);
           $location.path('auth/' + encodeURIComponent($rootScope.targetEntityUri));
