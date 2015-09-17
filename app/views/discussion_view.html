@@ -1,6 +1,6 @@
 <ajax-loader loading-complete="discussionLoaded"></ajax-loader>
 
-<div class="panel panel-default">
+<div class="panel panel-default" ng-show="discussion">
   <div class="panel-body">
     <div class="media dt-discussion-item">
       <div class="media-left media-middle">
@@ -64,7 +64,7 @@
   </div>
 </div>
 
-<div class="panel panel-info">
+<div class="panel panel-info" ng-show="discussion">
   <div class="panel-heading">
     <h3 class="panel-title">Add new Entry</h3>
   </div>
