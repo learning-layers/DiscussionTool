@@ -8,7 +8,7 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('DiscussionViewCtrl', function ($rootScope, $scope, $routeParams, $q, discussionsService, livingDocumentsService, entitiesService, episodesService, tagsService) {
+  .controller('DiscussionViewCtrl', function ($rootScope, $scope, $routeParams, $q, discussionsService, livingDocumentsService, entitiesService, episodesService, tagsService, messagesService) {
     var targetUri = decodeURIComponent($routeParams.target);
     $scope.setTargetEntityUri(targetUri);
 
@@ -16,6 +16,36 @@ angular.module('discussionToolApp')
 
     var isBeingSubmitted = false;
 
+    function refetchDiscussionAndUpdateEntries () {
+      discussionsService.queryFilteredDiscussion({
+        disc: encodeURIComponent(discussionUri)
+      },
+      {
+        setLikes: true,
+        setEntries: true,
+        setTags: true,
+        setAttachedEntities: true
+      }, function (discussion) {
+        $scope.discussion.entries = discussion.entries;
+      });
+    }
+
+    function handleEntryCreated (tagsAdded) {
+      isBeingSubmitted = false;
+      $scope.create_answer_form.description.$dirty = false;
+      $scope.create_answer_form.$submitted = false;
+
+      $scope.answer.description = '';
+      $scope.answer.tags = [];
+      $scope.answer.entities = [];
+
+      messagesService.addSuccess('You have successfully created a new entry.');
+      if ( tagsAdded !== true ) {
+        messagesService.addWarning('At least one of the tags could not be added to the newly created entry.');
+      }
+
+      refetchDiscussionAndUpdateEntries();
+    }
 
     $scope.answer = {
       description: '',
@@ -61,31 +91,14 @@ angular.module('discussionToolApp')
           promises.push(promise);
         });
         // Navigate away when all promises resolve
-        $q.all(promises).then(function() {
-          isBeingSubmitted = false;
-          $scope.create_answer_form.description.$dirty = false;
-          $scope.create_answer_form.$submitted = false;
-
-          $scope.answer.description = '';
-          $scope.answer.tags = [];
-          $scope.answer.entities = [];
-
-          // Fetch discussion and set entries
-          discussionsService.queryFilteredDiscussion({
-            disc: encodeURIComponent(discussionUri)
-          },
-          {
-            setLikes: true,
-            setEntries: true,
-            setTags: true,
-            setAttachedEntities: true
-          }, function (discussion) {
-            $scope.discussion.entries = discussion.entries;
-          });
+        $q.all(promises).then(function () {
+          handleEntryCreated(true);
+        }, function () {
+          handleEntryCreated(false);
         });
-      }, function() {
+      }, function () {
         isBeingSubmitted = false;
-        // XXX Need to show some message to indicate that call failed
+        messagesService.addDanger('Entry could not be created. Server responded with an error!');
       });
     };
 

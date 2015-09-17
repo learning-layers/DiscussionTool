@@ -8,7 +8,7 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('LivingDocumentsModalCtrl', function ($scope, $modalInstance, documents, discussion, livingDocumentsService, entitiesService) {
+  .controller('LivingDocumentsModalCtrl', function ($scope, $modalInstance, documents, discussion, livingDocumentsService, entitiesService, messagesService) {
     documents.$promise.then(function () {
       if ( documents.length === 0 ) {
         $scope.documentsLoaded = true;
@@ -66,7 +66,13 @@ angular.module('discussionToolApp')
           livingDoc: encodeURIComponent(livingDocumentsService.constructUriFromId(data.id))
         }, function(livingDoc) {
           $modalInstance.close(livingDoc);
+        }, function () {
+          messagesService.addDanger('Newly created LivingDocument could not be fetched from the server!');
+          $modalInstance.close();
         });
+      }, function () {
+        messagesService.addDanger('New LivingDocument could not be created. Server responded with an error');
+        $modalInstance.close();
       });
     };
   });

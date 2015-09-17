@@ -7,7 +7,7 @@
  * # livingDocuments
  */
 angular.module('discussionToolApp')
-  .directive('livingDocuments', function ($rootScope, $modal, config, discussionsService, livingDocumentsService) {
+  .directive('livingDocuments', function ($rootScope, $modal, config, discussionsService, livingDocumentsService, messagesService) {
     return {
       templateUrl: 'views/templates/living_documents.html',
       restrict: 'E',
@@ -56,8 +56,9 @@ angular.module('discussionToolApp')
           });
 
           modalInstance.result.then(function (document) {
-            // XXX Need to also handle errors
-            // Probably display a message of something failing
+            if ( !document ) {
+              return;
+            }
             discussionsService.queryFilteredByTarget({
               target: encodeURIComponent(document.id)
             }, {}, function(discussions) {
@@ -67,11 +68,13 @@ angular.module('discussionToolApp')
                   targets: encodeURIComponent(document.id)
                 }, {}, function () {
                   scope.discussion.targets.push(document);
+                }, function () {
+                  messagesService.addDanger('LivingDocument could not be added to a discussion. Server responsed with an error!');
                 });
               } else if ( $rootScope._(discussions[0].targets).find(function (target) { return target.id === document.id; }) ) {
                 scope.discussion.targets.push(document);
               } else {
-                // TODO Need to show message about discussion already having LD
+                messagesService.addDanger('This discussion already has a LivingDocument attached.');
               }
             });
           });

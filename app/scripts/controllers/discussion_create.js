@@ -8,11 +8,20 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('DiscussionCreateCtrl', function ($rootScope, $scope, $location, $q, $routeParams, entitiesService, episodesService, discussionsService, tagsService) {
+  .controller('DiscussionCreateCtrl', function ($rootScope, $scope, $location, $q, $routeParams, entitiesService, episodesService, discussionsService, tagsService, messagesService) {
     var targetUri = decodeURIComponent($routeParams.target);
     $scope.setTargetEntityUri(targetUri);
 
     var isBeingSubmitted = false;
+
+    function handleDiscussionCreated(tagsAdded) {
+      isBeingSubmitted = false;
+      messagesService.addSuccess('You have successfully created a new discussion.');
+      if ( tagsAdded !== true ) {
+        messagesService.addWarning('At least one of the tags could not be added to the newly created discussion.');
+      }
+      $location.path('/discussions/' + encodeURIComponent(targetUri) + '/list');
+    }
 
     $scope.discussion = {
       label: '',
@@ -61,16 +70,20 @@ angular.module('discussionToolApp')
             entity: response.disc,
             space: 'sharedSpace'
           }, function() {
+          }, function() {
+            //messagesService.addDanger('One of the tags could not be added the discussion.');
           }).$promise;
           promises.push(promise);
         });
         // Navigate away when all promises resolve
         $q.all(promises).then(function() {
-          isBeingSubmitted = false;
-          $location.path('/discussions/' + encodeURIComponent(targetUri) + '/list');
+          handleDiscussionCreated(true);
+        }, function() {
+          handleDiscussionCreated(false);
         });
       }, function() {
         isBeingSubmitted = false;
+        messagesService.addDanger('Discussion could not be created. Server responded with an error!');
       });
     };
 

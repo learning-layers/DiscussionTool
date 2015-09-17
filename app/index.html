@@ -25,6 +25,8 @@
     <div class="header" ng-include src="'views/navbar.html'" ng-controller="NavbarCtrl" ng-if="isLoggedIn()">
     </div>
 
+    <div class="dt-system-messages" ng-include src="'views/messages.html'" ng-if="isLoggedIn()"></div>
+
     <div class="container-fluid">
     <div ng-view=""></div>
     </div>
@@ -101,6 +103,8 @@
         <script src="scripts/directives/likes.js"></script>
         <script src="scripts/services/likes.js"></script>
         <script src="scripts/directives/ajax_loader.js"></script>
+        <script src="scripts/controllers/messages.js"></script>
+        <script src="scripts/services/messages.js"></script>
         <!-- endbuild -->
 </body>
 </html>
