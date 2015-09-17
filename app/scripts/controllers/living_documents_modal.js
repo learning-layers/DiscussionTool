@@ -15,6 +15,7 @@ angular.module('discussionToolApp')
         return;
       }
 
+      // XXX This should not be needed once the service that loads documents also returns discussions
       entitiesService.queryFiltered({
         entities: $scope._(documents).map(function (entity) { return encodeURIComponent(entity.id); }).join(',')
       }, {
