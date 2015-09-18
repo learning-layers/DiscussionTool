@@ -10,20 +10,8 @@
 angular.module('discussionToolApp')
   .controller('LivingDocumentsModalCtrl', function ($scope, $modalInstance, documents, discussion, livingDocumentsService, entitiesService, messagesService) {
     documents.$promise.then(function () {
-      if ( documents.length === 0 ) {
-        $scope.documentsLoaded = true;
-        return;
-      }
-
-      // XXX This should not be needed once the service that loads documents also returns discussions
-      entitiesService.queryFiltered({
-        entities: $scope._(documents).map(function (entity) { return encodeURIComponent(entity.id); }).join(',')
-      }, {
-        setDiscs: true
-      }, function (entities) {
-        $scope.documents = entities;
-        $scope.documentsLoaded = true;
-      });
+      $scope.documents = documents;
+      $scope.documentsLoaded = true;
     });
 
     $scope.livingDocument = {

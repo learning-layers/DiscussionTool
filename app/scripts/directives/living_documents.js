@@ -47,7 +47,9 @@ angular.module('discussionToolApp')
             size: 'lg',
             resolve: {
               documents: function () {
-                return livingDocumentsService.query();
+                return livingDocumentsService.queryFiltered({
+                  setDiscs: true
+                });
               },
               discussion: function() {
                 return scope.discussion;

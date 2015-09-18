@@ -24,6 +24,14 @@ angular.module('discussionToolApp')
           return ( status === 500 ) ? data : data.livingDocs;
         }]
       },
+      queryFiltered: {
+        url: docsUrl + 'filtered',
+        method: 'POST',
+        isArray: true,
+        transformResponse: [angular.fromJson, function(data, headersGetter, status) {
+          return ( status === 500 ) ? data : data.livingDocs;
+        }]
+      },
       save: {
         method: 'POST',
         transformResponse: [angular.fromJson, function(data, headersGetter, status) {
@@ -57,6 +65,7 @@ angular.module('discussionToolApp')
     // Public API here
     return {
       query: resourceInstance.query,
+      queryFiltered: resourceInstance.queryFiltered,
       get: resourceInstance.get,
       authenticate: ldResourceInstance.authenticate,
       createDocument: ldResourceInstance.createDocument,
