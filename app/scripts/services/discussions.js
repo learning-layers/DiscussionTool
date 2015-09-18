@@ -34,6 +34,13 @@ angular.module('discussionToolApp')
           return ( status === 500 ) ? data : { disc: data.disc };
         }]
       },
+      update: {
+        url: discsUrl + ':disc',
+        method: 'PUT',
+        transformResponse: [angular.fromJson, function(data, headersGetter, status) {
+          return ( status === 500 ) ? data : { disc: data.disc };
+        }]
+      },
       saveEntry: {
         method: 'POST',
         transformResponse: [angular.fromJson, function(data, headersGetter, status) {
@@ -54,6 +61,7 @@ angular.module('discussionToolApp')
       queryFilteredDiscussion: resourceInstance.queryFilteredDiscussion,
       queryFilteredByTarget: resourceInstance.queryFilteredByTarget,
       save: resourceInstance.save,
+      update: resourceInstance.update,
       saveEntry: resourceInstance.saveEntry,
       addTargets: resourceInstance.addTargets,
       getLivingDocument: function (discussion) {

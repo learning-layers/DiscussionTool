@@ -8,7 +8,7 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('DiscussionEditModalCtrl', function ($scope, $q, $modalInstance, discussion, episodesService, entitiesService, tagsService, discussionsService) {
+  .controller('DiscussionEditModalCtrl', function ($scope, $q, $modalInstance, discussion, episodesService, entitiesService, tagsService, discussionsService, messagesService) {
     var episode = $scope._(discussion.targets).find(function (target) { return target.type === 'learnEp'; });
 
     $scope.isBeingSubmitted = false;
@@ -44,70 +44,95 @@ angular.module('discussionToolApp')
 
       $scope.isBeingSubmitted = true;
 
-      var previousTags = [];
-      angular.forEach(discussion.tags, function (tag) {
-        previousTags.push(tag.label);
+      // Determine which entities were added/removed
+      var previousEntities = [];
+      angular.forEach(discussion.attachedEntities, function (entity) {
+        previousEntities.push(entity.id);
       });
-      var currentTags = [];
-      angular.forEach($scope.discussion.tags, function (tag) {
-        currentTags.push(tag.text);
-      });
+      var currentEntities = $scope.discussion.entities;
 
-      var addedTags = $scope._(currentTags).difference(previousTags);
-      var removedTags = $scope._(previousTags).difference(currentTags);
+      var entitiesToRemove = $scope._(previousEntities).difference(currentEntities);
+      var entitiesToAttach = $scope._(currentEntities).difference(previousEntities);
 
-      var promises = [];
-      if ( addedTags.length > 0 ) {
-        angular.forEach(addedTags, function(tag) {
-          var promise = tagsService.addToEntity({}, {
-            label: tag,
-            entity: discussion.id,
-            space: 'sharedSpace'
-          }, function() {
-          }, function() {
-            //messagesService.addDanger('One of the tags could not be added the discussion.');
-          }).$promise;
-          promises.push(promise);
+      // Update discussion
+      discussionsService.update({
+        disc: encodeURIComponent(discussion.id)
+      }, {
+        label: $scope.discussion.label,
+        content: $scope.discussion.description,
+        entitiesToRemove: entitiesToRemove,
+        entitiesToAttach: entitiesToAttach
+      }, function() {
+        // Determine which tags were added/removed
+        var previousTags = [];
+        angular.forEach(discussion.tags, function (tag) {
+          previousTags.push(tag.label);
         });
-      }
-      if ( removedTags.length > 0 ) {
-        angular.forEach(removedTags, function(tag) {
-          var promise = tagsService.removeFromEntity({
-            entity: encodeURIComponent(discussion.id)
-          }, {
-            label: tag,
-            space: 'sharedSpace'
-          }, function() {
-          }, function() {
-            //messagesService.addDanger('One of the tags could not be added the discussion.');
-          }).$promise;
-          promises.push(promise);
+        var currentTags = [];
+        angular.forEach($scope.discussion.tags, function (tag) {
+          currentTags.push(tag.text);
         });
-      }
-      // Finish when all promises resolve
-      $q.all(promises).then(function() {
-        $scope.isBeingSubmitted = false;
-        $modalInstance.close();
-        discussionsService.queryFilteredDiscussion({
-          disc: encodeURIComponent(discussion.id)
-        },
-        {
-          setLikes: true,
-          setEntries: true,
-          setTags: true,
-          setAttachedEntities: true
-        }, function (disc) {
-          discussion.tags = disc.tags;
+
+        var addedTags = $scope._(currentTags).difference(previousTags);
+        var removedTags = $scope._(previousTags).difference(currentTags);
+
+        // Add/remove tags if needed and extract promises
+        var promises = [];
+        if ( addedTags.length > 0 ) {
+          angular.forEach(addedTags, function(tag) {
+            var promise = tagsService.addToEntity({}, {
+              label: tag,
+              entity: discussion.id,
+              space: 'sharedSpace'
+            }, function() {
+            }, function() {
+              //messagesService.addDanger('One of the tags could not be added the discussion.');
+            }).$promise;
+            promises.push(promise);
+          });
+        }
+        if ( removedTags.length > 0 ) {
+          angular.forEach(removedTags, function(tag) {
+            var promise = tagsService.removeFromEntity({
+              entity: encodeURIComponent(discussion.id)
+            }, {
+              label: tag,
+              space: 'sharedSpace'
+            }, function() {
+            }, function() {
+              //messagesService.addDanger('One of the tags could not be added the discussion.');
+            }).$promise;
+            promises.push(promise);
+          });
+        }
+        // Finish when all promises resolve
+        $q.all(promises).then(function() {
+          discussionsService.queryFilteredDiscussion({
+            disc: encodeURIComponent(discussion.id)
+          },
+          {
+            setTags: true,
+            setAttachedEntities: true
+          }, function (disc) {
+            discussion.label = disc.label;
+            discussion.description = disc.description;
+            discussion.tags = disc.tags;
+            discussion.attachedEntities = disc.attachedEntities;
+          });
+
+          $scope.isBeingSubmitted = false;
+          $modalInstance.close();
+          messagesService.addSuccess('Discussion updated successfully.');
+        }, function() {
+          $scope.isBeingSubmitted = false;
+          messagesService.addSuccess('Discussion updated successfully.');
+          messagesService.addWarning('At least one of the tags could not be added or removed.');
+          $modalInstance.close();
         });
       }, function() {
         $scope.isBeingSubmitted = false;
-        $modalInstance.close();
+        messagesService.addDanger('Discussion could not be updated. Service responded with an error!');
       });
-
-      // TODO
-      // Make sure discussion is updated
-
-      // XXX Save logic missing
     };
 
     $scope.doCancel = function () {
