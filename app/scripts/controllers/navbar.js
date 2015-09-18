@@ -8,8 +8,15 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('NavbarCtrl', function ($rootScope, $scope, $location, config, authService) {
+  .controller('NavbarCtrl', function ($rootScope, $scope, $location, config, authService, livingDocumentsService) {
     $scope.logOut = function () {
+      // Trigger living documents logout with logout
+      // Only trigger if user authenticated within the current
+      // Usage session
+      if ( livingDocumentsService.getAuthenticated() ) {
+        livingDocumentsService.logOut();
+      }
+
       authService.removeAuthCookie();
       window.close();
     };

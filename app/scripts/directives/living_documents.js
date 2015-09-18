@@ -28,15 +28,20 @@ angular.module('discussionToolApp')
         scope.openDocument = function () {
           var ld = this.getLivingDocument();
           if ( ld ) {
-            var openedWindow = window.open();
+            if ( livingDocumentsService.getAuthenticated() === true ) {
+              window.open(livingDocumentsService.constructClientUrlFromUri(ld.id));
+            } else {
+              var openedWindow = window.open();
 
-            livingDocumentsService.authenticate({
-              forceUpdate: true
-            }, function () {
-              openedWindow.location.replace(livingDocumentsService.constructClientUrlFromUri(ld.id));
-            }, function() {
-              openedWindow.close();
-            });
+              livingDocumentsService.authenticate({
+                forceUpdate: true
+              }, function () {
+                livingDocumentsService.setAuthenticated(true);
+                openedWindow.location.replace(livingDocumentsService.constructClientUrlFromUri(ld.id));
+              }, function() {
+                openedWindow.close();
+              });
+            }
           }
         };
 

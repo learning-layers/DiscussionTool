@@ -9,6 +9,8 @@
  */
 angular.module('discussionToolApp')
   .factory('livingDocumentsService', function ($resource, config) {
+    var alreadyAuthenticated = false;
+
     var docsUrl = config.sssRestUrl + 'livingdocs/livingdocs/';
     var resourceInstance = $resource(docsUrl, {}, {
       get: {
@@ -59,6 +61,11 @@ angular.module('discussionToolApp')
         transformResponse: [angular.fromJson, function(data, headersGetter, status) {
           return ( status === 500 || status === 401 || status === 403 || status === 404 ) ? data : data;
         }]
+      },
+      logOut: {
+        url: config.ldRestUrl + 'logout',
+        method: 'GET',
+        withCredentials: true
       }
     });
 
@@ -69,11 +76,18 @@ angular.module('discussionToolApp')
       get: resourceInstance.get,
       authenticate: ldResourceInstance.authenticate,
       createDocument: ldResourceInstance.createDocument,
+      logOut: ldResourceInstance.logOut,
       constructClientUrlFromUri: function (uri) {
         return config.ldClientUrl + '#/document/' + uri.split('document/')[1];
       },
       constructUriFromId: function (id) {
         return config.ldRestUrl + 'document/' + id;
+      },
+      setAuthenticated: function (boolean) {
+        alreadyAuthenticated = boolean;
+      },
+      getAuthenticated: function () {
+        return alreadyAuthenticated;
       }
     };
   });
