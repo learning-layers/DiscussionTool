@@ -8,7 +8,7 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('DiscussionEditModalCtrl', function ($scope, $q, discussion, episodesService, entitiesService) {
+  .controller('DiscussionEditModalCtrl', function ($scope, $q, $modalInstance, discussion, episodesService, entitiesService, tagsService, discussionsService) {
     var episode = $scope._(discussion.targets).find(function (target) { return target.type === 'learnEp'; });
 
     $scope.isBeingSubmitted = false;
@@ -24,6 +24,13 @@ angular.module('discussionToolApp')
     $scope.tagFrequencies = {};
     $scope.tagAutocomplete = $q.defer();
 
+    // Prevent Modal from closing if being submitted
+    $scope.$on('modal.closing', function (event) {
+      if ( $scope.isBeingSubmitted ) {
+        event.preventDefault();
+      }
+    });
+
     $scope.isEpisode = function () {
       return episodesService.isEpisode(episode);
     };
@@ -37,7 +44,74 @@ angular.module('discussionToolApp')
 
       $scope.isBeingSubmitted = true;
 
+      var previousTags = [];
+      angular.forEach(discussion.tags, function (tag) {
+        previousTags.push(tag.label);
+      });
+      var currentTags = [];
+      angular.forEach($scope.discussion.tags, function (tag) {
+        currentTags.push(tag.text);
+      });
+
+      var addedTags = $scope._(currentTags).difference(previousTags);
+      var removedTags = $scope._(previousTags).difference(currentTags);
+
+      var promises = [];
+      if ( addedTags.length > 0 ) {
+        angular.forEach(addedTags, function(tag) {
+          var promise = tagsService.addToEntity({}, {
+            label: tag,
+            entity: discussion.id,
+            space: 'sharedSpace'
+          }, function() {
+          }, function() {
+            //messagesService.addDanger('One of the tags could not be added the discussion.');
+          }).$promise;
+          promises.push(promise);
+        });
+      }
+      if ( removedTags.length > 0 ) {
+        angular.forEach(removedTags, function(tag) {
+          var promise = tagsService.removeFromEntity({
+            entity: encodeURIComponent(discussion.id)
+          }, {
+            label: tag,
+            space: 'sharedSpace'
+          }, function() {
+          }, function() {
+            //messagesService.addDanger('One of the tags could not be added the discussion.');
+          }).$promise;
+          promises.push(promise);
+        });
+      }
+      // Finish when all promises resolve
+      $q.all(promises).then(function() {
+        $scope.isBeingSubmitted = false;
+        $modalInstance.close();
+        discussionsService.queryFilteredDiscussion({
+          disc: encodeURIComponent(discussion.id)
+        },
+        {
+          setLikes: true,
+          setEntries: true,
+          setTags: true,
+          setAttachedEntities: true
+        }, function (disc) {
+          discussion.tags = disc.tags;
+        });
+      }, function() {
+        $scope.isBeingSubmitted = false;
+        $modalInstance.close();
+      });
+
+      // TODO
+      // Make sure discussion is updated
+
       // XXX Save logic missing
+    };
+
+    $scope.doCancel = function () {
+      $modalInstance.dismiss('closed');
     };
 
     // Loading and initializing

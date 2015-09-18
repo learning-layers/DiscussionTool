@@ -8,7 +8,7 @@
  * Factory in the discussionToolApp.
  */
 angular.module('discussionToolApp')
-  .factory('tagsService', function ($resource, config) {
+  .factory('tagsService', function ($resource, $http, config) {
     var fontMin = 15;
     var fontMax = 20;
     var tagsUrl = config.sssRestUrl + 'tags/tags/';
@@ -24,6 +24,17 @@ angular.module('discussionToolApp')
     // Public API here
     return {
       addToEntity: tagsInstance.addToEntity,
+      removeFromEntity: function(params, data, successCallback, errorCallback) {
+        return $http.delete(tagsUrl + 'entities/' + encodeURIComponent(params.entity), {
+          data: JSON.stringify(data),
+          headers: {
+            'content-type': 'application/json;charset=UTF-8'
+          },
+          transformResponse: [angular.fromJson, function(data, headersGetter, status) {
+            return ( status === 500 ) ? data : { worked: data.worked };
+          }]
+        }).then(successCallback, errorCallback);
+      },
       calculateFontSize: function (frequ, minFrequency, maxFrequency) {
         return (frequ === minFrequency) ? fontMin : (frequ / maxFrequency) * (fontMax - fontMin) + fontMin;
       }
