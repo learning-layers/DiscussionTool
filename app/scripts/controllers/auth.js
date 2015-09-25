@@ -20,33 +20,33 @@ angular.module('discussionToolApp')
       $scope.authMessage = message;
     }
 
-    if ( !$scope.isLoggedIn() ) {
-      if ( config.oidcAuthorizationUrl && config.oidcClientId ) {
-        var queryObject = $location.search();
+    if ( $scope.isLoggedIn() ) {
+      authService.removeAuthCookie();
+    }
 
-        if (  !queryObject.access_token ) {
-          setAuthMessage('info', 'Redrecting to OpenID Connect Service Provider!');
-          window.location.href = authService.buildOIDCRedirectUrl($location.absUrl());
-        } else {
-          setAuthMessage('info', 'Handling OpenID Connect authentication response!');
-          authService.oidcAuth(queryObject.token_type + ' ' + queryObject.access_token, function (response) {
-            setAuthMessage('success', 'Authentication successful, redirecting!');
-            authService.setAuthCookie({
-              authKey: response.key,
-              userUri: response.user,
-            });
-            // Clear the search part
-            $location.search({});
-            $location.path('/discussions/' + encodeURIComponent(targetUri) + '/list');
-          }, function () {
-            setAuthMessage('danger', 'Authentication with SSS failed.');
-          });
-        }
+    if ( config.oidcAuthorizationUrl && config.oidcClientId ) {
+      var queryObject = $location.search();
+
+      if (  !queryObject.access_token ) {
+        setAuthMessage('info', 'Redrecting to OpenID Connect Service Provider!');
+        window.location.href = authService.buildOIDCRedirectUrl($location.absUrl());
       } else {
-        setAuthMessage('danger', 'Authentication configuration missing!');
+        setAuthMessage('info', 'Handling OpenID Connect authentication response!');
+        authService.oidcAuth(queryObject.token_type + ' ' + queryObject.access_token, function (response) {
+          setAuthMessage('success', 'Authentication successful, redirecting!');
+          authService.setAuthCookie({
+            authKey: response.key,
+            userUri: response.user,
+          });
+          // Clear the search part
+          $location.search({});
+          $location.path('/discussions/' + encodeURIComponent(targetUri) + '/list');
+        }, function () {
+          setAuthMessage('danger', 'Authentication with SSS failed.');
+        });
       }
     } else {
-      setAuthMessage('warning', 'You already are authenticated, redirecting!');
-      $location.path('/discussions/' + encodeURIComponent(targetUri) + '/list');
+      setAuthMessage('danger', 'Authentication configuration missing!');
     }
+
   });
