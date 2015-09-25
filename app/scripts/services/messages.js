@@ -19,7 +19,6 @@ angular.module('discussionToolApp')
           type: type,
           message: message
         });
-        console.log(messages);
       },
       addSuccess: function (message) {
         this.addMessage('success', message);

@@ -37,11 +37,11 @@
     <div class="panel-body">
       <div class="media">
         <div class="media-left">
-          <label ng-hide="document.discs.length > 0">
-            <input type="radio" ng-model="$parent.$parent.selectedDocument" ng-value="document" ng-disabled="document.discs.length > 0">
+          <label>
+            <input type="radio" ng-model="$parent.$parent.selectedDocument" ng-value="document">
             <i class="fa" ng-class="$parent.$parent.selectedDocument === document ? 'fa-dot-circle-o' : 'fa-circle-o' " style="font-size:150%;"></i>
           </label>
-          <img src="images/ld.png" alt="livingdocument" ng-style="{ opacity: document.discs.length > 0 ? 0.5 : 1.0 }">
+          <img src="images/ld.png" alt="livingdocument">
         </div>
         <div class="media-body">
           <h4 class="media-heading">

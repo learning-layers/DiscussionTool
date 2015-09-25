@@ -16,6 +16,11 @@ angular.module('discussionToolApp')
       },
       link: function postLink(scope) {
         scope.popoverTemplateUrl = 'views/templates/popover.html';
+        scope.modalOpeningDisabled = false;
+
+        scope.isModalOpeningDisabled = function () {
+          return scope.modalOpeningDisabled;
+        };
 
         scope.hasLivingDocument = function () {
           return !!scope.getLivingDocument();
@@ -53,7 +58,7 @@ angular.module('discussionToolApp')
             resolve: {
               documents: function () {
                 return livingDocumentsService.queryFiltered({
-                  setDiscs: true
+                  setDiscs: false
                 });
               },
               discussion: function() {
@@ -66,23 +71,32 @@ angular.module('discussionToolApp')
             if ( !document ) {
               return;
             }
+
+            scope.modalOpeningDisabled = true;
+
             discussionsService.queryFilteredByTarget({
               target: encodeURIComponent(document.id)
             }, {}, function(discussions) {
-              if ( discussions.length === 0 ) {
+              var currentDiscussion = $rootScope._(discussions).find(function (discussion) { return discussion.id === scope.discussion.id; });
+
+              // This handles case of document creation and already being connected
+              if ( currentDiscussion ) {
+                scope.discussion.targets.push(document);
+              } else {
                 discussionsService.addTargets({
                   discussion: encodeURIComponent(scope.discussion.id),
                   targets: encodeURIComponent(document.id)
                 }, {}, function () {
                   scope.discussion.targets.push(document);
+                  scope.modalOpeningDisabled = false;
                 }, function () {
+                  scope.modalOpeningDisabled = false;
                   messagesService.addDanger('LivingDocument could not be added to a discussion. Server responsed with an error!');
                 });
-              } else if ( $rootScope._(discussions[0].targets).find(function (target) { return target.id === document.id; }) ) {
-                scope.discussion.targets.push(document);
-              } else {
-                messagesService.addDanger('This discussion already has a LivingDocument attached.');
               }
+            }, function () {
+              scope.modalOpeningDisabled = false;
+              messagesService.addDanger('LivingDocument discussions could not be fetched. Server responsed with and error!');
             });
           });
         };
