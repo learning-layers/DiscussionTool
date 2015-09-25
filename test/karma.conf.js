@@ -47,6 +47,7 @@ module.exports = function(config) {
       'bower_components/textAngular/dist/textAngularSetup.js',
       'bower_components/underscore/underscore.js',
       'bower_components/angular-underscore/angular-underscore.js',
+      'bower_components/color-hash/dist/color-hash.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       "app/scripts/**/*.js",

@@ -18,6 +18,14 @@ angular.module('discussionToolApp')
         scope.popoverTemplateUrl = 'views/templates/popover.html';
         scope.modalOpeningDisabled = false;
 
+        scope.getDocumentColor = function() {
+          if ( scope.hasLivingDocument() ) {
+            return livingDocumentsService.getColoHashFromUri(scope.getLivingDocument().id);
+          }
+
+          return '#fff';
+        };
+
         scope.isModalOpeningDisabled = function () {
           return scope.modalOpeningDisabled;
         };
