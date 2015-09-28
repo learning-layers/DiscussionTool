@@ -46,11 +46,6 @@ angular
         controller: 'DiscussionViewCtrl',
         controllerAs: 'discussionView'
       })
-      .when('/discussions/:target/discussion/:discussion/edit', {
-        templateUrl: 'views/discussion_edit.html',
-        controller: 'DiscussionEditCtrl',
-        controllerAs: 'discussionEdit'
-      })
       .otherwise({
         redirectTo: '/'
       });
