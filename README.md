@@ -7,6 +7,9 @@ version 0.12.1.
 
 Run `grunt` for building and `grunt serve` for preview.
 
+**Please make sure that you fill the config with the correct data.**
+Configuration file is locate in app/scripts/services/config.js
+
 ## Testing
 
 Running `grunt test` will run the unit tests with karma.
