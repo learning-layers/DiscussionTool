@@ -8,7 +8,7 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('MainCtrl', function ($rootScope, $scope, authService, episodesService, entitiesService) {
+  .controller('MainCtrl', function ($rootScope, $scope, authService, episodesService, entitiesService, messagesService) {
     $scope.isLoggedIn = function () {
       return authService.isLoggedIn();
     };
@@ -20,7 +20,13 @@ angular.module('discussionToolApp')
         episodesService.queryVersions({
           episode: encodeURIComponent(uri)
         }, function (versions) {
-          entitiesService.fillLookupTable(versions[0]);
+          if ( versions && versions.length > 0 ) {
+            entitiesService.fillLookupTable(versions[0]);
+          } else {
+            messagesService.addWarning('No episode versions loaded. Either target is not an Episode or there is some issue with the Serivice!');
+          }
+        }, function () {
+          messagesService.addDanger('Episode versions could not be loaded. Service responded with an error!');
         });
       }
       $rootScope.targetEntityUri = uri;
