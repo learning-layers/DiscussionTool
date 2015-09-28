@@ -47,8 +47,11 @@
         </div>
         <div class="media-body">
           <div class="row">
-            <div class="col-xs-12 dt-date-time">
+            <div class="col-xs-11 dt-date-time">
               By {{entry.author.label}} on {{entry.creationTime | date : "MM/dd/yyyy 'at' h:mm a"}}
+            </div>
+            <div class="col-xs-1">
+              <edit-entry discussion="discussion" entry="entry"></edit-entry>
             </div>
             <div class="col-xs-12" ng-bind-html="entry.content"></div>
             <div class="col-xs-12">

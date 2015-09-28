@@ -1,0 +1,50 @@
+<div class="modal-header">
+  <h3 class="modal-title">Edit entry</h3>
+</div>
+<div class="modal-body">
+  <form name="edit_entry_form" novalidate ng-submit="doSubmit()" class="dt-edit-entry">
+    <div class="row">
+      <div class="col-xs-8">
+        <div class="form-group">
+          <text-angular ta-toolbar="[['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'undo', 'redo', 'clear'], ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'], ['html', 'insertImage', 'insertLink', 'insertVideo']]" name="modal_description" ng-model="entry.description" required></text-angular>
+          <div class="error-container"
+               ng-show="edit_entry_form.modal_description.$dirty && edit_entry_form.modal_description.$invalid && edit_entry_form.$submitted">
+            <small class="error text-danger"
+                   ng-show="edit_entry_form.modal_description.$error.required">
+                   Description is required
+            </small>
+          </div>
+        </div>
+        <div class="form-group pull-right">
+          <button type="button" class="btn btn-default btn-lg" ng-disabled="isBeingSubmitted" ng-click="doCancel()">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-success btn-lg" ng-disabled="isBeingSubmitted">
+            <i class="fa fa-spinner fa-spin" ng-if="isBeingSubmitted"></i>
+            Save
+          </button>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <tabset>
+          <tab active="true">
+            <tab-heading>
+              Tags
+            </tab-heading>
+            <h4>Add tags</h4>
+            <tags-and-cloud frequencies="tagFrequencies" autocomplete="tagAutocomplete.promise" tags="entry.tags" min-frequency="minFrequency" max-frequency="maxFrequency"></tags-and-cloud>
+          </tab>
+          <tab active="false" disable="!isEpisode()">
+            <tab-heading>
+              Bits and Pieces
+            </tab-heading>
+            <h4>Add Bits and Pieces</h4>
+            <bits-and-pieces version="episodeVersion" orphaned="standaloneEntities" model="entry"></bits-and-pieces>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+</div>

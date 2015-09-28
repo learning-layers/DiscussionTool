@@ -41,6 +41,16 @@ angular.module('discussionToolApp')
           return ( status === 500 ) ? data : { disc: data.disc };
         }]
       },
+      updateEntry: {
+        url: discsUrl + 'entries/:entry',
+        method: 'PUT',
+        transformResponse: [angular.fromJson, function(data, headersGetter, status) {
+          return ( status === 500 ) ? data : {
+            disc: data.disc,
+            entry: data.entry
+          };
+        }]
+      },
       saveEntry: {
         method: 'POST',
         transformResponse: [angular.fromJson, function(data, headersGetter, status) {
@@ -63,6 +73,7 @@ angular.module('discussionToolApp')
       save: resourceInstance.save,
       update: resourceInstance.update,
       saveEntry: resourceInstance.saveEntry,
+      updateEntry: resourceInstance.updateEntry,
       addTargets: resourceInstance.addTargets,
       getLivingDocument: function (discussion) {
         if ( !discussion ) {
