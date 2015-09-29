@@ -23,9 +23,7 @@ angular.module('discussionToolApp')
     });
 
     function getIconTypeFromFile (fileEntity) {
-      //var mimeType = fileEntity.mimeType;
-      // XXX This is due to issues with mimeType
-      var mimeType = null;
+      var mimeType = fileEntity.mimeType;
       var name = fileEntity.type;
 
       if ( mimeType ) {
