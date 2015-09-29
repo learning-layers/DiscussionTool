@@ -35,21 +35,21 @@
 
   <div class="panel panel-default dt-living-document"  ng-repeat="document in documents">
     <div class="panel-body">
-      <div class="media">
-        <div class="media-left">
-          <label>
-            <input type="radio" ng-model="$parent.$parent.selectedDocument" ng-value="document">
+      <label class="row">
+        <input type="radio" ng-model="$parent.$parent.selectedDocument" ng-value="document">
+        <div class="media">
+          <div class="media-left">
             <i class="fa" ng-class="$parent.$parent.selectedDocument === document ? 'fa-dot-circle-o' : 'fa-circle-o' " style="font-size:150%;"></i>
-          </label>
-          <img src="images/ld.png" alt="livingdocument">
-        </div>
-        <div class="media-body">
-          <h4 class="media-heading">
+            <img src="images/ld.png" alt="livingdocument">
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">
               {{document.label}}
-          </h4>
-          <p ng-bind-html="document.description"></p>
+            </h4>
+            <p ng-bind-html="document.description"></p>
+          </div>
         </div>
-      </div>
+      </label>
     </div>
   </div>
 </div>
