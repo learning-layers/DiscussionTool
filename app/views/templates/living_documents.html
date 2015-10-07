@@ -1,12 +1,12 @@
 <div class="dt-living-documents">
-  <button class="btn btn-default btn-lg pull-right"
+  <button class="btn btn-default btn-lg"
           title="Connect to LivingDocument"
           ng-hide="hasLivingDocument()"
           ng-click="openLivingDocumentsModal()"
           ng-disabled="isModalOpeningDisabled()">
     <i class="fa fa-link"></i>
   </button>
-  <btton class="btn btn-default btn-lg pull-right"
+  <btton class="btn btn-default btn-lg"
          title="Open LivingDocuments Document"
          ng-show="hasLivingDocument()"
          popover-template="popoverTemplateUrl",
@@ -14,6 +14,7 @@
          popover-trigger="mouseenter"
          popover-placement="left"
          popover-append-to-body="true"
+         popover-popup-delay="250"
          ng-click="openDocument()"
          style="background-color:{{getDocumentColor()}}">
       <img src="images/ld.png" alt="LivingDocuments Logo" class="dt-ld-logo">
