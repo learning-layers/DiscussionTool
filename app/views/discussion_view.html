@@ -27,7 +27,7 @@
             <attached-entities entities="discussion.attachedEntities"></attached-entities>
           </div>
           <div class="col-xs-10">
-            <span class="badge" ng-if="discussion.tags" ng-repeat="tag in discussion.tags">{{tag.label}}</span>
+            <span class="badge dt-tag" ng-if="discussion.tags" ng-repeat="tag in discussion.tags">{{tag.label}}</span>
           </div>
           <div class="col-xs-2">
               <likes model="discussion"></likes>
@@ -58,7 +58,7 @@
               <attached-entities entities="entry.attachedEntities"></attached-entities>
             </div>
             <div class="col-xs-10">
-              <span class="badge" ng-if="discussion.tags" ng-repeat="tag in entry.tags">{{tag.label}}</span>
+              <span class="badge dt-tag" ng-if="discussion.tags" ng-repeat="tag in entry.tags">{{tag.label}}</span>
             </div>
             <div class="col-xs-2">
               <likes model="entry" discussion="discussion"></likes>
