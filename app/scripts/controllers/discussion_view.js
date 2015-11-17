@@ -24,9 +24,11 @@ angular.module('discussionToolApp')
         setLikes: true,
         setEntries: true,
         setTags: true,
-        setAttachedEntities: true
+        setAttachedEntities: true,
+        setReads: true
       }, function (discussion) {
         $scope.discussion.entries = discussion.entries;
+        markDiscussionAsRead($scope.discussion);
       });
     }
 
@@ -45,6 +47,27 @@ angular.module('discussionToolApp')
       }
 
       refetchDiscussionAndUpdateEntries();
+    }
+
+    function markDiscussionAsRead(discussion) {
+      if ( discussion.entries.length > 0 ) {
+        var groupedCounts = $scope._(discussion.entries).countBy(function (entry) {
+          return entry.read ? 'read' : 'unread';
+        });
+
+        if ( groupedCounts.unread && groupedCounts.unread > 0 ) {
+          discussionsService.update({
+            disc: encodeURIComponent(discussion.id)
+          },
+          {
+            read: true
+          }, function() {
+            // Do nothing
+          }, function() {
+            messagesService.addDanger('Discussion could not be set as read!');
+          });
+        }
+      }
     }
 
     $scope.answer = {
@@ -110,10 +133,12 @@ angular.module('discussionToolApp')
       setLikes: true,
       setEntries: true,
       setTags: true,
-      setAttachedEntities: true
+      setAttachedEntities: true,
+      setReads: true
     }, function (discussion) {
       $scope.discussion = discussion;
       $scope.discussionLoaded = true;
+      markDiscussionAsRead($scope.discussion);
     });
 
     entitiesService.queryFiltered({

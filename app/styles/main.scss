@@ -295,5 +295,9 @@ img.dt-navbar-logo {
   z-index: 999;
 }
 
-/* andular-tabs fix */
+.dt-unread-entries-count {
+  color: $dt-orange;
+}
+
+/* angular-tabs fix */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
