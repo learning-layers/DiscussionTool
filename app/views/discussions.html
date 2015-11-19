@@ -24,8 +24,8 @@
               <h4 class="media-heading">
                 <a ng-href="{{getDiscussionUrl(discussion)}}">{{discussion.label}}</a>
                 <span class="badge" ng-if="discussion.entries.length > 0">
-                  <span ng-if="hasUnreadEntries(discussion)">
-                    <span class="dt-unread-entries-count">{{getUnreadEntriesCount(discussion)}}</span>
+                  <span>
+                    <span ng-class="{ 'dt-unread-entries-count': hasUnreadEntries(discussion) }">{{getUnreadEntriesCount(discussion)}}</span>
                     /
                   </span>
                   {{discussion.entries.length}}
