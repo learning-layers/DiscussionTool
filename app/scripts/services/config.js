@@ -10,10 +10,10 @@
 angular.module('discussionToolApp')
   .constant('config', {
     authCookieName: 'DiscussionToolAuth',
-    oidcAuthorizationUrl: '',
-    oidcClientId: '',
-    sssRestUrl: '',
-    ldRestUrl: '',
-    ldClientUrl: '',
-    bnpUrl: ''
+    oidcAuthorizationUrl: 'OIDC_AUTHORIZATION_URL',
+    oidcClientId: 'OIDC_CLIENT_ID',
+    sssRestUrl: 'SSS_REST_URL',
+    ldRestUrl: 'LD_REST_URL',
+    ldClientUrl: 'LD_CLIENT_URL',
+    bnpUrl: 'BNP_URL'
   });
