@@ -41,6 +41,13 @@ In case authentication expires the application will automatically restart the
 authentication phase. In case OpenID Connect still remembers the user it will
 be seamless.
 
+## Package Configuration
+
+Created distributive has a configurator script included. With help of that it is
+possible to replace configuration placeholders. It is a Shell script named
+**configuraotr.sh**. The only requirement is that **sed** is installed. it could
+be ran with **sh configurator.sh** and removed once the job is done.
+
 ## Credits
 
 This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
