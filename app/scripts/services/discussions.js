@@ -8,9 +8,9 @@
  * Factory in the discussionToolApp.
  */
 angular.module('discussionToolApp')
-  .factory('discussionsService', function ($resource, $http, $rootScope, config) {
+  .factory('discussionsService', function ($resource, $http, $rootScope, config, sssRestPrefix) {
 
-    var discsUrl = config.sssRestUrl + 'discs/discs/';
+    var discsUrl = config.sssRestUrl + sssRestPrefix + '/discs/';
     var resourceInstance = $resource(discsUrl, {}, {
       queryFilteredDiscussion: {
         url: discsUrl + 'filtered/:disc',

@@ -8,11 +8,11 @@
  * Factory in the discussionToolApp.
  */
 angular.module('discussionToolApp')
-  .factory('livingDocumentsService', function ($resource, config) {
+  .factory('livingDocumentsService', function ($resource, config, sssRestPrefix) {
     var alreadyAuthenticated = false;
     var colorHash = new window.ColorHash();
 
-    var docsUrl = config.sssRestUrl + 'livingdocs/livingdocs/';
+    var docsUrl = config.sssRestUrl + sssRestPrefix + '/livingdocs/';
     var resourceInstance = $resource(docsUrl, {}, {
       get: {
         url: docsUrl + ':livingDoc',

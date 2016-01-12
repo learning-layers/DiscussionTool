@@ -8,8 +8,8 @@
  * Factory in the discussionToolApp.
  */
 angular.module('discussionToolApp')
-  .factory('episodesService', function ($resource, config) {
-    var episodesUrl = config.sssRestUrl + 'learneps/learneps/';
+  .factory('episodesService', function ($resource, config, sssRestPrefix) {
+    var episodesUrl = config.sssRestUrl + sssRestPrefix + '/learneps/';
     var episodesInstance = $resource(episodesUrl, {}, {
       queryVersions: {
         url: episodesUrl + ':episode/versions',
@@ -39,7 +39,7 @@ angular.module('discussionToolApp')
       },
       fillScopeFromVersion: function(version, scope) {
         var that = this;
-        
+
         scope.episodeVersion = version;
 
         var tmpTagAutoComplete = [];

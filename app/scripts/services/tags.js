@@ -8,10 +8,10 @@
  * Factory in the discussionToolApp.
  */
 angular.module('discussionToolApp')
-  .factory('tagsService', function ($resource, $http, config) {
+  .factory('tagsService', function ($resource, $http, config, sssRestPrefix) {
     var fontMin = 15;
     var fontMax = 20;
-    var tagsUrl = config.sssRestUrl + 'tags/tags/';
+    var tagsUrl = config.sssRestUrl + sssRestPrefix + '/tags/';
     var tagsInstance = $resource(tagsUrl, {}, {
       addToEntity: {
         method: 'POST',

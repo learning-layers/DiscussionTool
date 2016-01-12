@@ -8,8 +8,8 @@
  * Factory in the discussionToolApp.
  */
 angular.module('discussionToolApp')
-  .factory('likesService', function ($resource, config) {
-    var likesUrl = config.sssRestUrl + 'likes/likes/';
+  .factory('likesService', function ($resource, config, sssRestPrefix) {
+    var likesUrl = config.sssRestUrl + sssRestPrefix + '/likes/';
     var resourceInstance = $resource(likesUrl, {}, {
       add: {
         url: likesUrl + 'entities/:entity/value/:value',

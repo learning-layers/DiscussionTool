@@ -8,9 +8,9 @@
  * Factory in the discussionToolApp.
  */
 angular.module('discussionToolApp')
-  .factory('entitiesService', function ($resource, $q, $rootScope, config, authService) {
+  .factory('entitiesService', function ($resource, $q, $rootScope, config, authService, sssRestPrefix) {
     var downloadLookupTable = {};
-    var entitiesUrl = config.sssRestUrl + 'entities/entities/';
+    var entitiesUrl = config.sssRestUrl + sssRestPrefix + '/entities/';
     var entitiesInstance = $resource(entitiesUrl, {}, {
       queryFiltered: {
         url: entitiesUrl + 'filtered/:entities',
@@ -137,7 +137,7 @@ angular.module('discussionToolApp')
         });
       },
       constructFileDownloadUri: function (uri) {
-        return config.sssRestUrl + 'files/files/download' +
+        return config.sssRestUrl + sssRestPrefix + '/files/download' +
         '?file=' + encodeURIComponent(uri) +
         '&key=' + encodeURIComponent(authService.getAuthKey());
       },
