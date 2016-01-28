@@ -10,7 +10,7 @@ echo "Please specify full path to distributive, leave empty in case of current d
 
 read -r -p "Location (without ending slash): " dtDistLocation
 
-if [[ $dtDistLocation == "" ]]; then
+if [ "$dtDistLocation" = "" ]; then
   dtDistLocation=`pwd`
 fi
 
@@ -38,22 +38,30 @@ LD_REST_URL:            \033[35m$dtLdRestUrl\033[m
 LD_CLIENT_URL:          \033[35m$dtLdClientUrl\033[m
 BNP_URL:                \033[35m$dtBnpUrl\033[m"
 
-read -r -n 1 -p "Does it look correct? [Yes/y/No/n] " dtResponse
+read -r -p "Does it look correct? [Y/y/N/n] " dtResponse
 
-if [[ $dtResponse != 'Y' && $dtResponse != 'y' ]]; then
+if [ $dtResponse != 'Y' ] && [ $dtResponse != 'y' ]; then
   echo "\n\033[31mAborting!\033[m"
   exit 1
-fi;
+fi
 
 echo "\nRunning configuration replacements"
 # Replace configurations as needed
 cd scripts/
-sed -i '' "s#OIDC_AUTHORIZATION_URL#${dtOidcAuthorizationUrl}#g" scripts.*.js
-sed -i '' "s#OIDC_CLIENT_ID#${dtOidcClientId}#g" scripts.*.js
-sed -i '' "s#SSS_REST_URL#${dtSssRestUrl}#g" scripts.*.js
-sed -i '' "s#LD_REST_URL#${dtLdRestUrl}#g" scripts.*.js
-sed -i '' "s#LD_CLIENT_URL#${dtLdClientUrl}#g" scripts.*.js
-sed -i '' "s#BNP_URL#${dtBnpUrl}#g" scripts.*.js
+
+# A small patch to sed inline for OS X
+sedCommand="sed -i"
+if [ `uname -s` = "Darwin" ]; then
+  echo "DARWINN"
+  sedCommand="$sedCommand ''"
+fi
+
+$sedCommand "s#OIDC_AUTHORIZATION_URL#${dtOidcAuthorizationUrl}#g" scripts.*.js
+$sedCommand "s#OIDC_CLIENT_ID#${dtOidcClientId}#g" scripts.*.js
+$sedCommand "s#SSS_REST_URL#${dtSssRestUrl}#g" scripts.*.js
+$sedCommand "s#LD_REST_URL#${dtLdRestUrl}#g" scripts.*.js
+$sedCommand "s#LD_CLIENT_URL#${dtLdClientUrl}#g" scripts.*.js
+$sedCommand "s#BNP_URL#${dtBnpUrl}#g" scripts.*.js
 cd ..
 
 echo "\033[32mAll done!\033[m"
