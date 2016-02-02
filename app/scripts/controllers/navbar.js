@@ -8,7 +8,7 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('NavbarCtrl', function ($rootScope, $scope, $location, config, authService, livingDocumentsService) {
+  .controller('NavbarCtrl', function ($rootScope, $scope, $location, config, authService, livingDocumentsService, evalLogsService) {
     $scope.logOut = function () {
       // Trigger living documents logout with logout
       // Only trigger if user authenticated within the current
@@ -17,8 +17,16 @@ angular.module('discussionToolApp')
         livingDocumentsService.logOut();
       }
 
-      authService.removeAuthCookie();
-      window.close();
+      evalLogsService.log({}, {
+        type: evalLogsService.logTypes.CLOSEDISCUSSIONTOOL,
+        entity: $rootScope.targetEntityUri
+      }, function() {
+        authService.removeAuthCookie();
+        window.close();
+      }, function() {
+        authService.removeAuthCookie();
+        window.close();
+      });
     };
 
     $scope.getTargetEntityUri = function () {
@@ -27,6 +35,10 @@ angular.module('discussionToolApp')
 
     $scope.navigateToBnp = function () {
       window.open(config.bnpUrl);
+      evalLogsService.log({}, {
+        type: evalLogsService.logTypes.OPENBITSANDPIECES,
+        entity: $rootScope.targetEntityUri
+      });
     };
 
     $scope.startNewDiscussion = function () {

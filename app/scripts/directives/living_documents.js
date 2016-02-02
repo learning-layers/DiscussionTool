@@ -7,7 +7,7 @@
  * # livingDocuments
  */
 angular.module('discussionToolApp')
-  .directive('livingDocuments', function ($rootScope, $modal, config, discussionsService, livingDocumentsService, messagesService) {
+  .directive('livingDocuments', function ($rootScope, $modal, config, discussionsService, livingDocumentsService, messagesService, evalLogsService) {
     return {
       templateUrl: 'views/templates/living_documents.html',
       restrict: 'E',
@@ -41,6 +41,12 @@ angular.module('discussionToolApp')
         scope.openDocument = function () {
           var ld = this.getLivingDocument();
           if ( ld ) {
+            evalLogsService.log({}, {
+              type: evalLogsService.logTypes.OPENLIVINGDOCUMENTS,
+              entity: ld.id,
+              entities: [$rootScope.targetEntityUri, scope.discussion.id]
+            });
+
             if ( livingDocumentsService.getAuthenticated() === true ) {
               window.open(livingDocumentsService.constructClientUrlFromUri(ld.id));
             } else {

@@ -8,7 +8,7 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('MainCtrl', function ($rootScope, $scope, authService, episodesService, entitiesService, messagesService) {
+  .controller('MainCtrl', function ($rootScope, $scope, authService, episodesService, entitiesService, messagesService, evalLogsService) {
     $scope.isLoggedIn = function () {
       return authService.isLoggedIn();
     };
@@ -31,4 +31,20 @@ angular.module('discussionToolApp')
       }
       $rootScope.targetEntityUri = uri;
     };
+
+    // Deal with logging
+    if ( $scope.isLoggedIn() ) {
+      // Send initial start event
+      evalLogsService.log({}, {
+        type: evalLogsService.logTypes.STARTDISCUSSIONTOOL
+      });
+
+      // Set working event interval
+      setInterval(function() {
+        evalLogsService.log({}, {
+          type: evalLogsService.logTypes.WORKSINDISCUSSIONTOOL,
+          entity: $rootScope.targetEntityUri
+        });
+      }, 30000);
+    }
   });
