@@ -8,7 +8,7 @@
  * Factory in the discussionToolApp.
  */
 angular.module('discussionToolApp')
-  .factory('authService', function ($cookies, $resource, $http, config, sssRestPrefix) {
+  .factory('authService', function ($rootScope, $cookies, $resource, $http, config, sssRestPrefix) {
     var authCookieName = config.authCookieName;
     var authInstance = $resource(config.sssRestUrl + sssRestPrefix + '/auth/', {}, {
       oidcQuery: {
@@ -28,6 +28,7 @@ angular.module('discussionToolApp')
 
     function setAuthCookie (dataObject) {
       $cookies.putObject(authCookieName, dataObject);
+      $rootScope.$broadcast('dtAuthCookieSet');
     }
 
     function removeAuthCookie () {

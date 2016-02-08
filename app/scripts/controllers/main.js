@@ -9,6 +9,26 @@
  */
 angular.module('discussionToolApp')
   .controller('MainCtrl', function ($rootScope, $scope, authService, episodesService, entitiesService, messagesService, evalLogsService) {
+
+    var loggingSetUp = false;
+    var setupEvalLogs = function() {
+      if ( loggingSetUp ) return false;
+      // Send initial start event
+      evalLogsService.log({}, {
+        type: evalLogsService.logTypes.STARTDISCUSSIONTOOL
+      });
+
+      // Set working event interval
+      setInterval(function() {
+        evalLogsService.log({}, {
+          type: evalLogsService.logTypes.WORKSINDISCUSSIONTOOL,
+          entity: $rootScope.targetEntityUri
+        });
+      }, 30000);
+
+      loggingSetUp = true;
+    };
+
     $scope.isLoggedIn = function () {
       return authService.isLoggedIn();
     };
@@ -33,18 +53,12 @@ angular.module('discussionToolApp')
     };
 
     // Deal with logging
+    // If unanthenticated, then wait until the AUTH event is sent
     if ( $scope.isLoggedIn() ) {
-      // Send initial start event
-      evalLogsService.log({}, {
-        type: evalLogsService.logTypes.STARTDISCUSSIONTOOL
+      setupEvalLogs();
+    } else {
+      $rootScope.$on('dtAuthCookieSet', function() {
+        setupEvalLogs();
       });
-
-      // Set working event interval
-      setInterval(function() {
-        evalLogsService.log({}, {
-          type: evalLogsService.logTypes.WORKSINDISCUSSIONTOOL,
-          entity: $rootScope.targetEntityUri
-        });
-      }, 30000);
     }
   });
