@@ -54,15 +54,23 @@ angular.module('discussionToolApp')
       var entitiesToRemove = $scope._(previousEntities).difference(currentEntities);
       var entitiesToAttach = $scope._(currentEntities).difference(previousEntities);
 
+      var updatedData = {
+        entitiesToRemove: entitiesToRemove,
+        entitiesToAttach: entitiesToAttach
+      };
+
+      if ( $scope.discussion.label !== discussion.label ) {
+        updatedData.label = $scope.discussion.label;
+      }
+
+      if ( $scope.discussion.description !== discussion.description ) {
+        updatedData.content = $scope.discussion.description;
+      }
+
       // Update discussion
       discussionsService.update({
         disc: encodeURIComponent(discussion.id)
-      }, {
-        label: $scope.discussion.label,
-        content: $scope.discussion.description,
-        entitiesToRemove: entitiesToRemove,
-        entitiesToAttach: entitiesToAttach
-      }, function() {
+      }, updatedData, function() {
         // Determine which tags were added/removed
         var previousTags = [];
         angular.forEach(discussion.tags, function (tag) {

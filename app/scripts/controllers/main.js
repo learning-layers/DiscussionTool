@@ -12,7 +12,9 @@ angular.module('discussionToolApp')
 
     var loggingSetUp = false;
     var setupEvalLogs = function() {
-      if ( loggingSetUp ) return false;
+      if ( loggingSetUp ) {
+        return false;
+      }
       // Send initial start event
       evalLogsService.log({}, {
         type: evalLogsService.logTypes.STARTDISCUSSIONTOOL
