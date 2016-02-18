@@ -52,6 +52,12 @@ angular.module('discussionToolApp')
           case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
           name = 'filePresentation';
           break;
+          case 'text/plain':
+          case 'text/html':
+          case 'text/css':
+          case 'text/x-vcard':
+          name = 'fileText';
+          break;
         }
       } else {
         switch(fileEntity.id.substring(fileEntity.id.length-4).toLowerCase() ) {
@@ -80,6 +86,13 @@ angular.module('discussionToolApp')
           case '.ppt':
           case 'pptx':
           name = 'filePresentation';
+          break;
+          case '.txt':
+          case 'html':
+          case '.xml':
+          case '.css':
+          case '.vcf':
+          name = 'fileText';
           break;
         }
       }
@@ -168,7 +181,7 @@ angular.module('discussionToolApp')
               });
           }
           return;
-        } else if ( entity.type === 'file' ) {
+        } else if ( entity.type === 'uploadedFile' ) {
           window.open(that.constructFileDownloadUri(entity.id));
           return;
         }
@@ -183,12 +196,13 @@ angular.module('discussionToolApp')
           'evernoteNotebook' : 'images/icons/evernoteNotebook.png',
           'evernoteNote' : 'images/icons/evernoteNote.png',
           'evernoteResource' : 'images/icons/evernoteResource.png',
-          'file' : 'images/icons/file.png',
+          'uploadedFile' : 'images/icons/file.png',
           'filePdf' : 'images/icons/filePdf.png',
           'fileImage' : 'images/icons/image.png',
           'fileDoc' : 'images/icons/fileDoc.png',
           'fileSpreadsheet' : 'images/icons/spreadsheet.png',
-          'filePresentation' : 'images/icons/presentation.png'
+          'filePresentation' : 'images/icons/presentation.png',
+          'fileText' : 'images/icons/text.png'
         };
 
         switch ( entity.type ) {
@@ -198,7 +212,7 @@ angular.module('discussionToolApp')
           case 'evernoteNote':
             iconName = entity.type;
             break;
-          case 'file':
+          case 'uploadedFile':
             iconName = getIconTypeFromFile(entity);
             break;
           case 'evernoteResource':
