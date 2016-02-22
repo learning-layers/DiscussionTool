@@ -75,6 +75,17 @@ angular.module('discussionToolApp')
           }).$promise;
           promises.push(promise);
         });
+
+        // Attach LD to Discussion
+        var attachLDPromise = discussionsService.addTargets({
+          discussion: encodeURIComponent(response.disc),
+          targets: encodeURIComponent($rootScope.targetEntityLivingDocumentUri)
+        }, {}, function () {
+        }, function () {
+          messagesService.addDanger('LivingDocument could not be added to a discussion. Server responsed with an error!');
+        });
+        promises.push(attachLDPromise);
+
         // Navigate away when all promises resolve
         $q.all(promises).then(function() {
           handleDiscussionCreated(true);
