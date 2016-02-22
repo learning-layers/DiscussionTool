@@ -19,6 +19,14 @@ angular.module('discussionToolApp')
         transformResponse: [angular.fromJson, function(data, headersGetter, status) {
           return ( status === 500 ) ? data : data.entities;
         }]
+      },
+      entitiesAttach: {
+        url: entitiesUrl + ':entity/attach/entities/:entities',
+        method: 'POST',
+        isArray: false,
+        transformResponse: [angular.fromJson, function(data, headersGetter, status) {
+          return ( status === 500 ) ? data : data.entity;
+        }]
       }
     });
 

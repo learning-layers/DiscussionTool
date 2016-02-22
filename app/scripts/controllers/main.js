@@ -8,7 +8,7 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('MainCtrl', function ($rootScope, $scope, $location, authService, episodesService, entitiesService, messagesService, evalLogsService) {
+  .controller('MainCtrl', function ($rootScope, $scope, $location, authService, episodesService, entitiesService, messagesService, evalLogsService, livingDocumentsService) {
 
     var loggingSetUp = false;
     var setupEvalLogs = function() {
@@ -36,9 +36,9 @@ angular.module('discussionToolApp')
     };
 
     $scope.setTargetEntityUri = function (uri) {
-      // Fill lookup table, used for evernoteResource files
-      // Only fill if the URI is not within the $rootScope yet
+      // Only act if URI is not within the $rootScope yet
       if ( $rootScope.targetEntityUri !== uri ) {
+        // Fill lookup table, used for evernoteResource files
         episodesService.queryVersions({
           episode: encodeURIComponent(uri)
         }, function (versions) {
@@ -49,6 +49,47 @@ angular.module('discussionToolApp')
           }
         }, function () {
           messagesService.addDanger('Episode versions could not be loaded. Service responded with an error!');
+        });
+
+        // Load entity and see if LD Document is already attached
+        entitiesService.queryFiltered({
+          entities: encodeURIComponent(uri)
+        },
+        {
+          setAttachedEntities : true
+        }, function (entities) {
+         if ( entities.length > 0 ) {
+           var entity = entities[0];
+           if ( entity.attachedEntities.length > 0 ) {
+             $rootScope.targetEntityLivingDocumentUri = entity.attachedEntities[0].id;
+           } else {
+             livingDocumentsService.createDocument({
+               episodeId: entity.id // XXX This one is not yet available
+             },
+             {
+               title: entity.label,
+               description: entity.description
+             }, function (data) {
+               livingDocumentsService.get({
+                 livingDoc: encodeURIComponent(livingDocumentsService.constructUriFromId(data.id))
+               }, function(livingDoc) {
+                 // XXX Probably need to make that call for both Episode and Document
+                 entitiesService.entitiesAttach({
+                   entity: encodeURIComponent(entity.id),
+                   entities: encodeURIComponent(livingDoc.id)
+                 }, {}, function() {
+                   $rootScope.targetEntityLivingDocumentUri = livingDoc.id;
+                 }, function() {
+                   messagesService.addDanger('Newly created LivingDocument could not be attached to parent Entity!');
+                 });
+               }, function () {
+                 messagesService.addDanger('Newly created LivingDocument could not be fetched from the server!');
+               });
+             }, function () {
+               messagesService.addDanger('New LivingDocument could not be created. Server responded with an error!');
+             });
+           }
+         }
         });
       }
       $rootScope.targetEntityUri = uri;
