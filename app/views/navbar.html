@@ -22,12 +22,20 @@
       </ul-->
 
       <div class="nav navbar-nav navbar-right">
+        <button class="btn btn-default btn-lg"
+               title="Open LivingDocuments Document"
+               popover-template="popoverTemplateUrl",
+               popover-title="LD LABEL"
+               popover-trigger="mouseenter"
+               popover-placement="bottom"
+               popover-append-to-body="true"
+               popover-popup-delay="250"
+               ng-click="openDocument()">
+          <img src="images/ld.png" alt="LivingDocuments Logo" class="dt-ld-logo">
+        </button>
         <button class="btn btn-success btn-lg navbar-btn" ng-click="startNewDiscussion()" ng-disabled="!canStartDiscussion()">Start New Discussion</button>
         <button class="btn btn-default navbar-btn btn-lg dt-btn-bnp" title="Navigate To Bits And Pieces" ng-click="navigateToBnp()">
           Bits &amp; Pieces
-        </button>
-        <button class="btn btn-default navbar-btn btn-lg dt-btn-ld" title="Navigate To Living Docs Document" ng-click="navigateToLD()" ng-disabled="!canStartDiscussion()">
-          Living Documents
         </button>
         <button class="btn btn-danger navbar-btn btn-lg" ng-click="logOut()" title="Log Out">
           <span class="glyphicon glyphicon-remove-sign"></span>

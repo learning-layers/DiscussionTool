@@ -10,7 +10,6 @@
 angular.module('discussionToolApp')
   .factory('livingDocumentsService', function ($resource, config, sssRestPrefix) {
     var alreadyAuthenticated = false;
-    var colorHash = new window.ColorHash();
 
     var docsUrl = config.sssRestUrl + sssRestPrefix + '/livingdocs/';
     var resourceInstance = $resource(docsUrl, {}, {
@@ -89,10 +88,6 @@ angular.module('discussionToolApp')
       },
       getAuthenticated: function () {
         return alreadyAuthenticated;
-      },
-      getColoHashFromUri: function(uri) {
-        var parts = uri.split('/');
-        return colorHash.hex(parts[parts.length - 1]);
       }
     };
   });

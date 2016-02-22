@@ -111,6 +111,7 @@ angular.module('discussionToolApp')
     // Public API here
     return {
       queryFiltered: entitiesInstance.queryFiltered,
+      entitiesAttach: entitiesInstance.entitiesAttach,
       fehchFromDownloadLookupTable: function (entityId) {
         if ( downloadLookupTable[entityId] ) {
           return downloadLookupTable[entityId];

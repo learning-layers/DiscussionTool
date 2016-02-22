@@ -20,7 +20,7 @@
         </div>
         <div class="media-body">
           <div class="row dt-single-item-row">
-            <div class="col-xs-10">
+            <div class="col-xs-11">
               <h4 class="media-heading">
                 <a ng-href="{{getDiscussionUrl(discussion)}}">{{discussion.label}}</a>
                 <span class="badge" ng-if="discussion.entries.length > 0">
@@ -34,9 +34,6 @@
             </div>
             <div class="col-xs-1">
               <edit-discussion discussion="discussion"></edit-discussion>
-            </div>
-            <div class="col-xs-1">
-              <living-documents discussion="discussion"></living-documents>
             </div>
             <div class="col-xs-12 dt-date-time">
               By {{discussion.author.label}} on {{discussion.creationTime | date : "MM/dd/yyyy 'at' h:mm a"}}
