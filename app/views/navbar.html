@@ -22,9 +22,12 @@
       </ul-->
 
       <div class="nav navbar-nav navbar-right">
-        <button class="btn btn-success btn-lg navbar-btn" ng-click="startNewDiscussion()">Start New Discussion</button>
+        <button class="btn btn-success btn-lg navbar-btn" ng-click="startNewDiscussion()" ng-disabled="!canStartDiscussion()">Start New Discussion</button>
         <button class="btn btn-default navbar-btn btn-lg dt-btn-bnp" title="Navigate To Bits And Pieces" ng-click="navigateToBnp()">
           Bits &amp; Pieces
+        </button>
+        <button class="btn btn-default navbar-btn btn-lg dt-btn-ld" title="Navigate To Discussion Tool" ng-click="navigateToLD()" ng-disabled="!canStartDiscussion()">
+          Discussion Tool
         </button>
         <button class="btn btn-danger navbar-btn btn-lg" ng-click="logOut()" title="Log Out">
           <span class="glyphicon glyphicon-remove-sign"></span>

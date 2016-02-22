@@ -8,7 +8,7 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('MainCtrl', function ($rootScope, $scope, authService, episodesService, entitiesService, messagesService, evalLogsService) {
+  .controller('MainCtrl', function ($rootScope, $scope, $location, authService, episodesService, entitiesService, messagesService, evalLogsService) {
 
     var loggingSetUp = false;
     var setupEvalLogs = function() {
@@ -52,6 +52,19 @@ angular.module('discussionToolApp')
         });
       }
       $rootScope.targetEntityUri = uri;
+    };
+
+    $scope.canStartDiscussion = function() {
+      return false;
+    };
+
+    $scope.startNewDiscussion = function () {
+      if ( $scope.canStartDiscussion() ) {
+        $location.path('discussions/' + encodeURIComponent($rootScope.targetEntityUri) + '/discussion/create');
+      } else {
+        messagesService.addDanger('It is impossible to start a new discussion right now.');
+        return;
+      }
     };
 
     // Deal with logging

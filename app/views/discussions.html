@@ -6,7 +6,7 @@
   <div ng-show="discussionsLoaded && discussions.length < 1">
     <alert type="info">
       There are no discussions yet, you can go ahead and
-      <a href=""  class="alert-link" ng-click="startNewDiscussion()">
+      <a href=""  class="alert-link" ng-click="startNewDiscussion()" ng-disabled="!canStartDiscussion()">
         Start New Discussion
       </a>.
     </alert>

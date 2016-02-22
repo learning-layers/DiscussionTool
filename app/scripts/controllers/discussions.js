@@ -16,10 +16,6 @@ angular.module('discussionToolApp')
       return '#/discussions/' + encodeURIComponent(encodeURIComponent(targetUri)) + '/discussion/' + encodeURIComponent(encodeURIComponent(discussion.id));
     };
 
-    $scope.startNewDiscussion = function () {
-      $location.path('discussions/' + encodeURIComponent(targetUri) + '/discussion/create');
-    };
-
     $scope.getUnreadEntriesCount = function (discussion) {
       if ( discussion.entries.length === 0 ) {
         return 0;

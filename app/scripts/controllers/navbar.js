@@ -8,7 +8,7 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('NavbarCtrl', function ($rootScope, $scope, $location, config, authService, livingDocumentsService, evalLogsService) {
+  .controller('NavbarCtrl', function ($rootScope, $scope, config, authService, livingDocumentsService, evalLogsService) {
     $scope.logOut = function () {
       // Trigger living documents logout with logout
       // Only trigger if user authenticated within the current
@@ -39,9 +39,5 @@ angular.module('discussionToolApp')
         type: evalLogsService.logTypes.OPENBITSANDPIECES,
         entity: $rootScope.targetEntityUri
       });
-    };
-
-    $scope.startNewDiscussion = function () {
-      $location.path('discussions/' + encodeURIComponent($rootScope.targetEntityUri) + '/discussion/create');
     };
   });
