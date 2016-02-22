@@ -42,4 +42,30 @@ angular.module('discussionToolApp')
         entity: $rootScope.targetEntityUri
       });
     };
+
+    $scope.openDocument = function () {
+          var ldUri = $rootScope.targetEntityLivingDocumentUri;
+          if ( ldUri ) {
+            evalLogsService.log({}, {
+              type: evalLogsService.logTypes.OPENLIVINGDOCUMENTS,
+              entity: ldUri,
+              entities: [$rootScope.targetEntityUri]
+            });
+
+            if ( livingDocumentsService.getAuthenticated() === true ) {
+              window.open(ldUri);
+            } else {
+              var openedWindow = window.open();
+
+              livingDocumentsService.authenticate({
+                forceUpdate: true
+              }, function () {
+                livingDocumentsService.setAuthenticated(true);
+                openedWindow.location.replace(ldUri);
+              }, function() {
+                openedWindow.close();
+              });
+            }
+          }
+        };
   });

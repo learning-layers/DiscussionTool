@@ -30,7 +30,8 @@
                popover-placement="bottom"
                popover-append-to-body="true"
                popover-popup-delay="250"
-               ng-click="openDocument()">
+               ng-click="openDocument()"
+               ng-disabled="!createDocument()">
           <img src="images/ld.png" alt="LivingDocuments Logo" class="dt-ld-logo">
         </button>
         <button class="btn btn-success btn-lg navbar-btn" ng-click="startNewDiscussion()" ng-disabled="!canStartDiscussion()">Start New Discussion</button>
