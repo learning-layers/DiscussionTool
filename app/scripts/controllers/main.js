@@ -10,6 +10,9 @@
 angular.module('discussionToolApp')
   .controller('MainCtrl', function ($rootScope, $scope, $location, authService, episodesService, entitiesService, messagesService, evalLogsService, livingDocumentsService) {
 
+    $scope.targetEntityLivingDocumentLabel = '';
+    $scope.targetEntityLivingDocumentDescription = '';
+
     var loggingSetUp = false;
     var setupEvalLogs = function() {
       if ( loggingSetUp ) {
@@ -60,25 +63,35 @@ angular.module('discussionToolApp')
         }, function (entities) {
          if ( entities.length > 0 ) {
            var entity = entities[0];
-           if ( entity.attachedEntities.length > 0 ) {
-             $rootScope.targetEntityLivingDocumentUri = entity.attachedEntities[0].id;
+           var attachedLivingDocument = entitiesService.getAttachedLivingDocument(entity);
+           if ( attachedLivingDocument ) {
+             // Set attached Document ID to rootScope and data to local scope
+             $rootScope.targetEntityLivingDocumentUri = attachedLivingDocument.id;
+             $scope.targetEntityLivingDocumentLabel = attachedLivingDocument.label;
+             $scope.targetEntityLivingDocumentDescription = attachedLivingDocument.description;
            } else {
+             // Create Document in LD, provide Episode ID
              livingDocumentsService.createDocument({
-               episodeId: entity.id // XXX This one is not yet available
+               episodeId: entity.id
              },
              {
                title: entity.label,
                description: entity.description
              }, function (data) {
+               // Load Document object from the SSS Service, additional check
                livingDocumentsService.get({
                  livingDoc: encodeURIComponent(livingDocumentsService.constructUriFromId(data.id))
                }, function(livingDoc) {
-                 // XXX Probably need to make that call for both Episode and Document
+                 // Create a two-way connection between Episode and Document
+                 // This attaches entities to each other
                  entitiesService.entitiesAttach({
                    entity: encodeURIComponent(entity.id),
                    entities: encodeURIComponent(livingDoc.id)
                  }, {}, function() {
+                   // Set created Document ID to rootScope and data to local scope
                    $rootScope.targetEntityLivingDocumentUri = livingDoc.id;
+                   $scope.targetEntityLivingDocumentLabel = livingDoc.label;
+                   $scope.targetEntityLivingDocumentDescription = livingDoc.description;
                  }, function() {
                    messagesService.addDanger('Newly created LivingDocument could not be attached to parent Entity!');
                  });
@@ -96,6 +109,10 @@ angular.module('discussionToolApp')
     };
 
     $scope.canStartDiscussion = function() {
+      if ( $rootScope.targetEntityLivingDocumentUri ) {
+        return true;
+      }
+
       return false;
     };
 
@@ -106,6 +123,14 @@ angular.module('discussionToolApp')
         messagesService.addDanger('It is impossible to start a new discussion right now.');
         return;
       }
+    };
+
+    $scope.getTargetEntityLivingDocumentLabel = function() {
+      return $scope.targetEntityLivingDocumentLabel;
+    };
+
+    $scope.getTargetEntityLivingDocumentDescription = function() {
+      return $scope.targetEntityLivingDocumentDescription;
     };
 
     // Deal with logging

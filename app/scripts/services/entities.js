@@ -236,6 +236,12 @@ angular.module('discussionToolApp')
         }
 
         return namesIcons[iconName];
+      },
+      getAttachedLivingDocument: function (entity) {
+        if ( !entity ) {
+          return null;
+        }
+        return $rootScope._(entity.attachedEntities).find(function (target) { return target.type === 'livingDoc'; });
       }
     };
   });

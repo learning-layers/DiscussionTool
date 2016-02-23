@@ -3,7 +3,7 @@
 
   <ajax-loader loading-complete="discussionsLoaded"></ajax-loader>
 
-  <div ng-show="discussionsLoaded && discussions.length < 1">
+  <div ng-show="discussionsLoaded && discussions.length < 1 && canStartDiscussion()">
     <alert type="info">
       There are no discussions yet, you can go ahead and
       <a href=""  class="alert-link" ng-click="startNewDiscussion()" ng-disabled="!canStartDiscussion()">

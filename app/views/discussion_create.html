@@ -24,7 +24,7 @@
       </div>
       <div class="form-group pull-right">
         <button type="button" class="btn btn-default btn-lg" ng-click="doCancel()" ng-disabled="isBeingSubmitted()">Cancel</button>
-        <button type="submit" class="btn btn-success btn-lg" ng-disabled="isBeingSubmitted() || !canCreateDiscussion()">
+        <button type="submit" class="btn btn-success btn-lg" ng-disabled="isBeingSubmitted()">
           <i class="fa fa-spinner fa-spin" ng-if="isBeingSubmitted()"></i>
           Publish
         </button>

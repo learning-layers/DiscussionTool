@@ -25,13 +25,13 @@
         <button class="btn btn-default btn-lg"
                title="Open LivingDocuments Document"
                popover-template="popoverTemplateUrl",
-               popover-title="LD LABEL"
+               popover-title="{{getTargetEntityLivingDocumentLabel()}}"
                popover-trigger="mouseenter"
                popover-placement="bottom"
                popover-append-to-body="true"
                popover-popup-delay="250"
                ng-click="openDocument()"
-               ng-disabled="!createDocument()">
+               ng-disabled="!canStartDiscussion()">
           <img src="images/ld.png" alt="LivingDocuments Logo" class="dt-ld-logo">
         </button>
         <button class="btn btn-success btn-lg navbar-btn" ng-click="startNewDiscussion()" ng-disabled="!canStartDiscussion()">Start New Discussion</button>
