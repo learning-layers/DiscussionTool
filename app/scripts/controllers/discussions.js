@@ -44,6 +44,14 @@ angular.module('discussionToolApp')
       return false;
     };
 
+    $scope.fixNewlines = function(text) {
+      if ( typeof text === 'string' ) {
+        return text.replace(/\\n/g, '\n');
+      }
+
+      return text;
+    };
+
     // Loading and setting logical block
     if ( $scope.isLoggedIn() ) {
       entitiesService.queryFiltered({

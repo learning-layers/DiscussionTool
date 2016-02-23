@@ -302,5 +302,9 @@ img.dt-navbar-logo {
   color: $dt-orange;
 }
 
+.dt-description-text {
+  white-space: pre-line;
+}
+
 /* angular-tabs fix */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
