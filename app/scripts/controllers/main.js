@@ -10,6 +10,7 @@
 angular.module('discussionToolApp')
   .controller('MainCtrl', function ($rootScope, $scope, $location, authService, episodesService, entitiesService, messagesService, evalLogsService, livingDocumentsService) {
 
+    $scope.targetEntityLabel = '';
     $scope.targetEntityLivingDocumentLabel = '';
     $scope.targetEntityLivingDocumentDescription = '';
 
@@ -64,6 +65,7 @@ angular.module('discussionToolApp')
          if ( entities.length > 0 ) {
            var entity = entities[0];
            var attachedLivingDocument = entitiesService.getAttachedLivingDocument(entity);
+           $scope.targetEntityLabel = entity.label;
            if ( attachedLivingDocument ) {
              // Set attached Document ID to rootScope and data to local scope
              $rootScope.targetEntityLivingDocumentUri = attachedLivingDocument.id;
@@ -131,6 +133,10 @@ angular.module('discussionToolApp')
 
     $scope.getTargetEntityLivingDocumentDescription = function() {
       return $scope.targetEntityLivingDocumentDescription;
+    };
+
+    $scope.getTargetEntityLabelMain = function() {
+      return $scope.targetEntityLabel;
     };
 
     // Deal with logging

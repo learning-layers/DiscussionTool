@@ -10,6 +10,7 @@
 angular.module('discussionToolApp')
   .controller('NavbarCtrl', function ($rootScope, $scope, config, authService, livingDocumentsService, evalLogsService) {
     $scope.popoverTemplateUrl = 'views/templates/popover.html';
+    $scope.targetEntityLabel = '';
 
     $scope.logOut = function () {
       // Trigger living documents logout with logout
@@ -33,6 +34,17 @@ angular.module('discussionToolApp')
 
     $scope.getTargetEntityUri = function () {
         return encodeURIComponent(encodeURIComponent($rootScope.targetEntityUri));
+    };
+
+    $scope.getTargetEntityLabel = function(maxlength) {
+      var text = $scope.getTargetEntityLabelMain();
+      if ( maxlength ) {
+        if ( text.length > maxlength ) {
+          return text.substring(0, maxlength-4) + '...';
+        }
+      }
+
+      return text;
     };
 
     $scope.navigateToBnp = function () {
