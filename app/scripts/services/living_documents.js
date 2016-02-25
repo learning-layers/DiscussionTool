@@ -81,7 +81,7 @@ angular.module('discussionToolApp')
         return config.ldClientUrl + '#/document/' + uri.split('document/')[1];
       },
       constructUriFromId: function (id) {
-        return config.ldRestUrl + 'document/' + id;
+        return config.ldDocumentBase + 'document/' + id;
       },
       setAuthenticated: function (boolean) {
         alreadyAuthenticated = boolean;
