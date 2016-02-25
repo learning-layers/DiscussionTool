@@ -65,7 +65,7 @@ angular.module('discussionToolApp')
             });
 
             if ( livingDocumentsService.getAuthenticated() === true ) {
-              window.open(ldUri);
+              window.open(livingDocumentsService.constructClientUrlFromUri(ldUri));
             } else {
               var openedWindow = window.open();
 
@@ -73,7 +73,7 @@ angular.module('discussionToolApp')
                 forceUpdate: true
               }, function () {
                 livingDocumentsService.setAuthenticated(true);
-                openedWindow.location.replace(ldUri);
+                openedWindow.location.replace(livingDocumentsService.constructClientUrlFromUri(ldUri));
               }, function() {
                 openedWindow.close();
               });
