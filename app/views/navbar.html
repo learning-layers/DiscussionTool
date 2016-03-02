@@ -24,6 +24,7 @@
       <p class="navbar-text dt-navbar-label-text" title="{{getTargetEntityLabel()}}">{{getTargetEntityLabel(40)}}</p>
 
       <div class="nav navbar-nav navbar-right dt-navbar-buttons">
+        <button class="btn btn-success btn-lg navbar-btn" ng-click="startNewDiscussion()" ng-disabled="!canStartDiscussion()">Start New Discussion</button>
         <button class="btn btn-default btn-lg dt-btn-ld"
                title="Open LivingDocuments Document"
                popover-template="popoverTemplateUrl",
@@ -36,7 +37,6 @@
                ng-disabled="!canStartDiscussion()">
           <img src="images/ld.png" alt="LivingDocuments Logo" class="dt-ld-logo">
         </button>
-        <button class="btn btn-success btn-lg navbar-btn" ng-click="startNewDiscussion()" ng-disabled="!canStartDiscussion()">Start New Discussion</button>
         <button class="btn btn-default navbar-btn btn-lg dt-btn-bnp" title="Navigate To Bits And Pieces" ng-click="navigateToBnp()">
           Bits &amp; Pieces
         </button>
