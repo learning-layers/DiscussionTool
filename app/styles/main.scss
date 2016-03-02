@@ -259,10 +259,11 @@ img.dt-navbar-logo {
   .dt-btn-ld {
     color: #fff;
     background-color: $dt-blue;
-    border-color: $dt-blue_dk;
+    border-color: $dt-blue;
   }
   .dt-btn-ld:hover {
     background-color: $dt-blue_dk;
+    border-color: $dt-blue_dk;
   }
   .dt-navbar-buttons {
     padding-right: 15px;
