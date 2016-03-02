@@ -35,7 +35,7 @@
   </div>
 </div>
 
-<div class="row" ng-repeat="entry in discussion.entries">
+<div class="row" ng-repeat="entry in discussion.entries | orderBy: 'creationTime'">
   <div class="panel panel-default col-xs-offset-2 col-xs-10">
     <div class="panel-body">
       <div class="media dt-discussion-entry">
