@@ -49,7 +49,7 @@ angular.module('discussionToolApp')
           if ( versions && versions.length > 0 ) {
             entitiesService.fillLookupTable(versions[0]);
           } else {
-            messagesService.addWarning('No episode versions loaded. Either target is not an Episode or there is some issue with the Serivice!');
+            messagesService.addWarning('No episode versions loaded. Either target is not an Episode or there is some issue with the Service!');
           }
         }, function () {
           messagesService.addDanger('Episode versions could not be loaded. Service responded with an error!');
