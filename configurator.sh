@@ -36,7 +36,7 @@ Distributive Directory: \033[35m$dtDistLocation\033[m
 OIDC_AUTHORIZATION_URL: \033[35m$dtOidcAuthorizationUrl\033[m
 OIDC_CLIENT_ID:         \033[35m$dtOidcClientId\033[m
 SSS_REST_URL:           \033[35m$dtSssRestUrl\033[m
-LD_REST_URL:            \033[35m$dtLdDocumentBase\033[m
+LD_DOCUMENT_BASE:       \033[35m$dtLdDocumentBase\033[m
 LD_REST_URL:            \033[35m$dtLdRestUrl\033[m
 LD_CLIENT_URL:          \033[35m$dtLdClientUrl\033[m
 BNP_URL:                \033[35m$dtBnpUrl\033[m"
