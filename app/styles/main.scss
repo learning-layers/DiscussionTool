@@ -256,6 +256,14 @@ img.dt-navbar-logo {
   .dt-btn-bnp:hover {
     background-color: $dt-orange-dk;
   }
+  .dt-btn-ld {
+    color: #fff;
+    background-color: $dt-blue;
+    border-color: $dt-blue_dk;
+  }
+  .dt-btn-ld:hover {
+    background-color: $dt-blue_dk;
+  }
   .dt-navbar-buttons {
     padding-right: 15px;
   }
