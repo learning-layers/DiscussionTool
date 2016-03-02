@@ -45,11 +45,7 @@ angular.module('discussionToolApp')
     };
 
     $scope.fixNewlines = function(text) {
-      if ( typeof text === 'string' ) {
-        return text.replace(/\\n/g, '\n');
-      }
-
-      return text;
+      return entitiesService.fixNewlines(text);
     };
 
     // Loading and setting logical block

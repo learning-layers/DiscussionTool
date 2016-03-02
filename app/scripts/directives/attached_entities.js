@@ -26,6 +26,10 @@ angular.module('discussionToolApp')
         scope.getIcon = function (entity) {
           return entitiesService.getIconLocation(entity);
         };
+
+        scope.fixNewlinesAndConvertToBr = function(text) {
+          return entitiesService.fixNewlinesAndConvertToBr(text);
+        };
       }
     };
   });

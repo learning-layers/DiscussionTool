@@ -13,7 +13,7 @@
     <p class="list-group-item-text">
       <ul class="list-group dt-contained-list">
         <li class="list-group-item" ng-repeat="entity in version.learnEpEntities" ng-if="isInsideCircle(entity, circle)">
-          <div class="row">
+          <div class="row" popover-trigger="mouseenter" popover-placement="left" popover-append-to-body="true" popover-html="fixNewlinesAndConvertToBr(entity.entity.description)">
             <div class="col-xs-2">
               <img ng-src="{{$parent.getIcon(entity.entity)}}" alt="icon" class="dt-entity-icon">
             </div>
@@ -47,7 +47,7 @@
     <p class="list-group-item-text">
       <ul class="list-group dt-contained-list">
         <li class="list-group-item" ng-repeat="entity in version.learnEpEntities" ng-if="isOrphaned(entity)">
-          <div class="row">
+          <div class="row" popover-trigger="mouseenter" popover-placement="left" popover-append-to-body="true" popover-html="fixNewlinesAndConvertToBr(entity.entity.description)">
             <div class="col-xs-2">
               <img ng-src="{{$parent.getIcon(entity.entity)}}" alt="icon" class="dt-entity-icon">
             </div>

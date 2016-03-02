@@ -127,8 +127,12 @@ angular.module('discussionToolApp')
           entities: encodeURIComponent(entityId)
         }, {}, function(entities) {
           if ( entities && entities.length > 0 ) {
-            downloadLookupTable[entityId] = entities[0].file;
-            deferred.resolve(service.fehchFromDownloadLookupTable(entityId));
+            if ( entities[0].file ) {
+              downloadLookupTable[entityId] = entities[0].file;
+              deferred.resolve(service.fehchFromDownloadLookupTable(entityId));
+            } else {
+              deferred.reject(null);
+            }
           }
         }, function () {
           deferred.reject(null);
@@ -242,6 +246,21 @@ angular.module('discussionToolApp')
           return null;
         }
         return $rootScope._(entity.attachedEntities).find(function (target) { return target.type === 'livingDoc'; });
+      },
+      fixNewlines: function(text) {
+        if ( typeof text === 'string' ) {
+          return text.replace(/\\n/g, '\n');
+        }
+
+        return text;
+      },
+      fixNewlinesAndConvertToBr: function(text) {
+        text = this.fixNewlines(text);
+        if ( typeof text === 'string' ) {
+          return text.replace(/\n/g, '<br>');
+        }
+
+        return text;
       }
     };
   });
