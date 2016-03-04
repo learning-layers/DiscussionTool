@@ -333,3 +333,11 @@ img.dt-navbar-logo {
 
 /* angular-tabs fix */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+/* bootstrap popover-content wrapping fix */
+.popover {
+  max-width: 520px;
+  .popover-content {
+    word-wrap: break-word;
+  }
+}

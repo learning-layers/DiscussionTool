@@ -28,7 +28,7 @@ angular.module('discussionToolApp')
         };
 
         scope.fixNewlinesAndConvertToBr = function(text) {
-          return entitiesService.fixNewlinesAndConvertToBr(text);
+          return entitiesService.fixNewlinesAndConvertToBr(text, 750);
         };
       }
     };

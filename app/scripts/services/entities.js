@@ -254,9 +254,12 @@ angular.module('discussionToolApp')
 
         return text;
       },
-      fixNewlinesAndConvertToBr: function(text) {
+      fixNewlinesAndConvertToBr: function(text, maxLength) {
         text = this.fixNewlines(text);
         if ( typeof text === 'string' ) {
+          if ( typeof maxLength === 'number' && maxLength && text.length > maxLength ) {
+            text = text.substring(0, maxLength-4) + '...';
+          }
           return text.replace(/\n/g, '<br>');
         }
 
