@@ -325,5 +325,11 @@ img.dt-navbar-logo {
   white-space: pre-line;
 }
 
+.error-container {
+  .error {
+    font-size: 100%;
+  }
+}
+
 /* angular-tabs fix */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
