@@ -3,8 +3,8 @@
     <auto-complete source="autocomplete"></auto-complete>
   </tags-input>
 </div>
-<div class="dt-tag-cloud" ng-if="frequencies">
-  <button class="btn btn-link" type="button" ng-repeat="frequency in frequencies" ng-click="addToTags(frequency, $event)">
-    <span class="badge" ng-style="{fontSize: calculateFontSize(frequency)}">{{frequency.label}}</span>
+<div class="dt-tag-cloud" ng-if="recommendations">
+  <button class="btn btn-link" type="button" ng-repeat="recommendation in recommendations" ng-click="addToTags(recommendation, $event)">
+    <span class="badge" ng-style="{fontSize: calculateFontSize(recommendation)}">{{recommendation.label}}</span>
   </button>
 </div>

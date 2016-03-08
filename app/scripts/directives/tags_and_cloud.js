@@ -12,11 +12,9 @@ angular.module('discussionToolApp')
       templateUrl: 'views/templates/tags_and_cloud.html',
       restrict: 'E',
       scope: {
-        frequencies: '=frequencies',
+        recommendations: '=recommendations',
         autocomplete: '=autocomplete',
-        tags: '=tags',
-        minFrequency: '=minFrequency',
-        maxFrequency: '=maxFrequency'
+        tags: '=tags'
       },
       link: function postLink(scope) {
         scope.addToTags = function(element, event) {
@@ -29,7 +27,7 @@ angular.module('discussionToolApp')
         };
 
         scope.calculateFontSize = function(element) {
-          return tagsService.calculateFontSize(element.frequ, scope.minFrequency, scope.maxFrequency);
+          return tagsService.calculateFontSize(element.likelihood);
         };
       }
     };

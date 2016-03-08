@@ -8,7 +8,7 @@
  * Factory in the discussionToolApp.
  */
 angular.module('discussionToolApp')
-  .factory('episodesService', function ($resource, config, sssRestPrefix) {
+  .factory('episodesService', function ($resource, config, sssRestPrefix, recommendationsService) {
     var episodesUrl = config.sssRestUrl + sssRestPrefix + '/learneps/';
     var episodesInstance = $resource(episodesUrl, {}, {
       queryVersions: {
@@ -37,12 +37,11 @@ angular.module('discussionToolApp')
           that.fillScopeFromVersion(versions[0], scope);
         });
       },
-      fillScopeFromVersion: function(version, scope) {
+      fillScopeFromVersion: function(version, scope, type) {
         var that = this;
 
         scope.episodeVersion = version;
 
-        var tmpTagAutoComplete = [];
         angular.forEach(scope.episodeVersion.learnEpEntities, function (entity) {
           var contained = false;
 
@@ -55,37 +54,42 @@ angular.module('discussionToolApp')
           if ( !contained ) {
             scope.standaloneEntities.push(entity.id);
           }
-
-          // Add unique tags to be pushed into autocomplete later
-          if ( entity.entity && entity.entity.tags.length > 0 ) {
-            angular.forEach(entity.entity.tags, function (tag) {
-              if ( tmpTagAutoComplete.indexOf(tag.label) === -1 ) {
-                tmpTagAutoComplete.push(tag.label);
-              }
-              if ( scope.tagFrequencies[tag.label] ) {
-                scope.tagFrequencies[tag.label].frequ += 1;
-              } else {
-                scope.tagFrequencies[tag.label] = {
-                  label: tag.label,
-                  frequ: 1
-                };
-              }
-            });
-          }
         });
-        // Set autocomplete
-        if ( tmpTagAutoComplete.length > 0 ) {
-          scope.tagAutocomplete.resolve(tmpTagAutoComplete);
 
-          scope.maxFrequency = scope._(scope.tagFrequencies).max(function(frequency) {
-            return frequency.frequ;
-          }).frequ;
-          scope.minFrequency = scope._(scope.tagFrequencies).min(function(frequency) {
-            return frequency.frequ;
-          }).frequ;
-        } else {
-          scope.tagAutocomplete.reject([]);
+        // Deal with tag autocomplete and recommendations
+        var postData = {
+          maxTags: 20
+        };
+
+        switch (type) {
+          case 'discussionCreate':
+            postData.entity = null;
+            break;
+          case 'discussionEdit':
+            break;
+          case 'entryCreate':
+            break;
+          case 'entryEdit':
+            break;
+          default:
+            // XXX Not sure what to do
+            // Probably set Entity to null
         }
+
+        recommendationsService.filteredTags({},
+          postData, function(tags) {
+            if ( tags.length > 0 ) {
+              scope.tagResommendations = tags;
+              var tmpTagAutocomplete = scope._(tags).map(function(tag) {
+                return tag.label;
+              });
+              scope.tagAutocomplete.resolve(tmpTagAutocomplete);
+            } else {
+              scope.tagAutocomplete.reject([]);
+            }
+        }, function() {
+          // XXX Failed, maybe show some message
+        });
       },
       isEpisode: function (entity) {
         if ( !entity ) {
