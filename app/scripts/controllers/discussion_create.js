@@ -110,6 +110,6 @@ angular.module('discussionToolApp')
       if ( $scope.isEpisode() === false ) {
         return;
       }
-      episodesService.queryVersionAndFillScope($scope.targetEntity.id, $scope, 'discussionCreate');
+      episodesService.queryVersionAndFillScope($scope.targetEntity.id, $scope, { type: 'discussionCreate' });
     });
   });

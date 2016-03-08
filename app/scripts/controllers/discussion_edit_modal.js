@@ -160,7 +160,7 @@ angular.module('discussionToolApp')
         if ( $scope.isEpisode() === false ) {
           return;
         }
-        episodesService.queryVersionAndFillScope(episode.id, $scope);
+        episodesService.queryVersionAndFillScope(episode.id, $scope, { type: 'discussionEdit', discussion: discussion } );
       });
     }
   });

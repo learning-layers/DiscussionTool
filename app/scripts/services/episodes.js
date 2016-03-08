@@ -8,7 +8,7 @@
  * Factory in the discussionToolApp.
  */
 angular.module('discussionToolApp')
-  .factory('episodesService', function ($resource, config, sssRestPrefix, recommendationsService) {
+  .factory('episodesService', function ($resource, config, sssRestPrefix, recommendationsService, authService) {
     var episodesUrl = config.sssRestUrl + sssRestPrefix + '/learneps/';
     var episodesInstance = $resource(episodesUrl, {}, {
       queryVersions: {
@@ -24,7 +24,7 @@ angular.module('discussionToolApp')
     // Public API here
     return {
       queryVersions: episodesInstance.queryVersions,
-      queryVersionAndFillScope: function (episodeUri, scope) {
+      queryVersionAndFillScope: function (episodeUri, scope, additionalData) {
         var that = this;
 
         that.queryVersions({
@@ -34,10 +34,10 @@ angular.module('discussionToolApp')
             return;
           }
 
-          that.fillScopeFromVersion(versions[0], scope);
+          that.fillScopeFromVersion(versions[0], scope, additionalData);
         });
       },
-      fillScopeFromVersion: function(version, scope, type) {
+      fillScopeFromVersion: function(version, scope, additionalData) {
         var that = this;
 
         scope.episodeVersion = version;
@@ -58,22 +58,78 @@ angular.module('discussionToolApp')
 
         // Deal with tag autocomplete and recommendations
         var postData = {
-          maxTags: 20
+          maxTags: 10,
+          forUser: authService.getUserUri(),
+          includeOwn: false
         };
 
-        switch (type) {
+        switch (additionalData.type) {
           case 'discussionCreate':
             postData.entity = null;
             break;
           case 'discussionEdit':
+            var attachedEntities = [];
+            if ( additionalData.discussion.attachedEntities && additionalData.discussion.attachedEntities.length > 0 ) {
+              angular.forEach(additionalData.discussion.attachedEntities, function(entity) {
+                if ( attachedEntities.indexOf(entity.id) === -1 ) {
+                  attachedEntities.push(entity.id);
+                }
+              });
+            }
+
+            if ( additionalData.discussion.entries && additionalData.discussion.entries.length > 0 ) {
+              angular.forEach(additionalData.discussion.entries, function(entry) {
+                if ( entry.attachedEntities && entry.attachedEntities.length > 0 ) {
+                  angular.forEach(entry.attachedEntities, function(entity) {
+                    if ( attachedEntities.indexOf(entity.id) === -1 ) {
+                      attachedEntities.push(entity.id);
+                    }
+                  });
+                }
+              });
+            }
+
+            if ( attachedEntities.length > 0 ) {
+              postData.entities = attachedEntities;
+            } else {
+              postData.entity = additionalData.discussion.id;
+            }
             break;
           case 'entryCreate':
+            if ( additionalData.discussion.attachedEntities && additionalData.discussion.attachedEntities.length > 0 ) {
+              postData.entities = scope._(additionalData.discussion.attachedEntities).map(function(entry) {
+                return entry.id;
+              });
+            } else {
+              postData.entity = additionalData.discussion.id;
+            }
             break;
           case 'entryEdit':
+            // XXX Need to define own variable
+            attachedEntities = [];
+            if ( additionalData.discussion.attachedEntities && additionalData.discussion.attachedEntities.length > 0 ) {
+              angular.forEach(additionalData.discussion.attachedEntities, function(entity) {
+                if ( attachedEntities.indexOf(entity.id) === -1 ) {
+                  attachedEntities.push(entity.id);
+                }
+              });
+            }
+            if ( additionalData.entry.attachedEntities && additionalData.entry.attachedEntities.length > 0 ) {
+              angular.forEach(additionalData.entry.attachedEntities, function(entity) {
+                if ( attachedEntities.indexOf(entity.id) === -1 ) {
+                  attachedEntities.push(entity.id);
+                }
+              });
+            }
+
+            if ( attachedEntities.length > 0 ) {
+              postData.entities = attachedEntities;
+            } else {
+              postData.entity = additionalData.entry.id;
+            }
             break;
           default:
-            // XXX Not sure what to do
-            // Probably set Entity to null
+            postData.entity = null;
         }
 
         recommendationsService.filteredTags({},

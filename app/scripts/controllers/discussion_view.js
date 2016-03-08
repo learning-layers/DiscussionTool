@@ -153,6 +153,6 @@ angular.module('discussionToolApp')
         return;
       }
 
-      episodesService.queryVersionAndFillScope(targetUri, $scope);
+      episodesService.queryVersionAndFillScope(targetUri, $scope, { type: 'entryCreate', discussion: $scope.discussion });
     });
   });
