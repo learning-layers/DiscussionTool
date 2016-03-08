@@ -36,9 +36,7 @@ angular.module('discussionToolApp')
         }).then(successCallback, errorCallback);
       },
       calculateFontSize: function (likelihood) {
-        // XXX Need to make sure that calculation is correct
-        var fontSize = fontMax * likelihood;
-        return ( fontSize < fontMin ) ? fontSize + fontMin : fontSize;
+        return fontMin + ( ( fontMax - fontMin ) * likelihood );
       }
     };
   });
