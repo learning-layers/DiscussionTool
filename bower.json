@@ -1,6 +1,6 @@
 {
   "name": "discussion-tool",
-  "version": "2.1.0",
+  "version": "2.2.0-alpha",
   "dependencies": {
     "angular": "~1.4.9",
     "angular-animate": "~1.4.9",
