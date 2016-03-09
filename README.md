@@ -8,16 +8,19 @@ All the tools should be configured to use `OpenID Connect` (OIDC) as the means o
 
 The tools also requires [SocialSemanticServer](https://github.com/learning-layers/SocialSemanticServer) instance being present. The instance should also be used by all the other tools.
 
+**NB! Please make sure to use the prebuilt packages in production. The source code will only work for development purposes.**
+
 ## Requirements
 
   * `OpenID Connect` instance present and configured (client created)
-  * `BitsAndPieces` location being configured; version 4.0.5 or greater is required
+  * `BitsAndPieces` location being configured; version 4.2.0 is required
   * `LivingDocuments` Client and Service are required; version LATEST is required
-  * `SocialSemanticServer` REST API; version 12.0.0 is required (newer versions could also work, provided there were no breaking changes to the API)
+  * `SocialSemanticServer` REST API; version 12.1.0 is required (newer versions could also work, provided there were no breaking changes to the API)
 
 ## Build & development
 
-Run `grunt` for building and `grunt serve` for preview.
+Run `grunt build` for building and `grunt serve` for preview and development.
+Development mode uses own serve and LiveReload to update on code changes.
 
 **Please make sure that you fill the config with the correct data.**
 Configuration file is located in `app/scripts/services/config.js`
