@@ -56,6 +56,9 @@ angular.module('discussionToolApp')
           }
         });
 
+        this.fillScopeRecommendations(scope, additionalData);
+      },
+      fillScopeRecommendations: function(scope, additionalData) {
         // Deal with tag autocomplete and recommendations
         var postData = {
           maxTags: 10,
@@ -63,12 +66,16 @@ angular.module('discussionToolApp')
           includeOwn: false
         };
 
+        var attachedEntities = [];
+
         switch (additionalData.type) {
           case 'discussionCreate':
+            // Set entity to NULl in case of new discussion
             postData.entity = null;
             break;
           case 'discussionEdit':
-            var attachedEntities = [];
+            // Use attached Entities from Discussion and Entries
+            // Fall back to Discussion ID if none exist
             if ( additionalData.discussion.attachedEntities && additionalData.discussion.attachedEntities.length > 0 ) {
               angular.forEach(additionalData.discussion.attachedEntities, function(entity) {
                 if ( attachedEntities.indexOf(entity.id) === -1 ) {
@@ -96,6 +103,8 @@ angular.module('discussionToolApp')
             }
             break;
           case 'entryCreate':
+            // Use attached Entities of Discussion
+            // Fall back to Discussion ID
             if ( additionalData.discussion.attachedEntities && additionalData.discussion.attachedEntities.length > 0 ) {
               postData.entities = scope._(additionalData.discussion.attachedEntities).map(function(entry) {
                 return entry.id;
@@ -105,8 +114,8 @@ angular.module('discussionToolApp')
             }
             break;
           case 'entryEdit':
-            // XXX Need to define own variable
-            attachedEntities = [];
+            // Use attached Entities from Discussion and Entry
+            // Fall back to Entry ID
             if ( additionalData.discussion.attachedEntities && additionalData.discussion.attachedEntities.length > 0 ) {
               angular.forEach(additionalData.discussion.attachedEntities, function(entity) {
                 if ( attachedEntities.indexOf(entity.id) === -1 ) {
@@ -144,7 +153,7 @@ angular.module('discussionToolApp')
               scope.tagAutocomplete.reject([]);
             }
         }, function() {
-          // XXX Failed, maybe show some message
+          scope.tagAutocomplete.reject([]);
         });
       },
       isEpisode: function (entity) {

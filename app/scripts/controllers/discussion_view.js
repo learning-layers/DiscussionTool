@@ -125,8 +125,13 @@ angular.module('discussionToolApp')
       });
     };
 
+    $scope.reloadRecommendations = function() {
+      $scope.tagAutocomplete = $q.defer();
+      episodesService.fillScopeRecommendations($scope, { type: 'entryCreate', discussion: $scope.discussion });
+    };
+
     // Loading and initializing
-    discussionsService.queryFilteredDiscussion({
+    var discussionLoadedPromise = discussionsService.queryFilteredDiscussion({
       disc: encodeURIComponent(discussionUri)
     },
     {
@@ -153,6 +158,13 @@ angular.module('discussionToolApp')
         return;
       }
 
-      episodesService.queryVersionAndFillScope(targetUri, $scope, { type: 'entryCreate', discussion: $scope.discussion });
+      // Make sure that promise is resolved first, wait until resolved otherwise
+      if ( discussionLoadedPromise.$resolved === true ) {
+        episodesService.queryVersionAndFillScope(targetUri, $scope, { type: 'entryCreate', discussion: $scope.discussion });
+      } else {
+        discussionLoadedPromise.$promise.then(function() {
+          episodesService.queryVersionAndFillScope(targetUri, $scope, { type: 'entryCreate', discussion: $scope.discussion });
+        });
+      }
     });
   });

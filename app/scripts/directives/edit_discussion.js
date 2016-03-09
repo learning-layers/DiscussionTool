@@ -19,6 +19,12 @@ angular.module('discussionToolApp')
           return authService.getUserUri() === scope.discussion.author.id;
         };
 
+        scope.reloadRecommendations = function() {
+          if ( typeof scope.$parent.$parent.reloadRecommendations === 'function' ) {
+            scope.$parent.$parent.reloadRecommendations();
+          }
+        };
+
         scope.openEditModal = function () {
           var modalInstance = $modal.open({
             templateUrl: 'views/discussion_edit_modal.html',
@@ -27,12 +33,15 @@ angular.module('discussionToolApp')
             resolve: {
               discussion: function() {
                 return scope.discussion;
+              },
+              reloadRecommendations: function() {
+                return scope.reloadRecommendations;
               }
             }
           });
 
           modalInstance.result.then(function () {
-            // Do nothing for now
+            // Do nothing
           });
         };
       }

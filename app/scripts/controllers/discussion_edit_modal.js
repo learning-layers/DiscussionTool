@@ -8,7 +8,7 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('DiscussionEditModalCtrl', function ($scope, $q, $modalInstance, discussion, episodesService, entitiesService, tagsService, discussionsService, messagesService) {
+  .controller('DiscussionEditModalCtrl', function ($scope, $q, $modalInstance, discussion, reloadRecommendations, episodesService, entitiesService, tagsService, discussionsService, messagesService) {
     var episode = $scope._(discussion.targets).find(function (target) { return target.type === 'learnEp'; });
 
     $scope.isBeingSubmitted = false;
@@ -126,6 +126,8 @@ angular.module('discussionToolApp')
             discussion.description = disc.description;
             discussion.tags = disc.tags;
             discussion.attachedEntities = disc.attachedEntities;
+            // Reload recommendation after update
+            reloadRecommendations();
           });
 
           $scope.isBeingSubmitted = false;
