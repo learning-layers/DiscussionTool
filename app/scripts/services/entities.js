@@ -66,6 +66,15 @@ angular.module('discussionToolApp')
           case 'text/x-vcard':
           name = 'fileText';
           break;
+          case 'application/ogg':
+          case 'audio/mp3':
+          case 'audio/midi':
+          case 'audio/x-m4a':
+          case 'audio/amr':
+          case 'audio/mpeg':
+          case 'audio/wav':
+          name = 'fileAudio';
+          break;
         }
       } else {
         switch(fileEntity.id.substring(fileEntity.id.length-4).toLowerCase() ) {
@@ -101,6 +110,15 @@ angular.module('discussionToolApp')
           case '.css':
           case '.vcf':
           name = 'fileText';
+          break;
+          case '.mp3':
+          case '.ogg':
+          case '.wav':
+          case 'midi':
+          case '.wma':
+          case '.m4a':
+          case '.amr':
+          name = 'fileAudio';
           break;
         }
       }
@@ -215,7 +233,8 @@ angular.module('discussionToolApp')
           'fileDoc' : 'images/icons/fileDoc.png',
           'fileSpreadsheet' : 'images/icons/spreadsheet.png',
           'filePresentation' : 'images/icons/presentation.png',
-          'fileText' : 'images/icons/text.png'
+          'fileText' : 'images/icons/text.png',
+          'fileAudio' : 'images/icons/audio.png'
         };
 
         switch ( entity.type ) {
