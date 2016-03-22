@@ -234,7 +234,8 @@ angular.module('discussionToolApp')
           'fileSpreadsheet' : 'images/icons/spreadsheet.png',
           'filePresentation' : 'images/icons/presentation.png',
           'fileText' : 'images/icons/text.png',
-          'fileAudio' : 'images/icons/audio.png'
+          'fileAudio' : 'images/icons/audio.png',
+          'link' : 'images/icons/entity.png'
         };
 
         switch ( entity.type ) {
@@ -242,6 +243,7 @@ angular.module('discussionToolApp')
           case 'placeholder':
           case 'evernoteNotebook':
           case 'evernoteNote':
+          case 'link':
             iconName = entity.type;
             break;
           case 'uploadedFile':
