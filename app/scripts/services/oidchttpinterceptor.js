@@ -27,9 +27,10 @@ angular.module('discussionToolApp')
             return $q.reject(rejection);
           }
 
-          // Remove auth cookie and restart authentication
+          // Remove cookie and send to loggedOut page
           $cookies.remove(config.authCookieName);
-          $location.path('auth/' + encodeURIComponent($rootScope.targetEntityUri));
+          $location.search('type', 'tokenError');
+          $location.path('loggedout/' + encodeURIComponent($rootScope.targetEntityUri));
         }
         return $q.reject(rejection);
       }

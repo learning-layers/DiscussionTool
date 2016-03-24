@@ -1,0 +1,16 @@
+<div class="container" ng-if="!isLoggedIn()">
+  <alert type="success" ng-if="logoutType === 'loggedOut'">
+    You have been logged out of the system.
+  </alert>
+
+  <alert type="danger" ng-if="logoutType === 'tokenError'">
+    <p>
+      Authentication token has expired, you have been logged out of the system.
+    </p>
+    <p ng-if="canRestartAuthentication()">
+      <button class="btn btn-danger" title="Reauthenticate" ng-click="restartAuthentication()">
+        Restart authentication
+      </button>
+    </p>
+  </alert>
+</div>

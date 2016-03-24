@@ -5,8 +5,11 @@ describe('Directive: editDiscussion', function () {
   // load the directive's module
   beforeEach(module('discussionToolApp'));
 
+  /*
   var element,
     scope;
+  */
+ var scope;
 
   beforeEach(inject(function ($rootScope) {
     scope = $rootScope.$new();

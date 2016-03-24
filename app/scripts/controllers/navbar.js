@@ -8,7 +8,7 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('NavbarCtrl', function ($rootScope, $scope, config, authService, livingDocumentsService, evalLogsService) {
+  .controller('NavbarCtrl', function ($rootScope, $scope, $location, config, authService, livingDocumentsService, evalLogsService) {
     $scope.popoverTemplateUrl = 'views/templates/popover.html';
     $scope.targetEntityLabel = '';
 
@@ -25,11 +25,12 @@ angular.module('discussionToolApp')
         entity: $rootScope.targetEntityUri
       }, function() {
         authService.removeAuthCookie();
-        window.close();
+        $location.search('type', 'loggedOut');
+        $location.path('loggedout');
       }, function() {
         authService.removeAuthCookie();
-        window.close();
-      });
+        $location.search('type', 'loggedOut');
+        $location.path('loggedout');      });
     };
 
     $scope.getTargetEntityUri = function () {

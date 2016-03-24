@@ -46,6 +46,11 @@ angular
         controller: 'DiscussionViewCtrl',
         controllerAs: 'discussionView'
       })
+      .when('/loggedout/:target?', {
+        templateUrl: 'views/loggedout.html',
+        controller: 'LoggedoutCtrl',
+        controllerAs: 'loggedout'
+      })
       .otherwise({
         redirectTo: '/'
       });
