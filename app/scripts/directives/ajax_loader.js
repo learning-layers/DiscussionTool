@@ -12,7 +12,8 @@ angular.module('discussionToolApp')
       templateUrl: 'views/templates/ajax_loader.html',
       restrict: 'E',
       scope: {
-        loadingComplete: '=loadingComplete'
+        loadingComplete: '=loadingComplete',
+        loaderSmallInline: '=loaderSmallInline'
       }
     };
   });

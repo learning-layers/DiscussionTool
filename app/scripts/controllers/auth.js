@@ -14,6 +14,7 @@ angular.module('discussionToolApp')
 
     $scope.authMessageType = 'info';
     $scope.authMessage = 'Autentication in progress, please wait!';
+    $scope.loadingComplete = true;
 
     function setAuthMessage (type, message) {
       $scope.authMessageType = type;
@@ -28,11 +29,14 @@ angular.module('discussionToolApp')
       var queryObject = $location.search();
 
       if (  !queryObject.access_token ) {
+        $scope.loadingComplete = false;
         setAuthMessage('info', 'Redrecting to OpenID Connect Service Provider!');
         window.location.href = authService.buildOIDCRedirectUrl($location.absUrl());
       } else {
+        $scope.loadingComplete = false;
         setAuthMessage('info', 'Handling OpenID Connect authentication response!');
         authService.oidcAuth(queryObject.token_type + ' ' + queryObject.access_token, function (response) {
+          $scope.loadingComplete = true;
           setAuthMessage('success', 'Authentication successful, redirecting!');
           authService.setAuthCookie({
             authKey: response.key,
@@ -42,6 +46,7 @@ angular.module('discussionToolApp')
           $location.search({});
           $location.path('/discussions/' + encodeURIComponent(targetUri) + '/list');
         }, function () {
+          $scope.loadingComplete = true;
           setAuthMessage('danger', 'Authentication with SSS failed.');
         });
       }
