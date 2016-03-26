@@ -75,6 +75,12 @@ angular.module('discussionToolApp')
           case 'audio/wav':
           name = 'fileAudio';
           break;
+          case 'video/avi':
+          case 'video/mp4':
+          case 'video/mpeg':
+          case 'video/quicktime':
+          name = 'fileVideo';
+          break;
         }
       } else {
         switch(fileEntity.id.substring(fileEntity.id.length-4).toLowerCase() ) {
@@ -119,6 +125,15 @@ angular.module('discussionToolApp')
           case '.m4a':
           case '.amr':
           name = 'fileAudio';
+          break;
+          case '.avi':
+          case '.m4v':
+          case 'mpeg':
+          case '.mpg':
+          case '.mov':
+          case '.flv':
+          case '.wmv':
+          name = 'fileVideo';
           break;
         }
       }
@@ -235,6 +250,7 @@ angular.module('discussionToolApp')
           'filePresentation' : 'images/icons/presentation.png',
           'fileText' : 'images/icons/text.png',
           'fileAudio' : 'images/icons/audio.png',
+          'fileVideo' : 'images/icons/video.png',
           'link' : 'images/icons/entity.png'
         };
 
