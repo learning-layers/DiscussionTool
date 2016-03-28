@@ -27,10 +27,18 @@ angular.module('discussionToolApp')
             return $q.reject(rejection);
           }
 
+          // This one tires to fetch the targetEntityUri
+          // Falls back to special value in case of cookie expires and authenetication restarts
+          // If URI is still not a suitable vaue, defaults to empty string
+          // It is better than having UNDEFINED in URL as a target URI
+          var targetEntityUri = $rootScope.targetEntityUri ? $rootScope.targetEntityUri : $rootScope.authBackupTargetEntityUri;
+          if ( !targetEntityUri ) {
+            targetEntityUri = '';
+          }
           // Remove cookie and send to loggedOut page
           $cookies.remove(config.authCookieName);
           $location.search('type', 'tokenError');
-          $location.path('loggedout/' + encodeURIComponent($rootScope.targetEntityUri));
+          $location.path('loggedout/' + encodeURIComponent(targetEntityUri));
         }
         return $q.reject(rejection);
       }

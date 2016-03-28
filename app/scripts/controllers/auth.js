@@ -22,6 +22,13 @@ angular.module('discussionToolApp')
     }
 
     if ( $scope.isLoggedIn() ) {
+      // This is used by oidcHttpInterceptor to get the URI of target Entity
+      // In case of cookie still exists but has expired token and targetEntityUri
+      // not being set on $rootScope, /eval/log call is being made before /auth/
+      // call and it results in tokenError and redirect, with URI being set to
+      // UNDEFINED
+      // This should redirect to a page with correct URI.
+      $rootScope.authBackupTargetEntityUri = targetUri;
       authService.removeAuthCookie();
     }
 
