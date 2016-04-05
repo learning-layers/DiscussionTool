@@ -73,12 +73,16 @@ angular.module('discussionToolApp')
           case 'audio/amr':
           case 'audio/mpeg':
           case 'audio/wav':
+          case 'audio/x-ms-wma':
+          case 'audio/x-ms-wmv':
+          case 'audio/webm':
           name = 'fileAudio';
           break;
           case 'video/avi':
           case 'video/mp4':
           case 'video/mpeg':
           case 'video/quicktime':
+          case 'video/webm':
           name = 'fileVideo';
           break;
         }
@@ -124,6 +128,8 @@ angular.module('discussionToolApp')
           case '.wma':
           case '.m4a':
           case '.amr':
+          case '.wma':
+          case '.wmv':
           name = 'fileAudio';
           break;
           case '.avi':
@@ -133,6 +139,7 @@ angular.module('discussionToolApp')
           case '.mov':
           case '.flv':
           case '.wmv':
+          case 'webm':
           name = 'fileVideo';
           break;
         }
