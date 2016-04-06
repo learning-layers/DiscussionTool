@@ -164,11 +164,15 @@ angular.module('discussionToolApp')
         return (entity.type === 'learnEp') ? true : false;
       },
       isInsideCircle: function (entity, circle) {
+        // The image will only be considered inside a circle,
+        //  if its center is inside the circle
         var cx = circle.xC,
             cy = circle.yC,
             rx = circle.xR,
             ry = circle.yR,
-            inside = Math.pow(((entity.x-cx)/rx),2) + Math.pow(((entity.y-cy)/ry),2);
+            ex = entity.x + 25, // half width of an entity
+            ey = entity.y + 25, // half height of an entity
+            inside = Math.pow(((ex-cx)/rx),2) + Math.pow(((ey-cy)/ry),2);
 
         return (inside <= 1) ? true : false;
       }
