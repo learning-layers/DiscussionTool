@@ -13,7 +13,7 @@ The tools also requires [SocialSemanticServer](https://github.com/learning-layer
 ## Requirements
 
   * `OpenID Connect` instance present and configured (client created)
-  * `BitsAndPieces` location being configured; version 4.3.0 is required
+  * `BitsAndPieces` location being configured; version 4.4.0 is required
   * `LivingDocuments` Client and Service are required; version LATEST is required
   * `SocialSemanticServer` REST API; version 12.1.0 is required (newer versions could also work, provided there were no breaking changes to the API)
 
