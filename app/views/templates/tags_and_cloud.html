@@ -1,6 +1,6 @@
 <div class="form-group">
-  <tags-input ng-model="tags" replace-spaces-with-dashes="false">
-    <auto-complete source="autocomplete"></auto-complete>
+  <tags-input ng-model="tags" replace-spaces-with-dashes="false" add-on-comma="false" add-on-enter="true">
+    <auto-complete source="autocomplete" select-first-match="false"></auto-complete>
   </tags-input>
 </div>
 <div class="dt-tag-cloud" ng-if="recommendations">
