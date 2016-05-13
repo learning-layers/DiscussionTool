@@ -39,7 +39,7 @@
               <edit-discussion discussion="discussion"></edit-discussion>
             </div>
             <div class="col-xs-12 dt-date-time">
-              By {{discussion.author.label}} on {{discussion.creationTime | date : "MM/dd/yyyy 'at' h:mm a"}}
+              By {{discussion.author.label | userLabel}} on {{discussion.creationTime | date : "MM/dd/yyyy 'at' h:mm a"}}
             </div>
             <div class="col-xs-12" ta-bind ng-model="discussion.description"></div>
             <div class="col-xs-12">

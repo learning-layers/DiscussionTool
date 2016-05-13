@@ -10,6 +10,7 @@
 angular.module('discussionToolApp')
   .controller('NavbarCtrl', function ($rootScope, $scope, $location, config, authService, livingDocumentsService, evalLogsService) {
     $scope.popoverTemplateUrl = 'views/templates/popover.html';
+    $scope.contributorsPopoverTemplateUrl = 'views/templates/popover_contributors.html';
     $scope.targetEntityLabel = '';
 
     $scope.logOut = function () {

@@ -8,7 +8,7 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('MainCtrl', function ($rootScope, $scope, $location, authService, episodesService, entitiesService, messagesService, evalLogsService, livingDocumentsService) {
+  .controller('MainCtrl', function ($rootScope, $scope, $location, $filter, authService, episodesService, entitiesService, messagesService, evalLogsService, livingDocumentsService) {
 
     $scope.targetEntityLabel = '';
     $scope.targetEntityLivingDocumentLabel = '';
@@ -66,6 +66,18 @@ angular.module('discussionToolApp')
            var entity = entities[0];
            var attachedLivingDocument = entitiesService.getAttachedLivingDocument(entity);
            $scope.targetEntityLabel = entity.label;
+           $scope.targetEntityAuthorLabel = entity.author.label;
+
+           if ( entity.users && entity.users.length > 0 ) {
+             var contributorLabels = [];
+             angular.forEach(entity.users, function(single) {
+               if ( single.label !== entity.author.label ) {
+                 contributorLabels.push(single.label);
+               }
+             });
+             $scope.targetEnityContributorLabels = contributorLabels;
+           }
+
            if ( attachedLivingDocument ) {
              // Set attached Document ID to rootScope and data to local scope
              $rootScope.targetEntityLivingDocumentUri = attachedLivingDocument.id;
@@ -137,6 +149,28 @@ angular.module('discussionToolApp')
 
     $scope.getTargetEntityLabelMain = function() {
       return $scope.targetEntityLabel;
+    };
+
+    $scope.getTargetEntityAuthorLabel = function() {
+      return $filter('userLabel')($scope.targetEntityAuthorLabel);
+    };
+
+    $scope.getTargetEntityContributorCount = function() {
+      if ( $scope.targetEnityContributorLabels ) {
+        return $scope.targetEnityContributorLabels.length;
+      }
+
+      return 0;
+    };
+
+    $scope.getTargetEntityContributorLabels = function() {
+      if ( $scope.targetEnityContributorLabels ) {
+        return $scope._($scope.targetEnityContributorLabels).map(function(label) {
+          return $filter('userLabel')(label);
+        }).join(', ');
+      }
+
+      return '';
     };
 
     // Deal with logging
