@@ -8,7 +8,7 @@
  * Controller of the discussionToolApp
  */
 angular.module('discussionToolApp')
-  .controller('DiscussionViewCtrl', function ($rootScope, $scope, $routeParams, $q, discussionsService, livingDocumentsService, entitiesService, episodesService, tagsService, messagesService) {
+  .controller('DiscussionViewCtrl', function ($rootScope, $scope, $routeParams, $q, $location, discussionsService, livingDocumentsService, entitiesService, episodesService, tagsService, messagesService) {
     var targetUri = decodeURIComponent($routeParams.target);
     $scope.setTargetEntityUri(targetUri);
 
@@ -128,6 +128,10 @@ angular.module('discussionToolApp')
     $scope.reloadRecommendations = function() {
       $scope.tagAutocomplete = $q.defer();
       episodesService.fillScopeRecommendations($scope, { type: 'entryCreate', discussion: $scope.discussion });
+    };
+
+    $scope.navigateBackToAllDiscussions = function() {
+      $location.path('/discussions/' + encodeURIComponent(targetUri) + '/list');
     };
 
     // Loading and initializing
