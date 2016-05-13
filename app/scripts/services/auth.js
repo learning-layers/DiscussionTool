@@ -20,6 +20,18 @@ angular.module('discussionToolApp')
       }
     });
 
+    function setAuthHeader() {
+      if ( getAuthKey() ) {
+        $http.defaults.headers.common.Authorization = 'Bearer ' + getAuthKey();
+      }
+    }
+
+    function removeAuthheader() {
+      if ( $http.defaults.headers.common.Authorization ) {
+        delete $http.defaults.headers.common.Authorization;
+      }
+    }
+
     function getAuthCookie () {
       var cookie = $cookies.getObject(authCookieName);
 
@@ -28,11 +40,13 @@ angular.module('discussionToolApp')
 
     function setAuthCookie (dataObject) {
       $cookies.putObject(authCookieName, dataObject);
+      setAuthHeader();
       $rootScope.$broadcast('dtAuthCookieSet');
     }
 
     function removeAuthCookie () {
       $cookies.remove(authCookieName);
+      removeAuthheader();
     }
 
     function hasAuthCookie () {
@@ -60,7 +74,7 @@ angular.module('discussionToolApp')
     }
 
     if ( hasAuthCookie() ) {
-      $http.defaults.headers.common.Authorization = 'Bearer ' + getAuthKey();
+      setAuthHeader();
     }
 
     return {
